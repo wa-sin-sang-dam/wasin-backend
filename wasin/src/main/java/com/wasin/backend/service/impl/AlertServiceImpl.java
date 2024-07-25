@@ -2,18 +2,24 @@ package com.wasin.backend.service.impl;
 
 import com.jcraft.jsch.*;
 import com.wasin.backend.service.AlertService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AlertServiceImpl implements AlertService {
 
+    @Value("${kwon.host}")
+    private String host;
+
+    @Value("${kwon.username}")
+    private String username;
+
+    @Value("${kwon.password}")
+    private String password;
+
     @Override
     public void receiveAlert() {
-        String host = "219.241.29.68";
         int    port = 1222;
-        String username = "root";
-        String password = "pica1104";
-
         Session session = null;
         Channel channel = null;
 
