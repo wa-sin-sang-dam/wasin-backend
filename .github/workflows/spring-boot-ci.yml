@@ -10,6 +10,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+      DB_USERNAME: ${{secrets.DB_USERNAME}}
+      JANG_HEADER: ${{secrets.JANG_HEADER}}
+      JANG_URL: ${{secrets.JANG_URL}}
+      KWON_HOST: ${{secrets.KWON_HOST}}
+      KWON_PASSWORD: ${{secrets.KWON_PASSWORD}}
+      KWON_USERNAME: ${{secrets.KWON_USERNAME}}
+      working-directory: ./be/stackoverflow-be
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
