@@ -1,7 +1,7 @@
-package com.wasin.backend.domain.alert.serviceImpl;
+package com.wasin.backend.service.impl;
 
 import com.jcraft.jsch.*;
-import com.wasin.backend.domain.alert.service.AlertService;
+import com.wasin.backend.service.AlertService;
 import org.springframework.stereotype.Service;
 
 @Service

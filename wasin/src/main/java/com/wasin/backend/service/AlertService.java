@@ -1,4 +1,4 @@
-package com.wasin.backend.domain.alert.service;
+package com.wasin.backend.service;
 
 public interface AlertService {
     void receiveAlert();
