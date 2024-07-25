@@ -37,7 +37,9 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build and Test
-        run: ./gradlew clean build
+        run: |
+          chmod +x ./gradlew
+          ./gradlew clean build
         working-directory: ./wasin
         
       - name: Run Spring Boot App for 30 seconds
