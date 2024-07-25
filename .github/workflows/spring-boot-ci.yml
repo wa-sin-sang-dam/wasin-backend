@@ -49,4 +49,4 @@ jobs:
           sleep 30
           kill $APP_PID
         continue-on-error: false
-        working-directory: .wasin
+        working-directory: ./wasin
