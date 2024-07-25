@@ -4,17 +4,16 @@ server:
       charset: utf-8
       force: true
   port: 8080
-spring:
 
+spring:
   datasource:
-    url: jdbc:h2:mem:test;MODE=MySQL
-    driver-class-name: org.h2.Driver
-    username: user
-    password: 1234
-  h2:
-    console:
-      enabled: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/wasin
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
   jpa:
+    database: mysql
     hibernate:
       ddl-auto: create
     show-sql: true
@@ -29,3 +28,12 @@ logging:
     '[com.wasin.backend]': DEBUG
     '[org.hibernate.type]': TRACE
     org.springframework.jdbc.core.JdbcTemplate: DEBUG
+
+kwon:
+  host: ${KWON_HOST}
+  username: ${KWON_USERNAME}
+  password: ${KWON_PASSWORD}
+
+jang:
+  header: ${JANG_HEADER}
+  url: ${JANG_URL}
