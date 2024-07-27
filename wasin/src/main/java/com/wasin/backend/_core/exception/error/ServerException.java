@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 
 // 서버 에러 500
 public class ServerException extends CustomException {
-    public ServerException(String message) {
-        super(message);
-    }
 
     public ServerException(BaseException exception){
         super(exception.getMessage());

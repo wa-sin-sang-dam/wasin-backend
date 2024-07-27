@@ -1,6 +1,6 @@
 package com.wasin.backend._core.util;
 
-import com.wasin.backend._core.exception.BaseException;
+
 import org.springframework.http.HttpStatus;
 
 public class ApiUtils {

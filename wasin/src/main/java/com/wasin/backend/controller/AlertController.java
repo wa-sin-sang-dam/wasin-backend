@@ -16,7 +16,7 @@ public class AlertController {
     private final AlertService alertService;
 
     @PostMapping("/notification")
-    public ResponseEntity<?> receive() {
+    public ResponseEntity<?> receiveAlert() {
         alertService.receiveAlert();
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }

@@ -16,10 +16,11 @@ public class UserMapper {
     public User signupToUser(UserRequest.SignUpDTO requestDTO) {
         Role role = Role.valueOfRole(requestDTO.role());
         Status status = Status.getDefaultStatusByRole(role);
+        String password = passwordEncoder.encode(requestDTO.password());
 
         return User.builder()
                 .email(requestDTO.email())
-                .password(passwordEncoder.encode(requestDTO.password()))
+                .password(password)
                 .username(requestDTO.username())
                 .role(role)
                 .status(status)

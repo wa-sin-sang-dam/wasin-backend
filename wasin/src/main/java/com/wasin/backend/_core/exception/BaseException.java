@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 
 @RequiredArgsConstructor
 public enum BaseException {
+    // 공통
     AUTH_PERMISSION_DENIED("접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
     DATABASE_ERROR("데이터베이스 에러입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     USER_UNAUTHORIZED("인증되지 않았습니다.", HttpStatus.UNAUTHORIZED),

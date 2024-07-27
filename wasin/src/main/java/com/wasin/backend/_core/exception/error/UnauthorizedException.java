@@ -7,7 +7,7 @@ import com.wasin.backend._core.util.ApiUtils;
 import org.springframework.http.HttpStatus;
 
 
-public class UnauthorizedException extends  CustomException {
+public class UnauthorizedException extends CustomException {
     public UnauthorizedException(String message) {
         super(message);
     }

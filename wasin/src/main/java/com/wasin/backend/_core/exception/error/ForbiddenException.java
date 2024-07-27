@@ -9,10 +9,6 @@ import org.springframework.http.HttpStatus;
 // 권한 없음 403
 public class ForbiddenException extends CustomException {
 
-    public ForbiddenException(String message) {
-        super(message);
-    }
-
     public ForbiddenException(BaseException exception){
         super(exception.getMessage());
     }

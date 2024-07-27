@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({BadRequestException.class, UnauthorizedException.class, ForbiddenException.class,
             NotFoundException.class, ServerException.class})
-    public ResponseEntity<?> badRequest(CustomException e){
+    public ResponseEntity<?> customException(CustomException e){
         return response(e.body(), e.status());
     }
 

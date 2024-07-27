@@ -51,16 +51,4 @@ public class User {
         this.isModeAuto = isModeAuto;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", status=" + status +
-                ", isModeAuto=" + isModeAuto +
-                '}';
-    }
 }

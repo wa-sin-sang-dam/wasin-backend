@@ -60,6 +60,5 @@ public class UserRequest {
             @NotEmpty(message = "refresh 토큰은 비어있으면 안됩니다.")
             String refreshToken
     ) {
-
     }
 }

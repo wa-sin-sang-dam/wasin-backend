@@ -10,9 +10,6 @@ import org.springframework.http.HttpStatus;
 // 데이터를 찾을 수 없음 404
 @Getter
 public class NotFoundException extends CustomException {
-    public NotFoundException(String message) {
-        super(message);
-    }
 
     public NotFoundException(BaseException exception){
         super(exception.getMessage());
