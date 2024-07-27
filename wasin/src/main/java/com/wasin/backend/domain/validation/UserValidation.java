@@ -2,10 +2,8 @@ package com.wasin.backend.domain.validation;
 
 import com.wasin.backend._core.exception.BaseException;
 import com.wasin.backend._core.exception.error.BadRequestException;
-import com.wasin.backend._core.exception.error.NotFoundException;
 import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.repository.TokenRepository;
 import com.wasin.backend.repository.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,23 +16,16 @@ import java.util.Objects;
 public class UserValidation {
 
     private final PasswordEncoder passwordEncoder;
-    private final TokenRepository tokenRepository;
     private final UserJPARepository userJPARepository;
 
-    public void checkSignup(UserRequest.SignUpDTO requestDTO) {
+    public void checkForSignup(UserRequest.SignUpDTO requestDTO) {
         checkEmailAlreadyExist(requestDTO.email());
         checkPasswordSame(requestDTO.password(), requestDTO.password2());
     }
 
-    public void checkLogin(User user, String password) {
+    public void checkPasswordCorrect(User user, String password) {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadRequestException(BaseException.USER_PASSWORD_WRONG);
-        }
-    }
-
-    public void checkReissue(String refreshToken) {
-        if (!tokenRepository.existsById(refreshToken)) {
-            throw new NotFoundException(BaseException.REFRESH_TOKEN_NOT_FOUND);
         }
     }
 

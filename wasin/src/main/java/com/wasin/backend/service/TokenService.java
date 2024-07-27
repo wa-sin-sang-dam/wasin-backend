@@ -1,5 +1,6 @@
 package com.wasin.backend.service;
 
+import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
 import com.wasin.backend.domain.entity.User;
 
@@ -7,9 +8,7 @@ public interface TokenService {
 
     UserResponse.Token save(User user);
 
-    void deleteByAccessToken(String accessToken);
+    void delete(String accessToken);
 
-    User getUserByRefreshToken(String refreshToken);
-
-    UserResponse.Token reissue(User user, String refreshToken);
+    UserResponse.Token reissue(UserRequest.ReissueDTO requestDTO);
 }

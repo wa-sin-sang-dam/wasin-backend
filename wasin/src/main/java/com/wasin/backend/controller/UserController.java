@@ -5,6 +5,8 @@ import com.wasin.backend._core.security.JWTProvider;
 import com.wasin.backend._core.util.ApiUtils;
 import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
+import com.wasin.backend.domain.entity.User;
+import com.wasin.backend.service.TokenService;
 import com.wasin.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
+    private final TokenService tokenService;
     private final UserService userService;
     private final JWTProvider jwtProvider;
 
@@ -31,33 +34,35 @@ public class UserController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO requestDTO) {
-        UserResponse.Token token = userService.login(requestDTO);
-        return ResponseEntity.ok().body(ApiUtils.success(token));
+        User user = userService.login(requestDTO);
+        UserResponse.Token response = tokenService.save(user);
+        return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 
     // 로그아웃
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
-        String accessToken = request.getHeader(jwtProvider.AUTHORIZATION_HEADER);
-        userService.logout(accessToken);
+        tokenService.delete(getAccessToken(request));
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
     // 토큰 리프레시
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(@RequestBody @Valid UserRequest.ReissueDTO requestDTO) {
-        UserResponse.Token token = userService.reissue(requestDTO);
-        return ResponseEntity.ok().body(ApiUtils.success(token));
+        UserResponse.Token response = tokenService.reissue(requestDTO);
+        return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 
     // 회원탈퇴
     @DeleteMapping("/withdraw")
     public ResponseEntity<?> withdraw(HttpServletRequest request, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        String accessToken = request.getHeader(jwtProvider.AUTHORIZATION_HEADER);
-        userService.withdraw(userDetails.getUser(), accessToken);
+        userService.withdraw(userDetails.getUser(), getAccessToken(request));
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
     // TODO: 이메일 확인
 
+    private String getAccessToken(HttpServletRequest request) {
+        return request.getHeader(jwtProvider.AUTHORIZATION_HEADER);
+    }
 }
