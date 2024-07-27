@@ -16,7 +16,7 @@ import java.util.Date;
 @Component
 public class JWTProvider {
     public final Long ACCESS_TOKEN_EXP = 1000L * 60 * 30; // 30분
-    public final Long REFRESH_TOKEN_EXP = 1000L * 60 * 60 * 24 * 365 * 10; // 10년
+    public final Long REFRESH_TOKEN_EXP = 1000L * 60 * 60 * 24 * 365; // 1년
 
     public final String TOKEN_PREFIX = "Bearer ";
     public final String AUTHORIZATION_HEADER = "Authorization";
@@ -49,6 +49,7 @@ public class JWTProvider {
                 .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXP))
                 .withClaim("id", user.getId())
+                .withClaim("email", user.getEmail())
                 .withClaim("role", user.getRole().getEng())
                 .sign(Algorithm.HMAC512(secret));
     }
