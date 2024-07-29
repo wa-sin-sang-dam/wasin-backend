@@ -56,6 +56,17 @@ public class UserRequest {
     ) {
     }
 
+    public record EmailCheckDTO(
+            @NotEmpty(message = "이메일은 비어있으면 안됩니다.")
+            @Size(max = 255, message = "이메일은 255자 이내여야 합니다.")
+            @Pattern(regexp = emailPattern, message = "이메일 형식으로 작성해주세요")
+            String email,
+
+            @NotEmpty(message = "이메일 코드는 비어있으면 안됩니다.")
+            String code
+    ) {
+    }
+
     public record ReissueDTO(
             @NotEmpty(message = "refresh 토큰은 비어있으면 안됩니다.")
             String refreshToken

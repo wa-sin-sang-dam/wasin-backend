@@ -30,6 +30,10 @@ public enum BaseException {
     ACCESS_TOKEN_EXPIRED("access token이 만료되었습니다.", HttpStatus.BAD_REQUEST),
     REFRESH_TOKEN_EXPIRED("refresh token이 만료되었습니다.", HttpStatus.BAD_REQUEST),
 
+    // 이메일
+    EMAIL_CODE_WRONG("잘못된 인증번호입니다.", HttpStatus.BAD_REQUEST),
+    EMAIL_NOT_VERIFIED("이메일 인증이 완료되지 않았습니다.", HttpStatus.BAD_REQUEST),
+    EMAIL_EXPIRED("만료된 이메일 인증 코드입니다.", HttpStatus.BAD_REQUEST),
     ;
 
     @Getter

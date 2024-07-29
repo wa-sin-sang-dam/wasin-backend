@@ -6,6 +6,7 @@ import com.wasin.backend._core.util.ApiUtils;
 import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
 import com.wasin.backend.domain.entity.User;
+import com.wasin.backend.service.MailService;
 import com.wasin.backend.service.TokenService;
 import com.wasin.backend.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,11 +23,13 @@ public class UserController {
 
     private final TokenService tokenService;
     private final UserService userService;
+    private final MailService mailService;
     private final JWTProvider jwtProvider;
 
     // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody @Valid UserRequest.SignUpDTO requestDTO) {
+        mailService.checkVerified(requestDTO.email());
         userService.signup(requestDTO);
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
@@ -60,8 +63,20 @@ public class UserController {
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
-    // TODO: 이메일 확인
+    // 이메일 인증 코드 전송
+    @PostMapping("/email")
+    public ResponseEntity<?> sendEmail(@RequestBody @Valid UserRequest.EmailDTO requestDTO) {
+        mailService.sendMail(requestDTO);
+        return ResponseEntity.ok().body(ApiUtils.success(null));
+    }
 
+    @PostMapping("/email/check")
+    public ResponseEntity<?> checkEmailCode(@RequestBody @Valid UserRequest.EmailCheckDTO requestDTO) {
+        mailService.checkMailCode(requestDTO);
+        return ResponseEntity.ok().body(ApiUtils.success(null));
+    }
+
+    // 이메일 인증 확인
     private String getAccessToken(HttpServletRequest request) {
         return request.getHeader(jwtProvider.AUTHORIZATION_HEADER);
     }
