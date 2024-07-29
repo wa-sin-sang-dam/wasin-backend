@@ -7,6 +7,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.wasin.backend.domain.entity.User;
+import com.wasin.backend.domain.entity.enums.Role;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -35,13 +36,21 @@ public class JWTProvider {
         return createToken(user, REFRESH_TOKEN_EXP, REFRESH_TOKEN_SECRET);
     }
 
-    public DecodedJWT verify(String jwt) throws SignatureVerificationException, TokenExpiredException {
+    public DecodedJWT verifyAccessToken(String jwt) throws SignatureVerificationException, TokenExpiredException {
         jwt = jwt.replace(TOKEN_PREFIX, "");
         return JWT.require(Algorithm.HMAC512(ACCESS_TOKEN_SECRET)).build().verify(jwt);
     }
 
     public DecodedJWT verifyRefreshToken(String jwt) throws SignatureVerificationException, TokenExpiredException {
         return JWT.require(Algorithm.HMAC512(REFRESH_TOKEN_SECRET)).build().verify(jwt);
+    }
+
+    public User getUserByDecodedToken(DecodedJWT decodedJWT) {
+        Long id = decodedJWT.getClaim("id").asLong();
+        String role = decodedJWT.getClaim("role").asString();
+        String email = decodedJWT.getClaim("email").asString();
+
+        return User.builder().id(id).email(email).role(Role.valueOfRole(role)).build();
     }
 
     private String createToken(User user, Long EXP, String secret) {

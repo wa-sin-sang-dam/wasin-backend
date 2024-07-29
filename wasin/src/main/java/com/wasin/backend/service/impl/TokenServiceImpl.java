@@ -12,7 +12,6 @@ import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
 import com.wasin.backend.domain.entity.Token;
 import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Role;
 import com.wasin.backend.domain.mapper.TokenMapper;
 import com.wasin.backend.domain.validation.TokenValidation;
 import com.wasin.backend.repository.TokenRepository;
@@ -64,11 +63,7 @@ public class TokenServiceImpl implements TokenService {
     private User getUserByRefreshToken(String refreshToken) {
         try{
             DecodedJWT decodedJWT = jwtProvider.verifyRefreshToken(refreshToken);
-            Long id = decodedJWT.getClaim("id").asLong();
-            String role = decodedJWT.getClaim("role").asString();
-            String email = decodedJWT.getClaim("email").asString();
-
-            return User.builder().id(id).email(email).role(Role.valueOfRole(role)).build();
+            return jwtProvider.getUserByDecodedToken(decodedJWT);
         } catch (SignatureVerificationException | JWTDecodeException e) {
             throw new BadRequestException(BaseException.REFRESH_TOKEN_INVALID);
         } catch (TokenExpiredException tee) {

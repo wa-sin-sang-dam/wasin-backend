@@ -29,15 +29,15 @@ public class UserValidation {
         }
     }
 
-    private void checkPasswordSame(String password, String password2) {
-        if (!Objects.equals(password, password2)) {
-            throw new BadRequestException(BaseException.USER_PASSWORD_NOT_SAME);
+    public void checkEmailAlreadyExist(String email) {
+        if (isEmailExist(email)) {
+            throw new BadRequestException(BaseException.USER_EMAIL_EXIST);
         }
     }
 
-    private void checkEmailAlreadyExist(String email) {
-        if (isEmailExist(email)) {
-            throw new BadRequestException(BaseException.USER_EMAIL_EXIST);
+    private void checkPasswordSame(String password, String password2) {
+        if (!Objects.equals(password, password2)) {
+            throw new BadRequestException(BaseException.USER_PASSWORD_NOT_SAME);
         }
     }
 

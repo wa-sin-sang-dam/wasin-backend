@@ -45,12 +45,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         }
 
         try{
-            DecodedJWT decodedJWT = jwtProvider.verify(accessToken);
-            Long id = decodedJWT.getClaim("id").asLong();
-            String role = decodedJWT.getClaim("role").asString();
-            String email = decodedJWT.getClaim("email").asString();
-
-            User user = User.builder().id(id).email(email).role(Role.valueOfRole(role)).build();
+            DecodedJWT decodedJWT = jwtProvider.verifyAccessToken(accessToken);
+            User user = jwtProvider.getUserByDecodedToken(decodedJWT);
             CustomUserDetails userDetails = new CustomUserDetails(user);
             Authentication authentication =
                     new UsernamePasswordAuthenticationToken(
@@ -72,4 +68,5 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         }
         chain.doFilter(request, response);
     }
+
 }
