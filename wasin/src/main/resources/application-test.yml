@@ -17,13 +17,10 @@ security:
 
 spring:
   datasource:
-    url: jdbc:h2:~/wasin;MODE=MySQL
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-  h2:
-    console:
-      enabled: true
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8.0:///test_container_test
+    username: root
+    password: 0912
   jpa:
     database: mysql
     hibernate:
