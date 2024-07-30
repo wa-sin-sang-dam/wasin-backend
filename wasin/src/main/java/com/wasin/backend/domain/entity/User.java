@@ -58,6 +58,9 @@ public class User {
         this.isModeAuto = isModeAuto;
     }
 
+    public void makeActive() {
+        this.status = Status.ACTIVE;
+    }
     public void joinCompany(Company company) {
         this.company = company;
     }

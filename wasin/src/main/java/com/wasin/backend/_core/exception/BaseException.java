@@ -35,6 +35,8 @@ public enum BaseException {
     EMAIL_CODE_WRONG("잘못된 인증번호입니다.", HttpStatus.BAD_REQUEST),
     EMAIL_NOT_VERIFIED("이메일 인증이 완료되지 않았습니다.", HttpStatus.BAD_REQUEST),
     EMAIL_EXPIRED("만료된 이메일 인증 코드입니다.", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_ADMIN("사용자는 일반 관리자가 아닙니다.", HttpStatus.BAD_REQUEST),
+    STATUS_NOT_STANDBY("대기 상태가 아닙니다.", HttpStatus.BAD_REQUEST),
 
     // 회사
     COMPANY_ALREADY_EXIST("이미 존재하는 회사입니다.", HttpStatus.BAD_REQUEST),
