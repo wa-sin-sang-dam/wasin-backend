@@ -32,6 +32,7 @@ public class Email {
     }
 
     public boolean isExpired() {
+        // 생성된지 5분이 지나면 만료되었다고 판단
         Duration duration = Duration.between(LocalDateTime.now(), this.createdAt);
         return duration.getSeconds() > 60*5;
     }

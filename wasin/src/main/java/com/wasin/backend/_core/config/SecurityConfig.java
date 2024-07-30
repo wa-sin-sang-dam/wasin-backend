@@ -95,6 +95,7 @@ public class SecurityConfig {
                             new AntPathRequestMatcher("/user/signup"),
                             new AntPathRequestMatcher("/user/login"),
                             new AntPathRequestMatcher("/user/email"),
+                            new AntPathRequestMatcher("/user/email/check"),
                             new AntPathRequestMatcher("/user/refresh")
                         ).permitAll()
                         .requestMatchers(

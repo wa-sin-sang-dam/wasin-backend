@@ -70,13 +70,13 @@ public class UserController {
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
+    // 이메일 인증 확인
     @PostMapping("/email/check")
     public ResponseEntity<?> checkEmailCode(@RequestBody @Valid UserRequest.EmailCheckDTO requestDTO) {
         mailService.checkMailCode(requestDTO);
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
-    // 이메일 인증 확인
     private String getAccessToken(HttpServletRequest request) {
         return request.getHeader(jwtProvider.AUTHORIZATION_HEADER);
     }

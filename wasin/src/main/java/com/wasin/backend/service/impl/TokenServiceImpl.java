@@ -18,10 +18,8 @@ import com.wasin.backend.repository.TokenRepository;
 import com.wasin.backend.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Service
 public class TokenServiceImpl implements TokenService {
 
@@ -30,12 +28,10 @@ public class TokenServiceImpl implements TokenService {
     private final JWTProvider jwtProvider;
     private final TokenMapper tokenMapper;
 
-    @Transactional
     public UserResponse.Token save(User user) {
         return createNewToken(user);
     }
 
-    @Transactional
     public void delete(String accessToken) {
         Token token = tokenRepository.findByAccessToken(accessToken).orElseThrow(
                 () -> new NotFoundException(BaseException.ACCESS_TOKEN_NOT_FOUND)
@@ -43,7 +39,6 @@ public class TokenServiceImpl implements TokenService {
         tokenRepository.delete(token);
     }
 
-    @Transactional
     public UserResponse.Token reissue(UserRequest.ReissueDTO requestDTO) {
         String refreshToken = requestDTO.refreshToken();
 
