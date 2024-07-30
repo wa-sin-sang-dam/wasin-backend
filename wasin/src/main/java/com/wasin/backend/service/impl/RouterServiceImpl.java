@@ -1,7 +1,7 @@
 package com.wasin.backend.service.impl;
 
 import com.wasin.backend.domain.dto.MetricResponse;
-import com.wasin.backend.service.MetricService;
+import com.wasin.backend.service.RouterService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @Service
-public class MetricServiceImpl implements MetricService {
+public class RouterServiceImpl implements RouterService {
 
     @Value("${jang.url}")
     private String url;
@@ -24,7 +24,7 @@ public class MetricServiceImpl implements MetricService {
 
     private final RestTemplate restTemplate;
 
-    public MetricServiceImpl(RestTemplateBuilder builder) {
+    public RouterServiceImpl(RestTemplateBuilder builder) {
         this.restTemplate = builder.build();
     }
 

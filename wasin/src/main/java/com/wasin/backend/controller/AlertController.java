@@ -1,5 +1,6 @@
 package com.wasin.backend.controller;
 
+import com.wasin.backend._core.util.ApiUtils;
 import com.wasin.backend.service.AlertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -9,15 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/alert")
+@RequestMapping("/alert")
 public class AlertController {
 
     private final AlertService alertService;
 
-    @PostMapping
-    public ResponseEntity<String> receive() {
+    @PostMapping("/notification")
+    public ResponseEntity<?> receiveAlert() {
         alertService.receiveAlert();
-        return ResponseEntity.ok("success");
+        return ResponseEntity.ok().body(ApiUtils.success(null));
     }
-
 }

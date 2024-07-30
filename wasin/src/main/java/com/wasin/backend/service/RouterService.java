@@ -1,5 +1,5 @@
 package com.wasin.backend.service;
 
-public interface MetricService {
+public interface RouterService {
     String getGrafanaDashboard();
 }
