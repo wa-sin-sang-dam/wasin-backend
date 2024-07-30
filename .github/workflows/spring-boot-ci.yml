@@ -14,6 +14,10 @@ jobs:
       KWON_HOST: ${{secrets.KWON_HOST}}
       KWON_PASSWORD: ${{secrets.KWON_PASSWORD}}
       KWON_USERNAME: ${{secrets.KWON_USERNAME}}
+      G_EMAIL: ${{secrets.G_EMAIL}}
+      G_PASSWORD: ${{secrets.G_PASSWORD}}
+      ACCESS_TOKEN_SECRET: ${{secrets.ACCESS_TOKEN_SECRET}}
+      REFRESH_TOKEN_SECRET: ${{secrets.REFRESH_TOKEN_SECRET}}
       working-directory: ./be/stackoverflow-be
 
     steps:
