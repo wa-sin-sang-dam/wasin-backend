@@ -92,12 +92,19 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(
-                            new AntPathRequestMatcher("/user/signup"),
-                            new AntPathRequestMatcher("/user/login"),
-                            new AntPathRequestMatcher("/user/email"),
-                            new AntPathRequestMatcher("/user/email/check"),
-                            new AntPathRequestMatcher("/user/refresh")
-                        ).permitAll()
+                                new AntPathRequestMatcher("/hand-off/**")
+                        ).hasAuthority("user")
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/company/open-api/**"),
+                                new AntPathRequestMatcher("/backoffice/**")
+                        ).hasAuthority("super_admin")
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/company/db/**")
+                        ).hasAuthority("admin")
+                        .requestMatchers(
+                                new AntPathRequestMatcher("/router/**"),
+                                new AntPathRequestMatcher("/profile/**")
+                        ).hasAnyAuthority("admin", "super_admin")
                         .requestMatchers(
                                 new AntPathRequestMatcher("/user/logout"),
                                 new AntPathRequestMatcher("/user/withdraw")
