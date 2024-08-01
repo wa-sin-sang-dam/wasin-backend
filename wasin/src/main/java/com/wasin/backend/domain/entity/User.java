@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,6 +42,11 @@ public class User {
     @Column(name = "is_mode_auto")
     private Boolean isModeAuto;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "company_id")
+    private Company company;
+
     @Builder
     public User(Long id, String username, String email, String password, Role role, Status status, Boolean isModeAuto) {
         this.id = id;
@@ -49,6 +56,10 @@ public class User {
         this.role = role;
         this.status = status;
         this.isModeAuto = isModeAuto;
+    }
+
+    public void joinCompany(Company company) {
+        this.company = company;
     }
 
 }
