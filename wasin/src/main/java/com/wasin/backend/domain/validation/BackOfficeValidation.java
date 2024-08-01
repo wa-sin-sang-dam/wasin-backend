@@ -13,9 +13,15 @@ import org.springframework.stereotype.Component;
 public class BackOfficeValidation {
 
     public void checkAccept(User superAdmin, User admin) {
-        // TODO: checkIfCompanySame();
+        checkIfCompanySame(superAdmin, admin);
         checkIsAdmin(admin);
         checkIsStandBy(admin);
+    }
+
+    private void checkIfCompanySame(User superAdmin, User admin) {
+        if (!superAdmin.getCompany().equals(admin.getCompany())) {
+            throw new BadRequestException(BaseException.NOT_SAME_COMPANY);
+        }
     }
 
     private static void checkIsStandBy(User admin) {

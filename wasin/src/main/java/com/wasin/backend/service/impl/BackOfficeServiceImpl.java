@@ -5,6 +5,7 @@ import com.wasin.backend._core.exception.error.NotFoundException;
 import com.wasin.backend.domain.dto.BackOfficeRequest;
 import com.wasin.backend.domain.dto.BackOfficeResponse;
 import com.wasin.backend.domain.entity.User;
+import com.wasin.backend.domain.mapper.BackOfficeMapper;
 import com.wasin.backend.domain.validation.BackOfficeValidation;
 import com.wasin.backend.repository.UserJPARepository;
 import com.wasin.backend.service.BackOfficeService;
@@ -21,6 +22,7 @@ public class BackOfficeServiceImpl implements BackOfficeService {
 
     private final UserJPARepository userJPARepository;
     private final BackOfficeValidation backOfficeValidation;
+    private final BackOfficeMapper backOfficeMapper;
 
     @Transactional
     public void accept(User user, BackOfficeRequest.AcceptDTO requestDTO) {
@@ -31,14 +33,20 @@ public class BackOfficeServiceImpl implements BackOfficeService {
     }
 
     public BackOfficeResponse.WaitingList findWaitingList(User user) {
-        User superAdmin = findUserById(user.getId());
-        // TODO: userJPARepository.findStandByUser(superAdmin.getCompany());
-        return new BackOfficeResponse.WaitingList(List.of());
+        User superAdmin = findUserWithCompanyById(user.getId());
+        List<User> adminList = userJPARepository.findAllStandbyAdminByCompanyId(superAdmin.getCompany().getId());
+        return backOfficeMapper.findWaitingList(adminList);
     }
 
     private User findUserById(Long userId) {
         return userJPARepository.findById(userId).orElseThrow(
                 () -> new NotFoundException(BaseException.USER_NOT_FOUND)
+        );
+    }
+
+    private User findUserWithCompanyById(Long userId) {
+        return userJPARepository.findUserWithCompanyById(userId).orElseThrow(
+                () -> new NotFoundException(BaseException.COMPANY_USER_NOT_FOUND)
         );
     }
 }
