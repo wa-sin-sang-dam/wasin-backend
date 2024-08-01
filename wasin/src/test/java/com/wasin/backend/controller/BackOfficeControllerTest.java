@@ -45,7 +45,7 @@ public class BackOfficeControllerTest extends TestModule {
         @WithUserDetails(existEmail)
         public void fail() throws Exception {
             // given
-            BackOfficeRequest.AcceptDTO requestDTO = new BackOfficeRequest.AcceptDTO(3L);
+            BackOfficeRequest.AcceptDTO requestDTO = new BackOfficeRequest.AcceptDTO(4L);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // then
@@ -62,6 +62,30 @@ public class BackOfficeControllerTest extends TestModule {
             result.andExpect(jsonPath("$.error.status").value(exception.getStatus().value()));
             result.andExpect(jsonPath("$.error.message").value(exception.getMessage()));
         }
+
+        @DisplayName("실패 - 회사가 다름")
+        @Test
+        @WithUserDetails(existEmail)
+        public void fail2() throws Exception {
+            // given
+            BackOfficeRequest.AcceptDTO requestDTO = new BackOfficeRequest.AcceptDTO(3L);
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // then
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/backoffice/accept")
+                            .content(requestBody)
+                            .contentType(MediaType.APPLICATION_JSON)
+            );
+
+            // then
+            BaseException exception = BaseException.NOT_SAME_COMPANY;
+            result.andExpect(jsonPath("$.success").value("false"));
+            result.andExpect(jsonPath("$.error.status").value(exception.getStatus().value()));
+            result.andExpect(jsonPath("$.error.message").value(exception.getMessage()));
+        }
+
 
     }
 
@@ -82,6 +106,8 @@ public class BackOfficeControllerTest extends TestModule {
 
             // then
             result.andExpect(jsonPath("$.success").value("true"));
+            result.andExpect(jsonPath("$.response.waitingList[0].userId").value(2));
+            result.andExpect(jsonPath("$.response.waitingList[0].name").value("2jeongg"));
         }
 
     }
