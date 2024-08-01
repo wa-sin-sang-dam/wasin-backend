@@ -199,7 +199,7 @@ public class CompanyControllerTest extends TestModule {
         @WithUserDetails("leena0913@naver.com")
         public void fail() throws Exception {
             // given
-            CompanyRequest.CompanyByDB requestDTO = new CompanyRequest.CompanyByDB(2L);
+            CompanyRequest.CompanyByDB requestDTO = new CompanyRequest.CompanyByDB(100000L);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // when

@@ -43,6 +43,12 @@ public class GlobalExceptionHandler {
         return response(error(e), e.getStatus());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> illegalArgumentException() {
+        BaseException e = BaseException.INVALID_ARGUMENT;
+        return response(error(e), e.getStatus());
+    }
+
     @ExceptionHandler({BadRequestException.class, UnauthorizedException.class, ForbiddenException.class,
             NotFoundException.class, ServerException.class})
     public ResponseEntity<?> customException(CustomException e){

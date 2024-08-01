@@ -13,7 +13,7 @@ public enum Status {
     private final String eng;
 
     public static Status getDefaultStatusByRole(Role role) {
-        if (role.equals(Role.USER)) return ACTIVE;
-        return STAND_BY;
+        if (role.equals(Role.ADMIN)) return STAND_BY;
+        return ACTIVE;
     }
 }
