@@ -14,6 +14,9 @@ security:
     redis:
       host: localhost
       port: 6379
+  open-api:
+    secret-key: ${OPEN_API_SECRET_KEY}
+    token: ${OPEN_API_TOKEN}
 
 spring:
   datasource:
