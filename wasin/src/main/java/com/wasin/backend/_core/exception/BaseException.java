@@ -16,6 +16,7 @@ public enum BaseException {
     UNEXPECTED_EXCEPTION("예상치 못한 에러가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     MESSAGE_NOT_READABLE("메시지를 읽을 수 없습니다.", HttpStatus.BAD_REQUEST),
     COMPANY_OPEN_API_FAIL("Open API를 이용하여 회사 목록을 불러오는데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    AWS_IMAGE_FAIL("aws에 이미지를 올리는 것을 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // 유저
     USER_NOT_FOUND("서비스를 탈퇴했거나 가입하지 않은 유저의 요청입니다.", HttpStatus.NOT_FOUND),
@@ -44,6 +45,7 @@ public enum BaseException {
     COMPANY_NOT_FOUND("회사가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     COMPANY_USER_NOT_FOUND("해당 관리자는 회사에 속해있지 않습니다.", HttpStatus.NOT_FOUND),
     NOT_SAME_COMPANY("일반 관리자와 최종 관리자의 회사가 다릅니다.", HttpStatus.BAD_REQUEST),
+    WRONG_WASIN_SERVICE_KEY("와신 상담의 서비스키가 잘못되었습니다.", HttpStatus.BAD_REQUEST),
 
     ;
 

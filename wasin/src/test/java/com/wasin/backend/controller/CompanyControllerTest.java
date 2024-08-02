@@ -7,14 +7,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.nio.charset.StandardCharsets;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @DisplayName("회사 통합 테스트")
+@TestPropertySource(properties = "security.service-key=test-service-key")
 public class CompanyControllerTest extends TestModule {
+
 
     @Nested
     @DisplayName("Open API 내 회사 정보 조회")
@@ -69,25 +76,30 @@ public class CompanyControllerTest extends TestModule {
     @Nested
     @DisplayName("Open API 내 회사 정보 등록")
     class SaveOpenAPICompanyTest {
-    
+
         @DisplayName("성공")
         @Test
         @WithUserDetails("leena0912@naver.com")
         public void success() throws Exception {
             // given
-            CompanyRequest.CompanyByOpenAPI requestDTO = new CompanyRequest.CompanyByOpenAPI(
-                    "1234-5234-2634",
-                    "부산광역시 수영구 민락동",
-                    "원정이의 집 ><"
+            CompanyRequest.CompanyDTO requestDTO = new CompanyRequest.CompanyDTO(
+                    "test-service-key",
+                    new CompanyRequest.CompanyByOpenAPI(
+                            "1234-5234-2634",
+                            "부산광역시 수영구 민락동",
+                            "원정이의 집 ><"
+                    )
             );
             String requestBody = om.writeValueAsString(requestDTO);
-            
+
+            MockMultipartFile image = new MockMultipartFile("file", "test.png", "image/png", "test file".getBytes(StandardCharsets.UTF_8));
+            MockMultipartFile data = new MockMultipartFile("data", "data", "application/json", requestBody.getBytes(StandardCharsets.UTF_8));
+
             // when
             ResultActions result = mvc.perform(
-                    MockMvcRequestBuilders
-                            .post("/company/open-api")
-                            .content(requestBody)
-                            .contentType(MediaType.APPLICATION_JSON)
+                    multipart("/company/open-api")
+                            .file(image)
+                            .file(data)
             );
             logResult(result);
 
@@ -100,24 +112,28 @@ public class CompanyControllerTest extends TestModule {
         @WithUserDetails("leena0912@naver.com")
         public void fail() throws Exception {
             // given
-            CompanyRequest.CompanyByOpenAPI requestDTO = new CompanyRequest.CompanyByOpenAPI(
-                    "12345-55555-3663",
-                    "부산광역시 수영구 민락동",
-                    "원정이의 집 ><"
+            CompanyRequest.CompanyDTO requestDTO = new CompanyRequest.CompanyDTO(
+                    "wrong-serviceKey",
+                    new CompanyRequest.CompanyByOpenAPI(
+                            "1234-5234-2634",
+                            "부산광역시 수영구 민락동",
+                            "원정이의 집 ><"
+                    )
             );
             String requestBody = om.writeValueAsString(requestDTO);
 
+            MockMultipartFile image = new MockMultipartFile("file", "test.png", "image/png", "test file".getBytes(StandardCharsets.UTF_8));
+            MockMultipartFile data = new MockMultipartFile("data", "data", "application/json", requestBody.getBytes(StandardCharsets.UTF_8));
+
             // when
             ResultActions result = mvc.perform(
-                    MockMvcRequestBuilders
-                            .post("/company/open-api")
-                            .content(requestBody)
-                            .contentType(MediaType.APPLICATION_JSON)
+                    multipart("/company/open-api")
+                            .file(image)
+                            .file(data)
             );
-            logResult(result);
 
             // then
-            BaseException exception = BaseException.COMPANY_ALREADY_EXIST;
+            BaseException exception = BaseException.WRONG_WASIN_SERVICE_KEY;
             result.andExpect(jsonPath("$.success").value("false"));
             result.andExpect(jsonPath("$.error.status").value(exception.getStatus().value()));
             result.andExpect(jsonPath("$.error.message").value(exception.getMessage()));

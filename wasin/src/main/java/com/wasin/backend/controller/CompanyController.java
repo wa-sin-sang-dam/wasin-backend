@@ -5,11 +5,13 @@ import com.wasin.backend._core.util.ApiUtils;
 import com.wasin.backend.domain.dto.CompanyRequest;
 import com.wasin.backend.domain.dto.CompanyResponse;
 import com.wasin.backend.service.CompanyService;
+import jakarta.mail.Multipart;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -35,9 +37,10 @@ public class CompanyController {
 
     // 오픈 API 내 회사 등록
     @PostMapping("/open-api")
-    public ResponseEntity<?> saveCompanyByOpenAPI(@RequestBody @Valid CompanyRequest.CompanyByOpenAPI request,
+    public ResponseEntity<?> saveCompanyByOpenAPI(@RequestPart(value = "data") @Valid CompanyRequest.CompanyDTO request,
+                                                  @RequestPart(value = "file") MultipartFile file,
                                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
-        companyService.saveCompanyByOpenAPI(request, userDetails.getUser());
+        companyService.saveCompanyByOpenAPI(request, file, userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
