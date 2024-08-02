@@ -3,6 +3,7 @@ package com.wasin.backend.service.impl;
 import com.wasin.backend._core.exception.BaseException;
 import com.wasin.backend._core.exception.error.BadRequestException;
 import com.wasin.backend._core.exception.error.NotFoundException;
+import com.wasin.backend._core.util.AwsFileUtil;
 import com.wasin.backend._core.util.WebApiUtil;
 import com.wasin.backend.domain.dto.CompanyDTO;
 import com.wasin.backend.domain.dto.CompanyRequest;
@@ -17,6 +18,7 @@ import com.wasin.backend.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyValidation companyValidation;
     private final CompanyMapper companyMapper;
     private final UserJPARepository userJPARepository;
+    private final AwsFileUtil awsFileUtil;
 
     public CompanyResponse.OpenAPIList findAllCompanyByOpenAPI(String name, Long page) {
         CompanyDTO.ResponseValue companyList = webApiUtil.getCompanyList(name, page);
@@ -48,9 +51,10 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Transactional
-    public void saveCompanyByOpenAPI(CompanyRequest.CompanyByOpenAPI request, User user) {
-        companyValidation.checkIfCompanyExist(request.companyFssId());
-        Company company = companyMapper.openAPIDTOToCompany(request);
+    public void saveCompanyByOpenAPI(CompanyRequest.CompanyDTO request, MultipartFile file, User user) {
+        companyValidation.checkCompanyByOpenAPI(request);
+        Company company = companyMapper.openAPIDTOToCompany(request.company());
+        awsFileUtil.upload(file);
         companyRepository.save(company);
     }
 

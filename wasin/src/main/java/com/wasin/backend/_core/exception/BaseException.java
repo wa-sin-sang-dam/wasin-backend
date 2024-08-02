@@ -45,6 +45,7 @@ public enum BaseException {
     COMPANY_NOT_FOUND("회사가 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     COMPANY_USER_NOT_FOUND("해당 관리자는 회사에 속해있지 않습니다.", HttpStatus.NOT_FOUND),
     NOT_SAME_COMPANY("일반 관리자와 최종 관리자의 회사가 다릅니다.", HttpStatus.BAD_REQUEST),
+    WRONG_WASIN_SERVICE_KEY("와신 상담의 서비스키가 잘못되었습니다.", HttpStatus.BAD_REQUEST),
 
     ;
 
