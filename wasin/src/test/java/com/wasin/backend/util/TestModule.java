@@ -1,21 +1,19 @@
 package com.wasin.backend.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wasin.backend.config.S3MockConfig;
 import com.wasin.backend._core.exception.BaseException;
 import com.wasin.backend._core.exception.error.NotFoundException;
 import com.wasin.backend._core.security.JWTProvider;
 import com.wasin.backend.domain.dto.UserResponse;
 import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Role;
-import com.wasin.backend.domain.entity.enums.Status;
-import com.wasin.backend.dummy.DummyEntity;
 import com.wasin.backend.repository.UserJPARepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -31,6 +29,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Sql("classpath:db/teardown.sql")
 @AutoConfigureMockMvc
 @Testcontainers
+@Import(S3MockConfig.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class TestModule {
 
