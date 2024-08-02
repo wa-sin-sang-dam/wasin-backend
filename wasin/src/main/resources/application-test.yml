@@ -17,8 +17,11 @@ security:
   open-api:
     secret-key: ${OPEN_API_SECRET_KEY}
     token: ${OPEN_API_TOKEN}
+  service-key: ${WASIN_SERVICE_KEY}
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     url: jdbc:tc:mysql:8.0:///test_container_test
@@ -52,3 +55,13 @@ kwon:
 jang:
   header: ${JANG_HEADER}
   url: ${JANG_URL}
+
+cloud:
+  aws:
+    s3:
+      bucket: wasin-buckect
+    stack.auto: false
+    region.static: ap-northeast-2
+    credentials:
+      accessKey: ${S3_ACCESS_KEY}
+      secretKey: ${S3_ACCESS_SECRET_KEY}
