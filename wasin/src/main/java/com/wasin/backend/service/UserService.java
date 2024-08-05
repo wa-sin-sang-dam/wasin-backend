@@ -9,6 +9,10 @@ public interface UserService {
 
     User login(UserRequest.LoginDTO requestDTO);
 
-    void withdraw(User user, String accessToken);
+    void withdraw(User user);
+
+    void setLockPassword(UserRequest.LockDTO requestDTO, User user);
+
+    void checkLockPassword(UserRequest.LockConfirmDTO requestDTO, User user);
 
 }

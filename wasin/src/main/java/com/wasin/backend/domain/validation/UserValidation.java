@@ -45,4 +45,9 @@ public class UserValidation {
         return userJPARepository.findByEmail(email).isPresent();
     }
 
+    public void checkLockPasswordCorrect(User user, String password) {
+        if (!passwordEncoder.matches(password, user.getLockPassword())) {
+            throw new BadRequestException(BaseException.USER_LOCK_PASSWORD_WRONG);
+        }
+    }
 }
