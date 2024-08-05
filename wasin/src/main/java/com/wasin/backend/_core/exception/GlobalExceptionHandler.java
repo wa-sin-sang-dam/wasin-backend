@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,6 +47,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> illegalArgumentException() {
         BaseException e = BaseException.INVALID_ARGUMENT;
+        return response(error(e), e.getStatus());
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<?> noResourceFound() {
+        BaseException e = BaseException.INVALID_PATH;
         return response(error(e), e.getStatus());
     }
 

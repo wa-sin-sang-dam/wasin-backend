@@ -103,7 +103,8 @@ public class SecurityConfig {
                         ).hasAuthority("admin")
                         .requestMatchers(
                                 new AntPathRequestMatcher("/router/**"),
-                                new AntPathRequestMatcher("/profile/**")
+                                new AntPathRequestMatcher("/profile/**"),
+                                new AntPathRequestMatcher("/user/lock")
                         ).hasAnyAuthority("admin", "super_admin")
                         .requestMatchers(
                                 new AntPathRequestMatcher("/user/logout"),

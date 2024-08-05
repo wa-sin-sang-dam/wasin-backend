@@ -17,12 +17,14 @@ public enum BaseException {
     MESSAGE_NOT_READABLE("메시지를 읽을 수 없습니다.", HttpStatus.BAD_REQUEST),
     COMPANY_OPEN_API_FAIL("Open API를 이용하여 회사 목록을 불러오는데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     AWS_IMAGE_FAIL("aws에 이미지를 올리는 것을 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_PATH("잘못된 url path입니다.", HttpStatus.NOT_FOUND),
 
     // 유저
     USER_NOT_FOUND("서비스를 탈퇴했거나 가입하지 않은 유저의 요청입니다.", HttpStatus.NOT_FOUND),
     USER_EMAIL_EXIST("동일한 이메일이 존재합니다.", HttpStatus.BAD_REQUEST),
     USER_EMAIL_NOT_FOUND("이메일을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     USER_PASSWORD_WRONG("패스워드를 잘못 입력하셨습니다.", HttpStatus.BAD_REQUEST),
+    USER_LOCK_PASSWORD_WRONG("잠금해제 패스워드를 잘못 입력하셨습니다.", HttpStatus.BAD_REQUEST),
     USER_PASSWORD_NOT_SAME("패스워드1과 패스워드2는 동일해야 합니다.", HttpStatus.BAD_REQUEST),
     USER_ROLE_WRONG("잘못된 역할입니다.", HttpStatus.BAD_REQUEST),
 
