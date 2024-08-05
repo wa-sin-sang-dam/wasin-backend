@@ -5,9 +5,6 @@ import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
 import com.wasin.backend.domain.entity.Email;
 import com.wasin.backend.domain.entity.Token;
-import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Role;
-import com.wasin.backend.domain.entity.enums.Status;
 import com.wasin.backend.repository.MailRepository;
 import com.wasin.backend.repository.TokenRepository;
 import com.wasin.backend.util.TestModule;
@@ -23,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Optional;
 
 import static com.wasin.backend.dummy.DummyEntity.getTestToken;
-import static com.wasin.backend.dummy.DummyEntity.getTestUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -258,7 +254,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/reissue")
+                            .post("/user/auth/reissue")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody)
             );
@@ -281,7 +277,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/reissue")
+                            .post("/user/auth/reissue")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody)
             );
@@ -291,6 +287,98 @@ public class UserControllerTest extends TestModule {
             result.andExpect(jsonPath("$.success").value("false"));
             result.andExpect(jsonPath("$.error.status").value(expect.getStatus().value()));
             result.andExpect(jsonPath("$.error.message").value(expect.getMessage()));
+        }
+    }
+
+    @Nested
+    @DisplayName("잠금해제 패스워드 설정 테스트")
+    class UnlockPasswordTest {
+
+        @DisplayName("성공")
+        @Test
+        @WithUserDetails(existEmail)
+        public void success() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("1234");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("true"));
+        }
+
+        @DisplayName("실패 - 5자리의 잠금해제 패스워드 입력")
+        @Test
+        public void fail() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("12334");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("false"));
+        }
+    }
+
+    @Nested
+    @DisplayName("잠금해제 패스워드 확인 테스트")
+    class UnlockPasswordConfirmTest {
+
+        @DisplayName("성공")
+        @Test
+        @WithUserDetails(existEmail)
+        public void success() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("6666");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock/confirm")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("true"));
+        }
+
+        @DisplayName("실패 - 틀린 잠금해제 패스워드 입력")
+        @Test
+        public void fail() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("1299");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock/confirm")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("false"));
         }
     }
 
@@ -308,7 +396,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );
@@ -328,7 +416,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );
@@ -360,7 +448,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );
@@ -384,7 +472,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );

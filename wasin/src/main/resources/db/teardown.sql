@@ -10,6 +10,7 @@ create table user_tb (
      user_id bigint not null auto_increment,
      email varchar(255),
      password varchar(255),
+     lock_password varchar(255),
      username varchar(255),
      role enum ('ADMIN','SUPER_ADMIN','USER'),
      status enum ('ACTIVE','INACTIVE','STAND_BY'),
@@ -32,9 +33,9 @@ INSERT INTO company_tb (`company_id`, `fss_id`, `name`, `location`) VALUES
 (2, '23456-55555-3663', '원석이의 집', '부산광역시 금정구 장전동');
 
 -- 패스워드: password1@
-INSERT INTO user_tb (`user_id`, `username`,`email`,`password`,`role`,`status`,`is_mode_auto`, `company_id`) VALUES
-(1, '1jeongg', 'leena0912@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', 'SUPER_ADMIN', 'ACTIVE', true, 1),
-(2, '2jeongg', 'leena0913@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', 'ADMIN', 'STAND_BY', true, 1),
-(3, '3jeongg', 'leena0914@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', 'ADMIN', 'STAND_BY', true, 2),
-(4, '4jeongg', 'leena0915@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', 'SUPER_ADMIN', 'STAND_BY', true, 1);
+INSERT INTO user_tb (`user_id`, `username`,`email`,`password`,`lock_password`, `role`,`status`,`is_mode_auto`, `company_id`) VALUES
+(1, '1jeongg', 'leena0912@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'SUPER_ADMIN', 'ACTIVE', true, 1),
+(2, '2jeongg', 'leena0913@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'ADMIN', 'STAND_BY', true, 1),
+(3, '3jeongg', 'leena0914@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'ADMIN', 'STAND_BY', true, 2),
+(4, '4jeongg', 'leena0915@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'SUPER_ADMIN', 'STAND_BY', true, 1);
 
