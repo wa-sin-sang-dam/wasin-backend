@@ -11,6 +11,7 @@ jobs:
       DB_USERNAME: ${{secrets.DB_USERNAME}}
       JANG_HEADER: ${{secrets.JANG_HEADER}}
       JANG_URL: ${{secrets.JANG_URL}}
+      JANG_DATASOURCE_UID: ${{secrets.JANG_DATASOURCE_UID}}
       KWON_HOST: ${{secrets.KWON_HOST}}
       KWON_PASSWORD: ${{secrets.KWON_PASSWORD}}
       KWON_USERNAME: ${{secrets.KWON_USERNAME}}
