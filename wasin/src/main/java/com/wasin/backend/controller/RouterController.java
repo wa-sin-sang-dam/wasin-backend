@@ -32,8 +32,8 @@ public class RouterController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> findByRouterId(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                            @RequestBody @Valid RouterRequest.CreateDTO requestDTO) {
+    public ResponseEntity<?> create(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                    @RequestBody @Valid RouterRequest.CreateDTO requestDTO) {
         routerService.create(userDetails.getUser(), requestDTO);
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }

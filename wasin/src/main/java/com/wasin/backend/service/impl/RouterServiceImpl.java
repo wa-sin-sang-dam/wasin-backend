@@ -5,7 +5,6 @@ import com.wasin.backend._core.exception.error.NotFoundException;
 import com.wasin.backend._core.util.WebApiUtil;
 import com.wasin.backend.domain.dto.RouterRequest;
 import com.wasin.backend.domain.dto.RouterResponse;
-import com.wasin.backend.domain.entity.Company;
 import com.wasin.backend.domain.entity.CompanyImage;
 import com.wasin.backend.domain.entity.Router;
 import com.wasin.backend.domain.entity.User;
@@ -108,13 +107,6 @@ public class RouterServiceImpl implements RouterService {
     private Router findRouterById(Long routerId) {
         return routerJPARepository.findById(routerId)
                 .orElseThrow(() -> new NotFoundException(BaseException.ROUTER_NOT_EXIST_IN_DB));
-    }
-
-    private Company findCompanyByUser(Long userId) {
-        User user = userJPARepository.findUserWithCompanyById(userId).orElseThrow(
-                () -> new NotFoundException(BaseException.COMPANY_USER_NOT_FOUND)
-        );
-        return user.getCompany();
     }
 
     private RouterResponse.WifiNetworkQuality getPrometheusRouter(RouterRequest.CreateDTO requestDTO) {

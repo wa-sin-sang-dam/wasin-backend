@@ -55,12 +55,12 @@ public enum BaseException {
     COMPANY_IMAGE_NOT_FOUND("회사 이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
 
     // 라우터
-    ROUTER_NOT_EXIST("해당 MAC 주소를 가진 라우터가 프로메테우스 서버에 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     ROUTER_NOT_EXIST_IN_DB("라우터가 데이터베이스에 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     ROUTER_EXIST_IN_DB("라우터가 이미 데이터베이스에 존재합니다.", HttpStatus.BAD_REQUEST),
     ROUTER_NOT_EXIST_IN_PROMETHEUS("라우터가 프로메테우스 서버에 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     PROMETHUS_SERVER_FAIL("프로메테우스 서버의 데이터를 불러오는데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     GRAFANA_SERVER_FAIL("그라파나 서버의 데이터를 불러오는데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    GRAFANA_REQUEST_FAIL("그라파나 서버를 불러오는데 실패했습니다. - 4xx", HttpStatus.INTERNAL_SERVER_ERROR),
 
     ;
 
