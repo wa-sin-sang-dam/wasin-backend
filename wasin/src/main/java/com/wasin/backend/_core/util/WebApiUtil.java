@@ -34,7 +34,7 @@ public class WebApiUtil {
     String grafanaHeader;
 
     @Value("${jang.datasource-uid}")
-    static String grafanaDatasourceUID;
+    String grafanaDatasourceUID;
 
     public CompanyDTO.ResponseValue getCompanyList(String name, Long page) {
         try {
@@ -88,7 +88,7 @@ public class WebApiUtil {
                     .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
                             clientResponse -> clientResponse
                                     .bodyToMono(String.class)
-                                    .map(body -> new ServerException(BaseException.COMPANY_OPEN_API_FAIL)))
+                                    .map(body -> new ServerException(BaseException.GRAFANA_REQUEST_FAIL)))
                     .bodyToMono(RouterResponse.RouterResult.class)
                     .block()
                     .results().A().frames().get(0).data().values().get(1).get(0);
@@ -103,7 +103,7 @@ public class WebApiUtil {
         }
     }
 
-    private static RouterResponse.Queries gerRequestDTO(Router router) {
+    private RouterResponse.Queries gerRequestDTO(Router router) {
         String expr = "sum(wifi_stations{instance=\"" + router.getInstance() + "\", job=\"" +  router.getJob() + "\"})";
         String type = "prometheus";
         String refId = "A";
