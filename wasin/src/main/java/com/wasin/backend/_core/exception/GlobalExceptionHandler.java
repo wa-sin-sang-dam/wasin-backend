@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import java.sql.SQLException;
@@ -53,6 +54,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<?> noResourceFound() {
         BaseException e = BaseException.INVALID_PATH;
+        return response(error(e), e.getStatus());
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<?> maxUploadExceeded() {
+        BaseException e = BaseException.MAX_FILE_SIZE;
         return response(error(e), e.getStatus());
     }
 
