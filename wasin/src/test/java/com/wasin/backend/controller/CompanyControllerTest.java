@@ -1,11 +1,16 @@
 package com.wasin.backend.controller;
 
 import com.wasin.backend._core.exception.BaseException;
+import com.wasin.backend._core.util.AwsFileUtil;
 import com.wasin.backend.domain.dto.CompanyRequest;
 import com.wasin.backend.util.TestModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -15,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.nio.charset.StandardCharsets;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -22,6 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(properties = "security.service-key=test-service-key")
 public class CompanyControllerTest extends TestModule {
 
+    @MockBean
+    private AwsFileUtil awsFileUtil;
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
     @Nested
     @DisplayName("Open API 내 회사 정보 조회")
@@ -84,22 +96,20 @@ public class CompanyControllerTest extends TestModule {
             // given
             CompanyRequest.CompanyDTO requestDTO = new CompanyRequest.CompanyDTO(
                     "test-service-key",
-                    new CompanyRequest.CompanyByOpenAPI(
-                            "1234-5234-2634",
-                            "부산광역시 수영구 민락동",
-                            "원정이의 집 ><"
-                    )
+                    "1234-5234-2634",
+                    "부산광역시 수영구 민락동",
+                    "원정이의 집 ><"
             );
             String requestBody = om.writeValueAsString(requestDTO);
-
-            MockMultipartFile image = new MockMultipartFile("file", "test.png", "image/png", "test file".getBytes(StandardCharsets.UTF_8));
+            Resource res = resourceLoader.getResource("classpath:/static/test.jpg");
+            MockMultipartFile image = new MockMultipartFile("file", "test.jpg", "image/jpeg", res.getInputStream());
             MockMultipartFile data = new MockMultipartFile("data", "data", "application/json", requestBody.getBytes(StandardCharsets.UTF_8));
+
+            given(awsFileUtil.upload(any())).willReturn("https://image.png");
 
             // when
             ResultActions result = mvc.perform(
-                    multipart("/company/open-api")
-                            .file(image)
-                            .file(data)
+                    multipart("/company/open-api").file(image).file(data)
             );
             logResult(result);
 
@@ -113,12 +123,10 @@ public class CompanyControllerTest extends TestModule {
         public void fail() throws Exception {
             // given
             CompanyRequest.CompanyDTO requestDTO = new CompanyRequest.CompanyDTO(
-                    "wrong-serviceKey",
-                    new CompanyRequest.CompanyByOpenAPI(
-                            "1234-5234-2634",
-                            "부산광역시 수영구 민락동",
-                            "원정이의 집 ><"
-                    )
+                "wrong-serviceKey",
+                "1234-5234-2634",
+                "부산광역시 수영구 민락동",
+                "원정이의 집 ><"
             );
             String requestBody = om.writeValueAsString(requestDTO);
 
