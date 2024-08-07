@@ -5,9 +5,6 @@ import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
 import com.wasin.backend.domain.entity.Email;
 import com.wasin.backend.domain.entity.Token;
-import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Role;
-import com.wasin.backend.domain.entity.enums.Status;
 import com.wasin.backend.repository.MailRepository;
 import com.wasin.backend.repository.TokenRepository;
 import com.wasin.backend.util.TestModule;
@@ -23,7 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Optional;
 
 import static com.wasin.backend.dummy.DummyEntity.getTestToken;
-import static com.wasin.backend.dummy.DummyEntity.getTestUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -113,7 +109,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             String password = "password1@";
             UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password);
             String requestBody = om.writeValueAsString(requestDTO);
@@ -138,7 +134,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void fail_wrong_role() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             String password = "password123@";
             UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password);
             String requestBody = om.writeValueAsString(requestDTO);
@@ -171,7 +167,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenResult = getToken(email);
             Token token = getTestToken(tokenResult, email);
 
@@ -195,7 +191,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void fail() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenResult = getToken(email);
 
             given(tokenRepository.findByAccessToken(tokenResult.accessToken())).willReturn(Optional.empty());
@@ -221,7 +217,7 @@ public class UserControllerTest extends TestModule {
     @DisplayName("회원탈퇴 테스트")
     class WithdrawTest {
 
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         @DisplayName("성공")
         @Test
         public void success() throws Exception {
@@ -247,7 +243,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenDTO = getToken(email);
             Token token = getTestToken(tokenDTO, email);
             String requestBody = om.writeValueAsString(tokenDTO);
@@ -258,7 +254,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/reissue")
+                            .post("/user/auth/reissue")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody)
             );
@@ -274,14 +270,14 @@ public class UserControllerTest extends TestModule {
         @DisplayName("실패 - 존재하지 않는 유저")
         @Test
         public void fail() throws Exception {
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenDTO = getToken(email);
             String requestBody = om.writeValueAsString(tokenDTO);
 
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/reissue")
+                            .post("/user/auth/reissue")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(requestBody)
             );
@@ -291,6 +287,98 @@ public class UserControllerTest extends TestModule {
             result.andExpect(jsonPath("$.success").value("false"));
             result.andExpect(jsonPath("$.error.status").value(expect.getStatus().value()));
             result.andExpect(jsonPath("$.error.message").value(expect.getMessage()));
+        }
+    }
+
+    @Nested
+    @DisplayName("잠금해제 패스워드 설정 테스트")
+    class UnlockPasswordTest {
+
+        @DisplayName("성공")
+        @Test
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
+        public void success() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("1234");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("true"));
+        }
+
+        @DisplayName("실패 - 5자리의 잠금해제 패스워드 입력")
+        @Test
+        public void fail() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("12334");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("false"));
+        }
+    }
+
+    @Nested
+    @DisplayName("잠금해제 패스워드 확인 테스트")
+    class UnlockPasswordConfirmTest {
+
+        @DisplayName("성공")
+        @Test
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
+        public void success() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("6666");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock/confirm")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("true"));
+        }
+
+        @DisplayName("실패 - 틀린 잠금해제 패스워드 입력")
+        @Test
+        public void fail() throws Exception {
+            // given
+            UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("1299");
+            String requestBody = om.writeValueAsString(requestDTO);
+
+            // when
+            ResultActions result = mvc.perform(
+                    MockMvcRequestBuilders
+                            .post("/user/lock/confirm")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+            );
+            logResult(result);
+
+            // then
+            result.andExpect(jsonPath("$.success").value("false"));
         }
     }
 
@@ -308,7 +396,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );
@@ -321,14 +409,14 @@ public class UserControllerTest extends TestModule {
         @DisplayName("실패 - 동일한 이메일 존재")
         @Test
         public void fail() throws Exception {
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserRequest.EmailDTO requestDTO = new UserRequest.EmailDTO(email);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );
@@ -360,7 +448,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );
@@ -373,7 +461,7 @@ public class UserControllerTest extends TestModule {
         @DisplayName("실패 - 이미 존재하는 이메일")
         @Test
         public void fail() throws Exception {
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             String code = "123456";
             UserRequest.EmailCheckDTO requestDTO = new UserRequest.EmailCheckDTO(email, code);
             String requestBody = om.writeValueAsString(requestDTO);
@@ -384,7 +472,7 @@ public class UserControllerTest extends TestModule {
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .post("/user/email")
+                            .post("/user/auth/email")
                             .content(requestBody)
                             .contentType(MediaType.APPLICATION_JSON)
             );

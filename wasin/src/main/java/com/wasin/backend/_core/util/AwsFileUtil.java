@@ -27,7 +27,7 @@ public class AwsFileUtil {
 
     private final AmazonS3Client amazonS3Client;
 
-    public void upload(MultipartFile file) {
+    public String upload(MultipartFile file) {
         String fileName =  UUID.randomUUID() + file.getName();
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
@@ -37,6 +37,8 @@ public class AwsFileUtil {
             amazonS3Client.putObject(
                     new PutObjectRequest(bucket, fileName, file.getInputStream(), objectMetadata)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
+
+            return amazonS3Client.getUrl(bucket, fileName).toString();
         } catch(IOException e) {
             throw new ServerException(BaseException.AWS_IMAGE_FAIL);
         }

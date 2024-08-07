@@ -42,7 +42,10 @@ public class TestModule {
     private static final JdbcDatabaseContainer MYSQL;
     private static final GenericContainer REDIS;
 
-    protected static final String existEmail = "leena0912@naver.com";
+    protected static final String SUPER_ADMIN_EMAIL = "leena0912@naver.com";
+    protected static final String ADMIN_ACTIVE_EMAIL = "leena0916@naver.com";
+    protected static final String ADMIN_STAND_BY_EMAIL = "leena0913@naver.com";
+    protected static final String USER_ACTIVE_EMAIL = "leena0917@naver.com";
     protected static final String nonExistEmail = "test0912@naver.com";
 
 

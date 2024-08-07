@@ -1,7 +1,6 @@
 package com.wasin.backend.service.impl;
 
 import com.wasin.backend._core.exception.BaseException;
-import com.wasin.backend._core.exception.error.BadRequestException;
 import com.wasin.backend._core.exception.error.NotFoundException;
 import com.wasin.backend._core.util.AwsFileUtil;
 import com.wasin.backend._core.util.WebApiUtil;
@@ -9,9 +8,12 @@ import com.wasin.backend.domain.dto.CompanyDTO;
 import com.wasin.backend.domain.dto.CompanyRequest;
 import com.wasin.backend.domain.dto.CompanyResponse;
 import com.wasin.backend.domain.entity.Company;
+import com.wasin.backend.domain.entity.CompanyImage;
 import com.wasin.backend.domain.entity.User;
+import com.wasin.backend.domain.mapper.CompanyImageMapper;
 import com.wasin.backend.domain.mapper.CompanyMapper;
 import com.wasin.backend.domain.validation.CompanyValidation;
+import com.wasin.backend.repository.CompanyImageRepository;
 import com.wasin.backend.repository.CompanyRepository;
 import com.wasin.backend.repository.UserJPARepository;
 import com.wasin.backend.service.CompanyService;
@@ -29,10 +31,14 @@ import java.util.stream.Collectors;
 public class CompanyServiceImpl implements CompanyService {
 
     private final WebApiUtil webApiUtil;
+
+    private final UserJPARepository userJPARepository;
+    private final CompanyImageRepository companyImageRepository;
     private final CompanyRepository companyRepository;
+
     private final CompanyValidation companyValidation;
     private final CompanyMapper companyMapper;
-    private final UserJPARepository userJPARepository;
+    private final CompanyImageMapper companyImageMapper;
     private final AwsFileUtil awsFileUtil;
 
     public CompanyResponse.OpenAPIList findAllCompanyByOpenAPI(String name, Long page) {
@@ -52,10 +58,23 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     public void saveCompanyByOpenAPI(CompanyRequest.CompanyDTO request, MultipartFile file, User user) {
+        // 1. 들어온 요청이 유효한 값인지 확인
         companyValidation.checkCompanyByOpenAPI(request);
-        Company company = companyMapper.openAPIDTOToCompany(request.company());
-        awsFileUtil.upload(file);
+
+        // 2. AWS에 이미지 업로드
+        String url = awsFileUtil.upload(file);
+
+        // 3. DB 내에 회사 저장
+        Company company = companyMapper.openAPIDTOToCompany(request);
         companyRepository.save(company);
+
+        // 4. DB 내에 이미지 저장
+        CompanyImage image = companyImageMapper.urlToCompanyImage(url, file, company);
+        companyImageRepository.save(image);
+
+        // 5. 관리자에게 회사 등록해주기
+        User admin = findAdminById(user.getId());
+        admin.joinCompany(company);
     }
 
     @Transactional
@@ -63,10 +82,16 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companyRepository.findById(request.companyId()).orElseThrow(
                 () -> new NotFoundException(BaseException.COMPANY_NOT_FOUND)
         );
-        User admin = userJPARepository.findById(user.getId()).orElseThrow(
+
+        // 관리자에게 회사 등록해주기
+        User admin = findAdminById(user.getId());
+        admin.joinCompany(company);
+    }
+
+    private User findAdminById(Long userId) {
+        return userJPARepository.findById(userId).orElseThrow(
                 () -> new NotFoundException(BaseException.USER_NOT_FOUND)
         );
-        admin.joinCompany(company);
     }
 
     private static CompanyResponse.OpenAPIList.CompanyOpenAPIItem getCompanyOpenAPIItem(CompanyDTO.Item item) {

@@ -22,7 +22,7 @@ public class BackOfficeControllerTest extends TestModule {
 
         @DisplayName("성공")
         @Test
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
             BackOfficeRequest.AcceptDTO requestDTO = new BackOfficeRequest.AcceptDTO(2L);
@@ -42,7 +42,7 @@ public class BackOfficeControllerTest extends TestModule {
 
         @DisplayName("실패 - 일반 관리자가 아님")
         @Test
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void fail() throws Exception {
             // given
             BackOfficeRequest.AcceptDTO requestDTO = new BackOfficeRequest.AcceptDTO(4L);
@@ -65,7 +65,7 @@ public class BackOfficeControllerTest extends TestModule {
 
         @DisplayName("실패 - 회사가 다름")
         @Test
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void fail2() throws Exception {
             // given
             BackOfficeRequest.AcceptDTO requestDTO = new BackOfficeRequest.AcceptDTO(3L);
@@ -95,7 +95,7 @@ public class BackOfficeControllerTest extends TestModule {
 
         @DisplayName("성공")
         @Test
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
 

@@ -72,4 +72,18 @@ public class UserRequest {
             String refreshToken
     ) {
     }
+
+    public record LockDTO(
+            @NotEmpty(message = "잠금해제 비밀번호는 비어있으면 안됩니다.")
+            @Pattern(regexp = "\\d{4}", message = "잠금해제 비밀번호는 4자리 숫자로 구성되어야 합니다.")
+            String password
+    ) {
+    }
+
+    public record LockConfirmDTO(
+            @NotEmpty(message = "잠금해제 비밀번호는 비어있으면 안됩니다.")
+            @Pattern(regexp = "\\d{4}", message = "잠금해제 비밀번호는 4자리 숫자로 구성되어야 합니다.")
+            String password
+    ) {
+    }
 }

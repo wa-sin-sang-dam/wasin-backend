@@ -55,6 +55,7 @@ kwon:
 jang:
   header: ${JANG_HEADER}
   url: ${JANG_URL}
+  datasource-uid: ${JANG_DATASOURCE_UID}
 
 cloud:
   aws:

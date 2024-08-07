@@ -29,7 +29,7 @@ public class CompanyValidation {
     }
 
     private void checkCompanyNotExist(CompanyRequest.CompanyDTO companyDTO) {
-        if (companyRepository.findByFssId(companyDTO.company().companyFssId()).isPresent()) {
+        if (companyRepository.findByFssId(companyDTO.companyFssId()).isPresent()) {
             throw new BadRequestException(BaseException.COMPANY_ALREADY_EXIST);
         }
     }

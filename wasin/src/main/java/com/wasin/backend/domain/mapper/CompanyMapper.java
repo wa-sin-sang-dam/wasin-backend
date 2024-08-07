@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class CompanyMapper {
 
-    public Company openAPIDTOToCompany(CompanyRequest.CompanyByOpenAPI dto) {
+    public Company openAPIDTOToCompany(CompanyRequest.CompanyDTO dto) {
         return Company.builder()
                 .fssId(dto.companyFssId())
                 .name(dto.companyName())

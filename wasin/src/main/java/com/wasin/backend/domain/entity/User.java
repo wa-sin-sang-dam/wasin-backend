@@ -4,10 +4,7 @@ package com.wasin.backend.domain.entity;
 import com.wasin.backend.domain.entity.enums.Role;
 import com.wasin.backend.domain.entity.enums.Status;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,6 +27,10 @@ public class User {
 
     @Column
     private String password;
+
+    @Setter
+    @Column(name = "lock_password")
+    private String lockPassword;
 
     @Column
     @Enumerated(EnumType.STRING)
