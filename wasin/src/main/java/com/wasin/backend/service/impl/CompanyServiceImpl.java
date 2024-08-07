@@ -58,14 +58,23 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     public void saveCompanyByOpenAPI(CompanyRequest.CompanyDTO request, MultipartFile file, User user) {
+        // 1. 들어온 요청이 유효한 값인지 확인
         companyValidation.checkCompanyByOpenAPI(request);
+
+        // 2. AWS에 이미지 업로드
         String url = awsFileUtil.upload(file);
 
-        Company company = companyMapper.openAPIDTOToCompany(request.company());
+        // 3. DB 내에 회사 저장
+        Company company = companyMapper.openAPIDTOToCompany(request);
         companyRepository.save(company);
 
-        CompanyImage image = companyImageMapper.urlToCompanyImage(url, company);
+        // 4. DB 내에 이미지 저장
+        CompanyImage image = companyImageMapper.urlToCompanyImage(url, file, company);
         companyImageRepository.save(image);
+
+        // 5. 관리자에게 회사 등록해주기
+        User admin = findAdminById(user.getId());
+        admin.joinCompany(company);
     }
 
     @Transactional
@@ -73,10 +82,16 @@ public class CompanyServiceImpl implements CompanyService {
         Company company = companyRepository.findById(request.companyId()).orElseThrow(
                 () -> new NotFoundException(BaseException.COMPANY_NOT_FOUND)
         );
-        User admin = userJPARepository.findById(user.getId()).orElseThrow(
+
+        // 관리자에게 회사 등록해주기
+        User admin = findAdminById(user.getId());
+        admin.joinCompany(company);
+    }
+
+    private User findAdminById(Long userId) {
+        return userJPARepository.findById(userId).orElseThrow(
                 () -> new NotFoundException(BaseException.USER_NOT_FOUND)
         );
-        admin.joinCompany(company);
     }
 
     private static CompanyResponse.OpenAPIList.CompanyOpenAPIItem getCompanyOpenAPIItem(CompanyDTO.Item item) {
