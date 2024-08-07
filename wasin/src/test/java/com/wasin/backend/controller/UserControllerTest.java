@@ -109,7 +109,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             String password = "password1@";
             UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password);
             String requestBody = om.writeValueAsString(requestDTO);
@@ -134,7 +134,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void fail_wrong_role() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             String password = "password123@";
             UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password);
             String requestBody = om.writeValueAsString(requestDTO);
@@ -167,7 +167,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenResult = getToken(email);
             Token token = getTestToken(tokenResult, email);
 
@@ -191,7 +191,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void fail() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenResult = getToken(email);
 
             given(tokenRepository.findByAccessToken(tokenResult.accessToken())).willReturn(Optional.empty());
@@ -217,7 +217,7 @@ public class UserControllerTest extends TestModule {
     @DisplayName("회원탈퇴 테스트")
     class WithdrawTest {
 
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         @DisplayName("성공")
         @Test
         public void success() throws Exception {
@@ -243,7 +243,7 @@ public class UserControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenDTO = getToken(email);
             Token token = getTestToken(tokenDTO, email);
             String requestBody = om.writeValueAsString(tokenDTO);
@@ -270,7 +270,7 @@ public class UserControllerTest extends TestModule {
         @DisplayName("실패 - 존재하지 않는 유저")
         @Test
         public void fail() throws Exception {
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserResponse.Token tokenDTO = getToken(email);
             String requestBody = om.writeValueAsString(tokenDTO);
 
@@ -296,7 +296,7 @@ public class UserControllerTest extends TestModule {
 
         @DisplayName("성공")
         @Test
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
             UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("1234");
@@ -342,7 +342,7 @@ public class UserControllerTest extends TestModule {
 
         @DisplayName("성공")
         @Test
-        @WithUserDetails(existEmail)
+        @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
             UserRequest.LockDTO requestDTO = new UserRequest.LockDTO("6666");
@@ -409,7 +409,7 @@ public class UserControllerTest extends TestModule {
         @DisplayName("실패 - 동일한 이메일 존재")
         @Test
         public void fail() throws Exception {
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             UserRequest.EmailDTO requestDTO = new UserRequest.EmailDTO(email);
             String requestBody = om.writeValueAsString(requestDTO);
 
@@ -461,7 +461,7 @@ public class UserControllerTest extends TestModule {
         @DisplayName("실패 - 이미 존재하는 이메일")
         @Test
         public void fail() throws Exception {
-            String email = existEmail;
+            String email = SUPER_ADMIN_EMAIL;
             String code = "123456";
             UserRequest.EmailCheckDTO requestDTO = new UserRequest.EmailCheckDTO(email, code);
             String requestBody = om.writeValueAsString(requestDTO);
