@@ -22,15 +22,23 @@ public class CompanyImage {
     @Column(length = 1000)
     private String url;
 
+    @Column
+    private int width;
+
+    @Column
+    private int height;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "company_id")
     private Company company;
 
     @Builder
-    public CompanyImage(Long id, String url, Company company) {
+    public CompanyImage(Long id, String url, Company company, int width, int height) {
         this.id = id;
         this.url = url;
         this.company = company;
+        this.width = width;
+        this.height = height;
     }
 }
