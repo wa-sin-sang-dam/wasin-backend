@@ -23,7 +23,7 @@ public enum BaseException {
     ROUTER_PERMISSION_DENIED("회사가 다르므로 라우터에 대한 접근 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
 
     // 유저
-    USER_NOT_FOUND("서비스를 탈퇴했거나 가입하지 않은 유저의 요청입니다.", HttpStatus.NOT_FOUND),
+    USER_NOT_FOUND("승인 대기 / 회원탈퇴 / 가입하지 않은 유저의 요청입니다.", HttpStatus.NOT_FOUND),
     USER_EMAIL_EXIST("동일한 이메일이 존재합니다.", HttpStatus.BAD_REQUEST),
     USER_EMAIL_NOT_FOUND("이메일을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     USER_PASSWORD_WRONG("패스워드를 잘못 입력하셨습니다.", HttpStatus.BAD_REQUEST),
@@ -61,6 +61,10 @@ public enum BaseException {
     PROMETHUS_SERVER_FAIL("프로메테우스 서버의 데이터를 불러오는데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     GRAFANA_SERVER_FAIL("그라파나 서버의 데이터를 불러오는데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     GRAFANA_REQUEST_FAIL("그라파나 서버를 불러오는데 실패했습니다. - 4xx", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    PROFILE_ALREADY_MANUAL("이미 프로파일은 수동으로 동작합니다.", HttpStatus.BAD_REQUEST),
+    PROFILE_ALREADY_AUTO("이미 프로파일은 자동으로 동작합니다.", HttpStatus.BAD_REQUEST),
+    PROFILE_NOT_FOUND("프로파일이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
 
     ;
 
