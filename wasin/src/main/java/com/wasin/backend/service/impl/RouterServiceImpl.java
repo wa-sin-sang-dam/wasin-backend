@@ -10,7 +10,6 @@ import com.wasin.backend.domain.entity.Router;
 import com.wasin.backend.domain.entity.User;
 import com.wasin.backend.domain.mapper.RouterMapper;
 import com.wasin.backend.domain.validation.RouterValidation;
-import com.wasin.backend.domain.validation.UserValidation;
 import com.wasin.backend.repository.CompanyImageRepository;
 import com.wasin.backend.repository.RouterJPARepository;
 import com.wasin.backend.repository.UserJPARepository;
@@ -27,7 +26,6 @@ import java.util.List;
 public class RouterServiceImpl implements RouterService {
 
     private final UserJPARepository userJPARepository;
-    private final UserValidation userValidation;
 
     private final CompanyImageRepository companyImageRepository;
     private final RouterJPARepository routerJPARepository;
@@ -40,18 +38,15 @@ public class RouterServiceImpl implements RouterService {
         List<Router> router = routerJPARepository.findAllRouterByCompanyId(user.getCompany().getId());
         CompanyImage image = getCompanyImage(user.getCompany().getId());
 
-        userValidation.checkStateActive(user);
         return routerMapper.routerFindAllDTO(image, router);
     }
 
     public RouterResponse.FindByRouterId findByRouterId(User userDetails, Long routerId) {
         User user = findUserById(userDetails.getId());
         Router router = findRouterById(routerId);
-
         routerValidation.checkRouterPermission(router, user);
-        userValidation.checkStateActive(user);
-
         CompanyImage image = getCompanyImage(user.getCompany().getId());
+
         return routerMapper.routerToRouterByIdDTO(image, router);
     }
 
@@ -63,11 +58,8 @@ public class RouterServiceImpl implements RouterService {
         // 2. 현재 서버에 없는 라우터인지 확인
         routerValidation.checkRouterNonExistInDB(requestDTO);
 
-        // 3. 유저 상태 확인
+        // 3. 현재 서버에 라우터 추가
         User user = findUserById(userDetails.getId());
-        userValidation.checkStateActive(user);
-
-        // 4. 현재 서버에 라우터 추가
         Router router = routerMapper.dtoToRouter(requestDTO, prometheusRouter, user.getCompany());
         routerJPARepository.save(router);
     }
@@ -76,9 +68,7 @@ public class RouterServiceImpl implements RouterService {
     public void update(User userDetails, RouterRequest.UpdateDTO requestDTO, Long routerId) {
         Router router = findRouterById(routerId);
         User user = findUserById(userDetails.getId());
-
         routerValidation.checkRouterPermission(router, user);
-        userValidation.checkStateActive(user);
 
         router.updateColumns(requestDTO);
     }
@@ -87,9 +77,7 @@ public class RouterServiceImpl implements RouterService {
     public void delete(User userDetails, Long routerId) {
         Router router = findRouterById(routerId);
         User user = findUserById(userDetails.getId());
-
         routerValidation.checkRouterPermission(router, user);
-        userValidation.checkStateActive(user);
 
         routerJPARepository.deleteById(router.getId());
     }
@@ -100,7 +88,7 @@ public class RouterServiceImpl implements RouterService {
     }
 
     private User findUserById(Long userId) {
-        return userJPARepository.findById(userId)
+        return userJPARepository.findActiveUserWithCompanyById(userId)
                 .orElseThrow(() -> new NotFoundException(BaseException.USER_NOT_FOUND));
     }
 

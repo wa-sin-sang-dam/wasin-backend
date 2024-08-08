@@ -100,7 +100,7 @@ public class RouterControllerTest extends TestModule {
             );
 
             // then
-            BaseException exception = BaseException.USER_INACTIVE;
+            BaseException exception = BaseException.USER_NOT_FOUND;
             result.andExpect(jsonPath("$.success").value("false"));
             result.andExpect(jsonPath("$.error.status").value(exception.getStatus().value()));
             result.andExpect(jsonPath("$.error.message").value(exception.getMessage()));

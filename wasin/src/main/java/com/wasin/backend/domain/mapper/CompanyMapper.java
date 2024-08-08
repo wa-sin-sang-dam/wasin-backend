@@ -16,6 +16,7 @@ public class CompanyMapper {
                 .fssId(dto.companyFssId())
                 .name(dto.companyName())
                 .location(dto.location())
+                .isAuto(true)
                 .build();
     }
 
