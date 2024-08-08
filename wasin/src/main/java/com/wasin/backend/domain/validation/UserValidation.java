@@ -4,7 +4,6 @@ import com.wasin.backend._core.exception.BaseException;
 import com.wasin.backend._core.exception.error.BadRequestException;
 import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Status;
 import com.wasin.backend.repository.UserJPARepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,12 +48,6 @@ public class UserValidation {
     public void checkLockPasswordCorrect(User user, String password) {
         if (!passwordEncoder.matches(password, user.getLockPassword())) {
             throw new BadRequestException(BaseException.USER_LOCK_PASSWORD_WRONG);
-        }
-    }
-
-    public void checkStateActive(User user) {
-        if (!user.getStatus().equals(Status.ACTIVE)) {
-            throw new BadRequestException(BaseException.USER_INACTIVE);
         }
     }
 

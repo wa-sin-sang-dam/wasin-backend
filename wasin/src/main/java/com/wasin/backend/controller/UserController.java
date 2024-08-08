@@ -1,7 +1,6 @@
 package com.wasin.backend.controller;
 
 import com.wasin.backend._core.security.CustomUserDetails;
-import com.wasin.backend._core.security.JWTProvider;
 import com.wasin.backend._core.util.ApiUtils;
 import com.wasin.backend.domain.dto.UserRequest;
 import com.wasin.backend.domain.dto.UserResponse;
@@ -25,7 +24,6 @@ public class UserController {
     private final TokenService tokenService;
     private final UserService userService;
     private final MailService mailService;
-    private final JWTProvider jwtProvider;
 
     // 회원가입
     @PostMapping("/signup")
