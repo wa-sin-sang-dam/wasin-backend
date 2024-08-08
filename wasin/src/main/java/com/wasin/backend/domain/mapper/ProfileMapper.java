@@ -35,4 +35,16 @@ public class ProfileMapper {
                 ).toList();
     }
 
+    public List<ProfileDTO> entityListToDtoList(List<Profile> profileList) {
+        return profileList.stream()
+                .map(profile ->
+                    new ProfileDTO(
+                            profile.getIndex(),
+                            profile.getTitle(),
+                            profile.getDescription(),
+                            profile.getTip()
+                    )
+                ).toList();
+    }
+
 }
