@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,12 +28,33 @@ public class Company {
     @Column
     private String location;
 
+    @Column(name = "is_auto")
+    private Boolean isAuto;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
     @Builder
-    public Company(Long id, String fssId, String name, String location) {
+    public Company(Long id, String fssId, String name, String location, Boolean isAuto, Profile profile) {
         this.id = id;
         this.fssId = fssId;
         this.name = name;
+        this.isAuto = isAuto;
         this.location = location;
+        this.profile = profile;
     }
 
+    public void addProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public void changeModeAuto() {
+        this.isAuto = true;
+    }
+
+    public void changeModeManual() {
+        this.isAuto = false;
+    }
 }
