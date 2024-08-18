@@ -142,7 +142,7 @@ public class ProfileControllerTest extends TestModule {
 
         @DisplayName("성공")
         @Test
-        @WithUserDetails(SUPER_ADMIN_EMAIL)
+        @WithUserDetails("leena0918@naver.com")
         public void success() throws Exception {
             // given
 
