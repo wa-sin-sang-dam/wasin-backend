@@ -45,12 +45,16 @@ public class CompanyControllerTest extends TestModule {
         public void success() throws Exception {
             // given
             String name = "삼성";
-            long page = 1L;
+            CompanyRequest.FindCompanyByOpenAPI request = new CompanyRequest.FindCompanyByOpenAPI(name);
+            String requestBody = om.writeValueAsString(request);
 
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .get("/company/open-api?name=" + name + "&page=" + page)
+                            .post("/company/open-api/list")
+                            .content(requestBody)
+                            .contentType(MediaType.APPLICATION_JSON)
+
             );
             logResult(result);
 
@@ -67,12 +71,15 @@ public class CompanyControllerTest extends TestModule {
         public void fail() throws Exception {
             // given
             String name = "삼성";
-            long page = 1L;
+            CompanyRequest.FindCompanyByOpenAPI request = new CompanyRequest.FindCompanyByOpenAPI(name);
+            String requestBody = om.writeValueAsString(request);
 
             // when
             ResultActions result = mvc.perform(
                     MockMvcRequestBuilders
-                            .get("/company/open-api?name=" + name + "&page=" + page)
+                            .post("/company/open-api/list")
+                            .content(requestBody)
+                            .contentType(MediaType.APPLICATION_JSON)
             );
             logResult(result);
 

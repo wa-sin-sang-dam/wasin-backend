@@ -6,10 +6,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.wasin.backend._core.exception.BaseException;
-import com.wasin.backend._core.exception.error.UnauthorizedException;
 import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Role;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,7 +58,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             throw new JWTVerificationException("토큰 검증이 실패했습니다.");
         } catch (TokenExpiredException e) {
             log.error("토큰 만료 됨");
-            throw new UnauthorizedException(BaseException.ACCESS_TOKEN_EXPIRED);
+            //throw new UnauthorizedException(BaseException.ACCESS_TOKEN_EXPIRED);
         } catch (JWTDecodeException e) {
             log.error("잘못된 토큰");
             throw new JWTDecodeException("토큰 형식이 잘못되었습니다.");

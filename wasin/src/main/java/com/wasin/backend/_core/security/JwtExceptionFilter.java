@@ -3,6 +3,7 @@ package com.wasin.backend._core.security;
 
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.wasin.backend._core.exception.error.ForbiddenException;
 import com.wasin.backend._core.exception.error.UnauthorizedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,7 +29,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         try {
             chain.doFilter(request, response);
         }
-        catch (UnauthorizedException e) {
+        catch (ForbiddenException e) {
             filterResponse.writeResponse(response, e);
         }
         catch (JWTCreationException | JWTVerificationException e) {

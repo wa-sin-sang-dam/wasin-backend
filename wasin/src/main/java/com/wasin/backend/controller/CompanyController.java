@@ -5,7 +5,6 @@ import com.wasin.backend._core.util.ApiUtils;
 import com.wasin.backend.domain.dto.CompanyRequest;
 import com.wasin.backend.domain.dto.CompanyResponse;
 import com.wasin.backend.service.CompanyService;
-import jakarta.mail.Multipart;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,9 @@ public class CompanyController {
     private final CompanyService companyService;
 
     // 오픈 API 내 회사 목록 조회
-    @GetMapping("/open-api")
-    public ResponseEntity<?> findAllCompanyByOpenAPI(@RequestParam String name, @RequestParam Long page) {
-        CompanyResponse.OpenAPIList response = companyService.findAllCompanyByOpenAPI(name, page);
+    @PostMapping("/open-api/list")
+    public ResponseEntity<?> findAllCompanyByOpenAPI(@RequestBody @Valid CompanyRequest.FindCompanyByOpenAPI request) {
+        CompanyResponse.OpenAPIList response = companyService.findAllCompanyByOpenAPI(request);
         return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 
