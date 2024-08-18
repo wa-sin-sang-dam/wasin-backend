@@ -41,8 +41,8 @@ public class CompanyServiceImpl implements CompanyService {
     private final CompanyImageMapper companyImageMapper;
     private final AwsFileUtil awsFileUtil;
 
-    public CompanyResponse.OpenAPIList findAllCompanyByOpenAPI(String name, Long page) {
-        CompanyDTO.ResponseValue companyList = webApiUtil.getCompanyList(name, page);
+    public CompanyResponse.OpenAPIList findAllCompanyByOpenAPI(CompanyRequest.FindCompanyByOpenAPI request) {
+        CompanyDTO.ResponseValue companyList = webApiUtil.getCompanyList(request.companyName());
         return new CompanyResponse.OpenAPIList(
                 companyList.response().body().items().item()
                         .stream()

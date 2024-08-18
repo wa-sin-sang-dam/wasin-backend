@@ -31,4 +31,11 @@ public class CompanyRequest {
             Long companyId
     ) {
     }
+
+    public record FindCompanyByOpenAPI(
+            @NotEmpty(message = "회사 이름은는 비어있으면 안됩니다.")
+            @Size(max = 255, message = "회사 위치는 255자 이내여야 합니다.")
+            String companyName
+    ) {
+    }
 }

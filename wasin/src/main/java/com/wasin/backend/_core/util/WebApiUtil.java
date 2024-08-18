@@ -36,12 +36,12 @@ public class WebApiUtil {
     @Value("${jang.datasource-uid}")
     String grafanaDatasourceUID;
 
-    public CompanyDTO.ResponseValue getCompanyList(String name, Long page) {
+    public CompanyDTO.ResponseValue getCompanyList(String name) {
         try {
             return webClient.mutate()
                     .build()
                     .get()
-                    .uri("http://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2", getURI(name, page))
+                    .uri("http://apis.data.go.kr/1160100/service/GetCorpBasicInfoService_V2/getCorpOutline_V2", getURI(name))
                     .header("Authorization", "Bearer " + apiToken)
                     .retrieve()
                     .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
@@ -115,12 +115,12 @@ public class WebApiUtil {
         return requestDTO;
     }
 
-    private Function<UriBuilder, URI> getURI(String name, Long page) {
+    private Function<UriBuilder, URI> getURI(String name) {
         return uriBuilder -> uriBuilder
                 .queryParam("corpNm", URLEncoder.encode(name))
-                .queryParam("pageNo", page)
+                .queryParam("pageNo", 1)
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("numOfRows", 100L)
+                .queryParam("numOfRows", 1000000L)
                 .queryParam("resultType", "json")
                 .build();
     }

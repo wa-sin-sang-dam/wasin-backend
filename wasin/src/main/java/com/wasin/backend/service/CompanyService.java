@@ -6,7 +6,7 @@ import com.wasin.backend.domain.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface CompanyService {
-    CompanyResponse.OpenAPIList findAllCompanyByOpenAPI(String name, Long page);
+    CompanyResponse.OpenAPIList findAllCompanyByOpenAPI(CompanyRequest.FindCompanyByOpenAPI request);
 
     CompanyResponse.DBList findAllCompanyByDB();
 
