@@ -52,4 +52,10 @@ public class RouterController {
         routerService.delete(userDetails.getUser(), router_id);
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
+
+    @GetMapping("/image")
+    public ResponseEntity<?> findCompanyImage(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        RouterResponse.CompanyImageDTO response = routerService.findCompanyImage(userDetails.getUser());
+        return ResponseEntity.ok().body(ApiUtils.success(response));
+    }
 }

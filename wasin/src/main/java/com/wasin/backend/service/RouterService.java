@@ -16,4 +16,5 @@ public interface RouterService {
 
     void delete(User user, Long routerId);
 
+    RouterResponse.CompanyImageDTO findCompanyImage(User user);
 }

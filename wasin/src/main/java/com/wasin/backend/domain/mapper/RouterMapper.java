@@ -42,6 +42,8 @@ public class RouterMapper {
                 new RouterResponse.RouterInformationDTO(
                         router.getName(),
                         router.getSsid(),
+                        router.getMacAddress(),
+                        router.getInstance(),
                         webApiUtil.getRouterState(router),
                         router.getPositionX(),
                         router.getPositionY()
@@ -57,11 +59,20 @@ public class RouterMapper {
                         companyImage.getWidth()
                 ),
                 router.stream().map(r -> new RouterResponse.EachRouter(
+                        r.getId(),
                         r.getName(),
                         webApiUtil.getRouterState(r),
                         r.getPositionX(),
                         r.getPositionY()
                 )).toList()
+        );
+    }
+
+    public RouterResponse.CompanyImageDTO imageEntityToDTO(CompanyImage image) {
+        return new RouterResponse.CompanyImageDTO(
+                image.getUrl(),
+                image.getHeight(),
+                image.getWidth()
         );
     }
 }
