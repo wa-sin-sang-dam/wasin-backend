@@ -98,7 +98,7 @@ public class CompanyControllerTest extends TestModule {
 
         @DisplayName("성공")
         @Test
-        @WithUserDetails("leena0912@naver.com")
+        @WithUserDetails("leena0919@naver.com")
         public void success() throws Exception {
             // given
             CompanyRequest.CompanyDTO requestDTO = new CompanyRequest.CompanyDTO(
