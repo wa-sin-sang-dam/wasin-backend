@@ -215,7 +215,7 @@ public class RouterControllerTest extends TestModule {
 
             // when
             ResultActions result = mvc.perform(
-                    MockMvcRequestBuilders.delete("/router/1")
+                    MockMvcRequestBuilders.post("/router/delete/1")
             );
 
             // then
@@ -230,7 +230,7 @@ public class RouterControllerTest extends TestModule {
 
             // when
             ResultActions result = mvc.perform(
-                    MockMvcRequestBuilders.delete("/router/103")
+                    MockMvcRequestBuilders.post("/router/delete/103")
             );
 
             // then

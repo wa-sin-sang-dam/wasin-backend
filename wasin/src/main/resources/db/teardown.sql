@@ -85,7 +85,8 @@ INSERT INTO user_tb (`user_id`, `username`,`email`,`password`,`lock_password`, `
 (4, '4jeongg', 'leena0915@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'SUPER_ADMIN', 'STAND_BY', true, 1),
 (5, '5jeongg', 'leena0916@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'ADMIN', 'ACTIVE', true, 1),
 (6, '6jeongg', 'leena0917@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'USER', 'ACTIVE', true, 1),
-(7, '7jeongg', 'leena0918@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'SUPER_ADMIN', 'ACTIVE', true, 2);
+(7, '7jeongg', 'leena0918@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'SUPER_ADMIN', 'ACTIVE', true, 2),
+(8, '8jeongg', 'leena0919@naver.com', '{bcrypt}$2a$10$ZyY8A2GMb5a9tq5RD1/LsOc7ExG1VX9KAWIsWOpojnlK92mQEOMZC', '{bcrypt}$2a$10$NlF1LONeXtejcNReYu3XPu37FJrNll691IdoUykpY89aUzgwlDlYK', 'SUPER_ADMIN', 'ACTIVE', true, null);
 
 INSERT INTO company_image_tb (`company_image_id`, `company_id`, `url`, `height`, `width`) VALUES
 (1, 1, 'https://static.wixstatic.com/media/d465da_ed07388770a5418f8db3cf4e37573c47.jpg/v1/fill/w_342,h_336,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/d465da_ed07388770a5418f8db3cf4e37573c47', 1243, 56352);

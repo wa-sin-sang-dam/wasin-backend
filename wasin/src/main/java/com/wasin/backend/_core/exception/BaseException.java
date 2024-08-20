@@ -53,6 +53,8 @@ public enum BaseException {
     NOT_SAME_COMPANY("일반 관리자와 최종 관리자의 회사가 다릅니다.", HttpStatus.BAD_REQUEST),
     WRONG_WASIN_SERVICE_KEY("와신 상담의 서비스키가 잘못되었습니다.", HttpStatus.BAD_REQUEST),
     COMPANY_IMAGE_NOT_FOUND("회사 이미지를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    USER_COMPANY_EXIST("해당 관리자는 이미 회사에 등록되어 있습니다. 이전에 등록한 회사 정보를 입력해주세요.", HttpStatus.BAD_REQUEST),
+    COMPANY_WRONG("유저의 회사가 아닙니다.", HttpStatus.BAD_REQUEST),
 
     // 라우터
     ROUTER_NOT_EXIST_IN_DB("라우터가 데이터베이스에 존재하지 않습니다.", HttpStatus.NOT_FOUND),

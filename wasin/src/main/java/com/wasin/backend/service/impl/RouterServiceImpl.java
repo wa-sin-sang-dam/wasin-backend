@@ -82,6 +82,13 @@ public class RouterServiceImpl implements RouterService {
         routerJPARepository.deleteById(router.getId());
     }
 
+    public RouterResponse.CompanyImageDTO findCompanyImage(User userDetails) {
+        User user = findUserById(userDetails.getId());
+        CompanyImage image = getCompanyImage(user.getCompany().getId());
+
+        return routerMapper.imageEntityToDTO(image);
+    }
+
     private CompanyImage getCompanyImage(Long companyId) {
         return companyImageRepository.findByCompanyId(companyId)
                 .orElseThrow(() -> new NotFoundException(BaseException.COMPANY_IMAGE_NOT_FOUND));
