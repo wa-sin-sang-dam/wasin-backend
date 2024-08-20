@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -58,22 +59,25 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Transactional
     public void saveCompanyByOpenAPI(CompanyRequest.CompanyDTO request, MultipartFile file, User user) {
+        User admin = findAdminById(user.getId());
+
         // 1. 들어온 요청이 유효한 값인지 확인
-        companyValidation.checkCompanyByOpenAPI(request);
+        Optional<Company> companyByFssId = companyRepository.findByFssId(request.companyFssId());
+        companyValidation.checkCompanyByOpenAPI(request, admin, companyByFssId);
 
         // 2. AWS에 이미지 업로드
         String url = awsFileUtil.upload(file);
 
         // 3. DB 내에 회사 저장
-        Company company = companyMapper.openAPIDTOToCompany(request);
+        Company company = companyByFssId.orElseGet(() -> companyMapper.openAPIDTOToCompany(request));
         companyRepository.save(company);
 
         // 4. DB 내에 이미지 저장
         CompanyImage image = companyImageMapper.urlToCompanyImage(url, file, company);
+        companyImageRepository.deleteByCompanyId(company.getId());
         companyImageRepository.save(image);
 
         // 5. 관리자에게 회사 등록해주기
-        User admin = findAdminById(user.getId());
         admin.joinCompany(company);
     }
 

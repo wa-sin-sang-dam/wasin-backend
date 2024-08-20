@@ -3,10 +3,14 @@ package com.wasin.backend.domain.validation;
 import com.wasin.backend._core.exception.BaseException;
 import com.wasin.backend._core.exception.error.BadRequestException;
 import com.wasin.backend.domain.dto.CompanyRequest;
+import com.wasin.backend.domain.entity.Company;
+import com.wasin.backend.domain.entity.User;
 import com.wasin.backend.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -17,9 +21,9 @@ public class CompanyValidation {
 
     private final CompanyRepository companyRepository;
 
-    public void checkCompanyByOpenAPI(CompanyRequest.CompanyDTO companyDTO) {
+    public void checkCompanyByOpenAPI(CompanyRequest.CompanyDTO companyDTO, User user, Optional<Company> company) {
         checkServiceKey(companyDTO.serviceKey());
-        checkCompanyNotExist(companyDTO);
+        checkCompany(user, company);
     }
 
     private void checkServiceKey(String key) {
@@ -28,10 +32,23 @@ public class CompanyValidation {
         }
     }
 
-    private void checkCompanyNotExist(CompanyRequest.CompanyDTO companyDTO) {
-        if (companyRepository.findByFssId(companyDTO.companyFssId()).isPresent()) {
-            throw new BadRequestException(BaseException.COMPANY_ALREADY_EXIST);
+    private void checkCompany(User user, Optional<Company> company) {
+        if (user.getCompany() == null) {
+            if (company.isPresent()) {
+                throw new BadRequestException(BaseException.COMPANY_ALREADY_EXIST);
+            }
         }
+        else {
+            if (company.isPresent()) {
+                if (!company.get().getId().equals(user.getCompany().getId())) {
+                    throw new BadRequestException(BaseException.COMPANY_WRONG);
+                }
+            }
+            else {
+                throw new BadRequestException(BaseException.USER_COMPANY_EXIST);
+            }
+        }
+
     }
 
 }

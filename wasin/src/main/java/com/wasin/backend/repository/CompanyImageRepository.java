@@ -9,4 +9,5 @@ public interface CompanyImageRepository extends JpaRepository<CompanyImage, Long
 
     Optional<CompanyImage> findByCompanyId(Long companyId);
 
+    void deleteByCompanyId(Long companyId);
 }
