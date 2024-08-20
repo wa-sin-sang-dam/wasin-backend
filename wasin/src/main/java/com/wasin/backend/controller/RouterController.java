@@ -46,7 +46,7 @@ public class RouterController {
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
-    @DeleteMapping("/{router_id}")
+    @PostMapping("/delete/{router_id}")
     public ResponseEntity<?> delete(@AuthenticationPrincipal CustomUserDetails userDetails,
                                     @PathVariable(name="router_id") Long router_id) {
         routerService.delete(userDetails.getUser(), router_id);
