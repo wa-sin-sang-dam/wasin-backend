@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
         User u = userJPARepository.findById(user.getId()).orElseThrow(
                 () -> new NotFoundException(BaseException.USER_NOT_FOUND)
         );
+        userValidation.checkIsNotSuperAdmin(u);
         userJPARepository.delete(u);
     }
 

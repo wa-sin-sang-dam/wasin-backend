@@ -217,7 +217,7 @@ public class UserControllerTest extends TestModule {
     @DisplayName("회원탈퇴 테스트")
     class WithdrawTest {
 
-        @WithUserDetails(SUPER_ADMIN_EMAIL)
+        @WithUserDetails(ADMIN_ACTIVE_EMAIL)
         @DisplayName("성공")
         @Test
         public void success() throws Exception {
