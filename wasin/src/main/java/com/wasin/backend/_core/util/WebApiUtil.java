@@ -120,7 +120,7 @@ public class WebApiUtil {
                 .queryParam("corpNm", URLEncoder.encode(name))
                 .queryParam("pageNo", 1)
                 .queryParam("serviceKey", serviceKey)
-                .queryParam("numOfRows", 1000000L)
+                .queryParam("numOfRows", 100000)
                 .queryParam("resultType", "json")
                 .build();
     }
