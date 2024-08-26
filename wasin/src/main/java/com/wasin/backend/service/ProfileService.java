@@ -4,7 +4,7 @@ import com.wasin.backend.domain.dto.ProfileResponse;
 import com.wasin.backend.domain.entity.User;
 
 public interface ProfileService {
-    ProfileResponse.FindAll findAll();
+    ProfileResponse.FindAll findAll(User userDetails);
 
     void changeModeAuto(User user);
 

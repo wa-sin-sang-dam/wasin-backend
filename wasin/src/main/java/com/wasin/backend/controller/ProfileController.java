@@ -18,8 +18,8 @@ public class ProfileController {
 
     // 프로파일 조회
     @GetMapping("")
-    public ResponseEntity<?> findAll() {
-        ProfileResponse.FindAll response = profileService.findAll();
+    public ResponseEntity<?> findAll(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        ProfileResponse.FindAll response = profileService.findAll(userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 

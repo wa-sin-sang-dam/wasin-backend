@@ -5,6 +5,8 @@ import java.util.List;
 public class ProfileResponse {
 
     public record FindAll(
+            Boolean isAuto,
+            Long activeProfileId,
             List<ProfileEachDTO> profiles
     ) {
     }

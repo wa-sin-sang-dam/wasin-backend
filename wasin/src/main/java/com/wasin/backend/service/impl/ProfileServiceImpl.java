@@ -26,9 +26,10 @@ public class ProfileServiceImpl implements ProfileService {
     private final ProfileJPARepository profileJPARepository;
     private final UserJPARepository userJPARepository;
 
-    public ProfileResponse.FindAll findAll() {
+    public ProfileResponse.FindAll findAll(User userDetails) {
         List<Profile> profileList = profileJPARepository.findAll();
-        return profileMapper.profileToFindAllDTO(profileList);
+        User user = findUserById(userDetails.getId());
+        return profileMapper.profileToFindAllDTO(profileList, user);
     }
 
     @Transactional
