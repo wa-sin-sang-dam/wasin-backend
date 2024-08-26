@@ -3,6 +3,7 @@ package com.wasin.backend.domain.mapper;
 import com.wasin.backend.domain.dto.ProfileDTO;
 import com.wasin.backend.domain.dto.ProfileResponse;
 import com.wasin.backend.domain.entity.Profile;
+import com.wasin.backend.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,12 @@ import java.util.List;
 @Component
 public class ProfileMapper {
 
-    public ProfileResponse.FindAll profileToFindAllDTO(List<Profile> profileList) {
+    public ProfileResponse.FindAll profileToFindAllDTO(List<Profile> profileList, User user) {
+        Profile profile = user.getCompany().getProfile();
+        Long profileId = (profile == null) ? -1L : profile.getId();
         return new ProfileResponse.FindAll(
+                user.getCompany().getIsAuto(),
+                profileId,
                 profileList.stream().map(it -> new ProfileResponse.ProfileEachDTO(
                         it.getId(),
                         it.getTitle(),
