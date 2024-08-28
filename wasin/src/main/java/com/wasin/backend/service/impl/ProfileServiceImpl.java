@@ -37,8 +37,6 @@ public class ProfileServiceImpl implements ProfileService {
         User user = findUserById(userDetails.getId());
         profileValidation.checkIsManual(user.getCompany());
         user.getCompany().changeModeAuto();
-
-        // todo: 그라파나 alert 활성화
     }
 
     @Transactional
@@ -46,19 +44,15 @@ public class ProfileServiceImpl implements ProfileService {
         User user = findUserById(userDetails.getId());
         profileValidation.checkIsAuto(user.getCompany());
         user.getCompany().changeModeManual();
-
-        // todo: 그라파나 alert 비활성화
     }
 
     @Transactional
     public void changeProfile(User userDetails, Long profileId) {
         User user = findUserById(userDetails.getId());
-        Profile profile = profileJPARepository.findById(profileId).orElseThrow(
-                () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
-
-        // 모드가 수동일 경우에만 변경 가능
         profileValidation.checkIsManual(user.getCompany());
 
+        Profile profile = profileJPARepository.findById(profileId).orElseThrow(
+                () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
         user.getCompany().addProfile(profile);
 
         // todo: 내현 서버 ssh 접속해서 프로필 변경 실행
