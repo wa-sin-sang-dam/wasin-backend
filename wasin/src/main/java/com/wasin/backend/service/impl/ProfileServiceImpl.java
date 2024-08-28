@@ -49,10 +49,10 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public void changeProfile(User userDetails, Long profileId) {
         User user = findUserById(userDetails.getId());
-        profileValidation.checkIsManual(user.getCompany());
-
         Profile profile = profileJPARepository.findById(profileId).orElseThrow(
                 () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
+
+        profileValidation.checkIsManual(user.getCompany());
         user.getCompany().addProfile(profile);
 
         // todo: 내현 서버 ssh 접속해서 프로필 변경 실행
