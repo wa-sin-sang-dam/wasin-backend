@@ -12,11 +12,11 @@ public class RouterResponse {
     public record WifiNetworkQuality(String __name__, String bssid, String channel, String country, String device,
                  String frequency, String ifname, String instance, String job, String mode, String ssid) { }
 
-    public record EachRouter (Long routerId, String name, String state, Double positionX, Double positionY) { }
+    public record EachRouter (Long routerId, String name, Long score, Double positionX, Double positionY) { }
 
     public record CompanyImageDTO(String companyImage, Integer imageHeight, Integer imageWidth){ }
 
-    public record RouterInformationDTO(String name, String ssid, String macAddress, String instance, String state, Double positionX, Double positionY){ }
+    public record RouterInformationDTO(String name, String ssid, String macAddress, String instance, Long state, Double positionX, Double positionY){ }
 
     public record RouterResult(Results results) {}
 
