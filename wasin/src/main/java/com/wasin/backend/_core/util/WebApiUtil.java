@@ -15,6 +15,7 @@ import org.springframework.web.util.UriBuilder;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 @Slf4j
@@ -75,36 +76,54 @@ public class WebApiUtil {
         }
     }
 
-    public String getRouterState(Router router) {
-        try  {
-            RouterResponse.Queries requestDTO = gerRequestDTO(router);
-            long value = webClient.mutate()
-                    .build()
-                    .post()
-                    .uri("http://grafana.daily-cotidie.com/api/ds/query")
-                    .bodyValue(requestDTO)
-                    .header("Authorization", "Bearer " + grafanaHeader)
-                    .retrieve()
-                    .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
-                            clientResponse -> clientResponse
-                                    .bodyToMono(String.class)
-                                    .map(body -> new ServerException(BaseException.GRAFANA_REQUEST_FAIL)))
-                    .bodyToMono(RouterResponse.RouterResult.class)
-                    .block()
-                    .results().A().frames().get(0).data().values().get(1).get(0);
+    public Long getWifiState(Router router) {
+        try {
+            String expr = "wifi_network_quality{instance=~\""           + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"} " +
+                    "* (1 - 0.3 * (wifi_network_bitrate{instance=~\""   + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"} " +
+                    "- min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])) " +
+                    "/ (1 + max_over_time(wifi_network_bitrate{instance=~\""  + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h]) " +
+                    "- min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])))";
+            RouterResponse.Queries requestDTO = gerRequestDTO(expr);
 
-            log.debug("개수 " + value);
-            if (value <= 10) return "쾌적";
-            else return "포화";
-
+            return getResult(requestDTO);
         } catch(Exception e) {
             log.debug(e.getMessage());
             throw new ServerException(BaseException.GRAFANA_SERVER_FAIL);
         }
     }
 
-    private RouterResponse.Queries gerRequestDTO(Router router) {
-        String expr = "sum(wifi_stations{instance=\"" + router.getInstance() + "\", job=\"" +  router.getJob() + "\"})";
+
+    public Long getRouterState(Router router) {
+        try  {
+            String expr = "avg(wifi_network_quality{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) * " +
+                    "(1 - avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) / " +
+                    " count(count(node_cpu_seconds_total{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) by (cpu)))";
+            RouterResponse.Queries requestDTO = gerRequestDTO(expr);
+            return getResult(requestDTO);
+        } catch(Exception e) {
+            log.debug(e.getMessage());
+            throw new ServerException(BaseException.GRAFANA_SERVER_FAIL);
+        }
+    }
+
+    private Long getResult(RouterResponse.Queries requestDTO) {
+        return Objects.requireNonNull(webClient.mutate()
+                        .build()
+                        .post()
+                        .uri("http://grafana.daily-cotidie.com/api/ds/query")
+                        .bodyValue(requestDTO)
+                        .header("Authorization", "Bearer " + grafanaHeader)
+                        .retrieve()
+                        .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
+                                clientResponse -> clientResponse
+                                        .bodyToMono(String.class)
+                                        .map(body -> new ServerException(BaseException.GRAFANA_REQUEST_FAIL)))
+                        .bodyToMono(RouterResponse.RouterResult.class)
+                        .block())
+                .results().A().frames().get(0).data().values().get(1).get(0);
+    }
+
+    private RouterResponse.Queries gerRequestDTO(String expr) {
         String type = "prometheus";
         String refId = "A";
         RouterResponse.Queries requestDTO = new RouterResponse.Queries(
