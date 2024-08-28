@@ -66,4 +66,11 @@ public class User {
         this.company = company;
     }
 
+    public void changeModeAuto() {
+        this.isModeAuto = true;
+    }
+
+    public void changeModeManual() {
+        this.isModeAuto = false;
+    }
 }

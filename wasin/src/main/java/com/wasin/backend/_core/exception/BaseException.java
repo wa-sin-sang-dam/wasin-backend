@@ -69,6 +69,9 @@ public enum BaseException {
     PROFILE_NOT_FOUND("프로파일이 존재하지 않습니다.", HttpStatus.NOT_FOUND),
     SUPER_ADMIN_WITHDRAW_FAIL("회사 당 반드시 1명의 최종관리자가 있어야 하므로 회원탈퇴가 불가능합니다.", HttpStatus.BAD_REQUEST),
 
+    HANDOFF_ALREADY_MANUAL("이미 핸드오프는 수동으로 동작합니다.", HttpStatus.BAD_REQUEST),
+    HANDOFF_ALREADY_AUTO("이미 핸드오프는 자동으로 동작합니다.", HttpStatus.BAD_REQUEST),
+
     ;
 
 
