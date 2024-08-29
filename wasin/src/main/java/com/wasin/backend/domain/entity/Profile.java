@@ -1,7 +1,6 @@
 package com.wasin.backend.domain.entity;
 
 
-import com.wasin.backend.domain.dto.ProfileDTO;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,10 +39,4 @@ public class Profile {
         this.tip = tip;
     }
 
-    public void update(ProfileDTO dto) {
-        this.index = dto.getIndex();
-        this.title = title;
-        this.description = description;
-        this.tip = tip;
-    }
 }
