@@ -79,7 +79,7 @@ INSERT INTO profile_tb (`profile_id`, `profile_index`, `title`, `description`, `
 
 INSERT INTO company_tb (`company_id`, `profile_id`, `fss_id`, `name`, `location`, `is_auto`, `last_updated`) VALUES
 (1, 1, '12345-55555-3663', '원정이의 집', '부산광역시 수영구 민락동', true, '2024-08-29 12:00:00'),
-(2, 2, '23456-55555-3663', '원석이의 집', '부산광역시 금정구 장전동', false, '2024-08-29 12:00:00');
+(2, 1, '23456-55555-3663', '원석이의 집', '부산광역시 금정구 장전동', false, null);
 
 -- 패스워드: password1@
 INSERT INTO user_tb (`user_id`, `username`,`email`,`password`,`lock_password`, `role`,`status`,`is_mode_auto`, `company_id`) VALUES
