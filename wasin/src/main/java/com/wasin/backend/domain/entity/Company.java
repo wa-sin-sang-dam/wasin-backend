@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -36,6 +38,9 @@ public class Company {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
+    @Column(name = "last_updated")
+    private LocalDateTime lastUpdated;
+
     @Builder
     public Company(Long id, String fssId, String name, String location, Boolean isAuto, Profile profile) {
         this.id = id;
@@ -48,6 +53,7 @@ public class Company {
 
     public void addProfile(Profile profile) {
         this.profile = profile;
+        this.lastUpdated = LocalDateTime.now();
     }
 
     public void changeModeAuto() {
