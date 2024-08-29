@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -49,6 +51,15 @@ public class CompanyValidation {
             }
         }
 
+    }
+
+    public void checkLastUpdated(LocalDateTime lastUpdated) {
+        if (lastUpdated == null) return;
+
+        Duration duration = Duration.between(lastUpdated, LocalDateTime.now());
+        if (duration.toMinutes() < 30) {
+            throw new BadRequestException(BaseException.PROFILE_UPDATED_JUST_NOW);
+        }
     }
 
 }

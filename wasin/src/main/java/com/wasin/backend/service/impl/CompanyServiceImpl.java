@@ -9,12 +9,14 @@ import com.wasin.backend.domain.dto.CompanyRequest;
 import com.wasin.backend.domain.dto.CompanyResponse;
 import com.wasin.backend.domain.entity.Company;
 import com.wasin.backend.domain.entity.CompanyImage;
+import com.wasin.backend.domain.entity.Profile;
 import com.wasin.backend.domain.entity.User;
 import com.wasin.backend.domain.mapper.CompanyImageMapper;
 import com.wasin.backend.domain.mapper.CompanyMapper;
 import com.wasin.backend.domain.validation.CompanyValidation;
 import com.wasin.backend.repository.CompanyImageRepository;
 import com.wasin.backend.repository.CompanyRepository;
+import com.wasin.backend.repository.ProfileJPARepository;
 import com.wasin.backend.repository.UserJPARepository;
 import com.wasin.backend.service.CompanyService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final UserJPARepository userJPARepository;
     private final CompanyImageRepository companyImageRepository;
     private final CompanyRepository companyRepository;
+    private final ProfileJPARepository profileJPARepository;
 
     private final CompanyValidation companyValidation;
     private final CompanyMapper companyMapper;
@@ -69,7 +72,8 @@ public class CompanyServiceImpl implements CompanyService {
         String url = awsFileUtil.upload(file);
 
         // 3. DB 내에 회사 저장
-        Company company = companyByFssId.orElseGet(() -> companyMapper.openAPIDTOToCompany(request));
+        Profile profile = findDefaultProfile();
+        Company company = companyByFssId.orElseGet(() -> companyMapper.openAPIDTOToCompany(request, profile));
         companyRepository.save(company);
 
         // 4. DB 내에 이미지 저장
@@ -90,6 +94,12 @@ public class CompanyServiceImpl implements CompanyService {
         // 관리자에게 회사 등록해주기
         User admin = findAdminById(user.getId());
         admin.joinCompany(company);
+    }
+
+    private Profile findDefaultProfile() {
+        return profileJPARepository.findByIndex(1L).orElseThrow(
+                () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND)
+        );
     }
 
     private User findAdminById(Long userId) {

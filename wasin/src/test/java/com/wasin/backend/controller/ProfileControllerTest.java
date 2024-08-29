@@ -148,7 +148,7 @@ public class ProfileControllerTest extends TestModule {
 
             // when
             ResultActions result = mvc.perform(
-                    MockMvcRequestBuilders.post("/profile/1")
+                    MockMvcRequestBuilders.post("/profile/3")
             );
             logResult(result);
 

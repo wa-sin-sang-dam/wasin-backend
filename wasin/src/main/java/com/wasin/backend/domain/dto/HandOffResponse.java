@@ -21,6 +21,7 @@ public class HandOffResponse {
             Long score,
             String ssid,
             String macAddress,
+            String password,
             Boolean isSystemExist
     ) implements Comparable<RouterWithStateDTO> {
         @Override

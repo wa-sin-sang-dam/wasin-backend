@@ -25,6 +25,9 @@ public class RouterMapper {
                 .name(requestDTO.name())
                 .ssid(prometheusRouter.ssid())
                 .instance(prometheusRouter.instance())
+                .serialNumber(requestDTO.serialNumber())
+                .password(requestDTO.password())
+                .port(requestDTO.port())
                 .job(prometheusRouter.job())
                 .positionX(requestDTO.positionX())
                 .positionY(requestDTO.positionY())
@@ -44,6 +47,9 @@ public class RouterMapper {
                         router.getSsid(),
                         router.getMacAddress(),
                         router.getInstance(),
+                        router.getSerialNumber(),
+                        router.getPassword(),
+                        router.getPort(),
                         webApiUtil.getRouterState(router),
                         router.getPositionX(),
                         router.getPositionY()

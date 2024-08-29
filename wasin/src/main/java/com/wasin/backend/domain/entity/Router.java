@@ -35,6 +35,15 @@ public class Router {
     @Column
     private String job;
 
+    @Column(name = "serial_number")
+    private String serialNumber;
+
+    @Column
+    private String password;
+
+    @Column
+    private String port;
+
     @Column(name = "position_x")
     private Double positionX;
 
@@ -47,13 +56,17 @@ public class Router {
     private Company company;
 
     @Builder
-    public Router(Long id, String macAddress, String name, String ssid, String instance, String job, Double positionX, Double positionY, Company company) {
+    public Router(Long id, String macAddress, String name, String ssid, String instance, String job, String serialNumber,
+                  String password, String port, Double positionX, Double positionY, Company company) {
         this.id = id;
         this.macAddress = macAddress;
         this.name = name;
         this.ssid = ssid;
         this.instance = instance;
         this.job = job;
+        this.serialNumber = serialNumber;
+        this.password = password;
+        this.port = port;
         this.positionX = positionX;
         this.positionY = positionY;
         this.company = company;
@@ -63,5 +76,6 @@ public class Router {
         this.name = requestDTO.name();
         this.positionX = requestDTO.positionX();
         this.positionY = requestDTO.positionY();
+        this.password = requestDTO.password();
     }
 }

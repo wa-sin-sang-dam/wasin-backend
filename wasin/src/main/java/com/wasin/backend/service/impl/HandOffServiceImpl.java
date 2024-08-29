@@ -66,16 +66,24 @@ public class HandOffServiceImpl implements HandOffService {
                     getScore(router),
                     it.ssid(),
                     it.macAddress(),
+                    getPassword(router),
                     router.isPresent()
             );
         }).sorted().toList();
+    }
+
+    private String getPassword(Optional<Router> router) {
+        if (router.isPresent()) {
+            return router.get().getPassword();
+        }
+        return "";
     }
 
     private Long getScore(Optional<Router> router) {
         if (router.isPresent()) {
             return webApiUtil.getWifiState(router.get());
         }
-        return 0L;
+        return -1L;
     }
 
     private User findUserById(Long id) {

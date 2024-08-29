@@ -72,7 +72,7 @@ public enum BaseException {
     HANDOFF_ALREADY_MANUAL("이미 핸드오프는 수동으로 동작합니다.", HttpStatus.BAD_REQUEST),
     HANDOFF_ALREADY_AUTO("이미 핸드오프는 자동으로 동작합니다.", HttpStatus.BAD_REQUEST),
 
-    ;
+    PROFILE_UPDATED_JUST_NOW( "최근 프로파일이 변경된지 30분 이후 변경 가능합니다.", HttpStatus.BAD_REQUEST);
 
 
     @Getter

@@ -27,6 +27,7 @@ create table company_tb (
      fss_id varchar(255),
      location varchar(255),
      name varchar(255),
+     last_updated datetime(6),
      is_auto bit,
      primary key (company_id),
      CONSTRAINT fk_company_profile FOREIGN KEY (profile_id) REFERENCES profile_tb(profile_id) ON DELETE CASCADE
@@ -52,6 +53,9 @@ create table router_tb (
     mac_address varchar(255),
     router_name varchar(255),
     ssid varchar(255),
+    serial_number varchar(255),
+    password varchar(255),
+    port varchar(255),
     primary key (router_id),
     CONSTRAINT fk_router_company FOREIGN KEY (company_id) REFERENCES company_tb(company_id) ON DELETE CASCADE
 );
@@ -73,9 +77,9 @@ INSERT INTO profile_tb (`profile_id`, `profile_index`, `title`, `description`, `
 (3, 3, '테스트 제목3', '테스트 설명3', '테스트 팁3'),
 (4, 4, '테스트 제목4', '테스트 설명4', '테스트 팁4');
 
-INSERT INTO company_tb (`company_id`, `profile_id`, `fss_id`, `name`, `location`, `is_auto`) VALUES
-(1, 1, '12345-55555-3663', '원정이의 집', '부산광역시 수영구 민락동', true),
-(2, 2, '23456-55555-3663', '원석이의 집', '부산광역시 금정구 장전동', false);
+INSERT INTO company_tb (`company_id`, `profile_id`, `fss_id`, `name`, `location`, `is_auto`, `last_updated`) VALUES
+(1, 1, '12345-55555-3663', '원정이의 집', '부산광역시 수영구 민락동', true, '2024-08-29 12:00:00'),
+(2, 1, '23456-55555-3663', '원석이의 집', '부산광역시 금정구 장전동', false, null);
 
 -- 패스워드: password1@
 INSERT INTO user_tb (`user_id`, `username`,`email`,`password`,`lock_password`, `role`,`status`,`is_mode_auto`, `company_id`) VALUES
@@ -92,5 +96,6 @@ INSERT INTO user_tb (`user_id`, `username`,`email`,`password`,`lock_password`, `
 INSERT INTO company_image_tb (`company_image_id`, `company_id`, `url`, `height`, `width`) VALUES
 (1, 1, 'https://static.wixstatic.com/media/d465da_ed07388770a5418f8db3cf4e37573c47.jpg/v1/fill/w_342,h_336,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/d465da_ed07388770a5418f8db3cf4e37573c47', 1243, 56352);
 
-INSERT INTO router_tb (`router_id`, `company_id`, `mac_address`, `router_name`, `ssid`, `instance`, `job`, `position_x`, `position_y`) VALUES
-(1, 1, '5a:86:94:7f:b4:c7', '휴게실 Wifi', 'ipTIMEOpenWrt', '219.241.29.68:9100', 'routers', 124.32, 1653.22);
+INSERT INTO router_tb (`router_id`, `company_id`, `mac_address`, `router_name`, `ssid`, `instance`, `job`,
+                       `serial_number`, `password`, `port`, `position_x`, `position_y`) VALUES
+(1, 1, '5a:86:94:7f:b4:c7', '휴게실 Wifi', 'ipTIMEOpenWrt', '219.241.29.68:9100', 'routers', 'serial num', 'hello', '1234', 124.32, 1653.22);

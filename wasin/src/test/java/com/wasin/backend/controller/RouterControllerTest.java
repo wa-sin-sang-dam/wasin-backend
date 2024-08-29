@@ -116,7 +116,7 @@ public class RouterControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            RouterRequest.CreateDTO requestDTO = new RouterRequest.CreateDTO("라우터 이름", "58:86:94:7f:b4:c4", 1543.33, 25.34);
+            RouterRequest.CreateDTO requestDTO = new RouterRequest.CreateDTO("라우터 이름", "58:86:94:7f:b4:c4", "serialNum", "password", "8080", 1543.33, 25.34);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // when
@@ -136,7 +136,7 @@ public class RouterControllerTest extends TestModule {
         @Test
         public void fail() throws Exception {
             // given
-            RouterRequest.CreateDTO requestDTO = new RouterRequest.CreateDTO("라우터 이름", "22:86:94:7f:b4:c7", 1543.33, 25.34);
+            RouterRequest.CreateDTO requestDTO = new RouterRequest.CreateDTO("라우터 이름", "22:86:94:7f:b4:c7", "serialNum", "password", "8080", 1543.33, 25.34);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // when
@@ -164,7 +164,7 @@ public class RouterControllerTest extends TestModule {
         @Test
         public void success() throws Exception {
             // given
-            RouterRequest.UpdateDTO requestDTO = new RouterRequest.UpdateDTO("라우터 수정",133.33, 25.34);
+            RouterRequest.UpdateDTO requestDTO = new RouterRequest.UpdateDTO("라우터 수정", "new password", 133.33, 25.34);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // when
@@ -184,7 +184,7 @@ public class RouterControllerTest extends TestModule {
         @Test
         public void fail() throws Exception {
             // given
-            RouterRequest.UpdateDTO requestDTO = new RouterRequest.UpdateDTO("라우터 수정",133.33, 25.34);
+            RouterRequest.UpdateDTO requestDTO = new RouterRequest.UpdateDTO("라우터 수정","new password", 133.33, 25.34);
             String requestBody = om.writeValueAsString(requestDTO);
 
             // when

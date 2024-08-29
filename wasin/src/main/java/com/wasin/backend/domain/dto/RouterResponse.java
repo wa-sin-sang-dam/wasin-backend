@@ -16,7 +16,8 @@ public class RouterResponse {
 
     public record CompanyImageDTO(String companyImage, Integer imageHeight, Integer imageWidth){ }
 
-    public record RouterInformationDTO(String name, String ssid, String macAddress, String instance, Long state, Double positionX, Double positionY){ }
+    public record RouterInformationDTO(String name, String ssid, String macAddress, String instance, String serialNumber,
+                                       String password, String port, Long score, Double positionX, Double positionY){ }
 
     public record RouterResult(Results results) {}
 
