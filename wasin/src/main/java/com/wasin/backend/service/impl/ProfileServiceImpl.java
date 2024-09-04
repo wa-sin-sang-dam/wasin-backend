@@ -56,7 +56,7 @@ public class ProfileServiceImpl implements ProfileService {
         Profile profile = profileJPARepository.findById(profileId).orElseThrow(
                 () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
 
-        profileValidation.checkIsManual(company);
+        profileValidation.checkChangeable(company, profileId);
         companyValidation.checkLastUpdated(company.getLastUpdated());
 
         user.getCompany().addProfile(profile);
