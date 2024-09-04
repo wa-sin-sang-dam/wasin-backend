@@ -66,16 +66,17 @@ create table profile_tb (
     title varchar(1000),
     description varchar(3000),
     tip varchar(3000),
+    ssh varchar(3000),
     primary key (profile_id)
 );
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO profile_tb (`profile_id`, `profile_index`, `title`, `description`, `tip`) VALUES
-(1, 1, '테스트 제목1', '테스트 설명1', '테스트 팁1'),
-(2, 2, '테스트 제목2', '테스트 설명2', '테스트 팁2'),
-(3, 3, '테스트 제목3', '테스트 설명3', '테스트 팁3'),
-(4, 4, '테스트 제목4', '테스트 설명4', '테스트 팁4');
+INSERT INTO profile_tb (`profile_id`, `profile_index`, `title`, `description`, `tip`, `ssh`) VALUES
+(1, 1, '테스트 제목1', '테스트 설명1', '테스트 팁1', 'test'),
+(2, 2, '테스트 제목2', '테스트 설명2', '테스트 팁2', 'test2'),
+(3, 3, '테스트 제목3', '테스트 설명3', '테스트 팁3', 'test3'),
+(4, 4, '테스트 제목4', '테스트 설명4', '테스트 팁4', 'test4');
 
 INSERT INTO company_tb (`company_id`, `profile_id`, `fss_id`, `name`, `location`, `is_auto`, `last_updated`) VALUES
 (1, 1, '12345-55555-3663', '원정이의 집', '부산광역시 수영구 민락동', true, '2024-08-29 12:00:00'),

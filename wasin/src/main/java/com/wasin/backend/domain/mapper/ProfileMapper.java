@@ -36,6 +36,7 @@ public class ProfileMapper {
                         .title(profileDTO.getTitle())
                         .description(profileDTO.getDescription())
                         .tip(profileDTO.getTip())
+                        .ssh(profileDTO.getSsh())
                         .build()
                 ).toList();
     }
@@ -47,7 +48,8 @@ public class ProfileMapper {
                             profile.getIndex(),
                             profile.getTitle(),
                             profile.getDescription(),
-                            profile.getTip()
+                            profile.getTip(),
+                            profile.getSsh()
                     )
                 ).toList();
     }

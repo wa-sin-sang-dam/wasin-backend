@@ -83,7 +83,7 @@ public class WebApiUtil {
                     "- min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])) " +
                     "/ (1 + max_over_time(wifi_network_bitrate{instance=~\""  + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h]) " +
                     "- min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])))";
-            RouterResponse.Queries requestDTO = gerRequestDTO(expr);
+            RouterResponse.Queries requestDTO = getRequestDTO(expr);
 
             return getResult(requestDTO);
         } catch(Exception e) {
@@ -98,7 +98,7 @@ public class WebApiUtil {
             String expr = "avg(wifi_network_quality{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) * " +
                     "(1 - avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) / " +
                     " count(count(node_cpu_seconds_total{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) by (cpu)))";
-            RouterResponse.Queries requestDTO = gerRequestDTO(expr);
+            RouterResponse.Queries requestDTO = getRequestDTO(expr);
             return getResult(requestDTO);
         } catch(Exception e) {
             log.debug(e.getMessage());
@@ -123,7 +123,7 @@ public class WebApiUtil {
                 .results().A().frames().get(0).data().values().get(1).get(0);
     }
 
-    private RouterResponse.Queries gerRequestDTO(String expr) {
+    private RouterResponse.Queries getRequestDTO(String expr) {
         String type = "prometheus";
         String refId = "A";
         RouterResponse.Queries requestDTO = new RouterResponse.Queries(

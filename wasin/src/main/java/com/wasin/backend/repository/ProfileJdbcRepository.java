@@ -15,8 +15,8 @@ public class ProfileJdbcRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public void saveAll(List<Profile> profileList) {
-        String sql = "INSERT INTO profile_tb (profile_index, title, description, tip) " +
-                "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO profile_tb (profile_index, title, description, tip, ssh) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(
                 sql,
@@ -27,6 +27,7 @@ public class ProfileJdbcRepository {
                     ps.setString(2, profile.getTitle());
                     ps.setString(3, profile.getDescription());
                     ps.setString(4, profile.getTip());
+                    ps.setString(5, profile.getSsh());
                 }
         );
     }

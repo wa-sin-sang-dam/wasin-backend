@@ -2,6 +2,7 @@ package com.wasin.backend.service.impl;
 
 import com.wasin.backend._core.exception.BaseException;
 import com.wasin.backend._core.exception.error.NotFoundException;
+import com.wasin.backend._core.util.SshConnectionUtil;
 import com.wasin.backend.domain.dto.ProfileResponse;
 import com.wasin.backend.domain.entity.Company;
 import com.wasin.backend.domain.entity.Profile;
@@ -28,6 +29,7 @@ public class ProfileServiceImpl implements ProfileService {
     private final CompanyValidation companyValidation;
     private final ProfileJPARepository profileJPARepository;
     private final UserJPARepository userJPARepository;
+    private final SshConnectionUtil sshConnectionUtil;
 
     public ProfileResponse.FindAll findAll(User userDetails) {
         List<Profile> profileList = profileJPARepository.findAll();
@@ -56,13 +58,11 @@ public class ProfileServiceImpl implements ProfileService {
         Profile profile = profileJPARepository.findById(profileId).orElseThrow(
                 () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
 
-        profileValidation.checkIsManual(company);
+        profileValidation.checkChangeable(company, profileId);
         companyValidation.checkLastUpdated(company.getLastUpdated());
 
         user.getCompany().addProfile(profile);
-
-        // todo: 내현 서버 ssh 접속해서 프로필 변경 실행
-
+        sshConnectionUtil.connect("cd ./test_excute; ./" + profile.getSsh());
     }
 
     private User findUserById(Long userId) {

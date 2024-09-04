@@ -1,18 +1,25 @@
 package com.wasin.backend.controller;
 
 import com.wasin.backend._core.exception.BaseException;
+import com.wasin.backend._core.util.SshConnectionUtil;
 import com.wasin.backend.util.TestModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @DisplayName("프로파일 통합 테스트")
 public class ProfileControllerTest extends TestModule {
+
+    @MockBean
+    private SshConnectionUtil sshConnectionUtil;
 
     @Nested
     @DisplayName("프로파일 전체 조회")
@@ -23,6 +30,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
+            willDoNothing().given(sshConnectionUtil).connect(any());
 
             // when
             ResultActions result = mvc.perform(
@@ -148,7 +156,7 @@ public class ProfileControllerTest extends TestModule {
 
             // when
             ResultActions result = mvc.perform(
-                    MockMvcRequestBuilders.post("/profile/3")
+                    MockMvcRequestBuilders.post("/profile/2")
             );
             logResult(result);
 
