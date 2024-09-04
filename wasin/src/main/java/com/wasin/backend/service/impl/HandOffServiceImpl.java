@@ -63,7 +63,7 @@ public class HandOffServiceImpl implements HandOffService {
             Optional<Router> router = routerJPARepository.findByMacAddress(it.macAddress());
             return new HandOffResponse.RouterWithStateDTO(
                     it.level(),
-                    getScore(router),
+                    getScore(it.level(), router),
                     it.ssid(),
                     it.macAddress(),
                     getPassword(router),
@@ -79,11 +79,13 @@ public class HandOffServiceImpl implements HandOffService {
         return "";
     }
 
-    private Long getScore(Optional<Router> router) {
+    private Long getScore(Long level, Optional<Router> router) {
+        long w = 0;
+        double r = 0.3;
         if (router.isPresent()) {
-            return webApiUtil.getWifiState(router.get());
+            w = webApiUtil.getWifiState(router.get());
         }
-        return -1L;
+        return (long) (level * 25 * (1 - r) + (w * r));
     }
 
     private User findUserById(Long id) {
