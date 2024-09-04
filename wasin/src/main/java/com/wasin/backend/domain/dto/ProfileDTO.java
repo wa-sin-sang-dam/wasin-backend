@@ -11,12 +11,14 @@ public class ProfileDTO {
     private String title;
     private String description;
     private String tip;
+    private String ssh;
 
-    public ProfileDTO(Long index, String title, String description, String tip) {
+    public ProfileDTO(Long index, String title, String description, String tip, String ssh) {
         this.index = index;
         this.title = title;
         this.description = description;
         this.tip = tip;
+        this.ssh = ssh;
     }
 
     @Override

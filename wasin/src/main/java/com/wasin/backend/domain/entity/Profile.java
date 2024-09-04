@@ -30,13 +30,17 @@ public class Profile {
     @Column(length = 3000)
     private String tip;
 
+    @Column(length = 3000)
+    private String ssh;
+
     @Builder
-    public Profile(Long id, Long index, String title, String description, String tip) {
+    public Profile(Long id, Long index, String title, String description, String tip, String ssh) {
         this.id = id;
         this.index = index;
         this.title = title;
         this.description = description;
         this.tip = tip;
+        this.ssh = ssh;
     }
 
 }
