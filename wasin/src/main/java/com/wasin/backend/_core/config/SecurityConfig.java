@@ -92,6 +92,9 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(
+                                new AntPathRequestMatcher("/alert/**")
+                        ).permitAll()
+                        .requestMatchers(
                                 new AntPathRequestMatcher("/hand-off/**")
                         ).hasAuthority("user")
                         .requestMatchers(
