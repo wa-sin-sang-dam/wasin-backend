@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SshConnectionUtil {
 
-    @Value("${kwon.host}")
-    private String host;
-
     @Value("${kwon.username}")
     private String username;
 
@@ -24,7 +21,7 @@ public class SshConnectionUtil {
     private Session session = null;
     private Channel channel = null;
 
-    public void connect(String command) {
+    public void connect(String command, String host) {
         try {
             // 01. JSch 객체를 생성한다.
             JSch jsch = new JSch();
