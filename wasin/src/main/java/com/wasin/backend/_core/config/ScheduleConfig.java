@@ -12,7 +12,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Arrays;
@@ -37,7 +37,7 @@ public class ScheduleConfig {
     @Scheduled(cron = "0 0 3 * * *", zone = "Asia/Seoul")
     public void scheduleProfileSave() {
         try {
-            FileSystemResource file = new FileSystemResource("./src/main/resources/static/profiles.json");
+            ClassPathResource file = new ClassPathResource("static/profiles.json");
             List<ProfileDTO> profileFileList = Arrays.asList(om.readValue(file.getFile(), ProfileDTO[].class));
             List<Profile> profileDBList = profileJPARepository.findAll();
 
