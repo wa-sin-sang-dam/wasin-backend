@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,8 @@ public class ScheduleConfig {
     public void scheduleProfileSave() {
         try {
             ClassPathResource file = new ClassPathResource("static/profiles.json");
-            List<ProfileDTO> profileFileList = Arrays.asList(om.readValue(file.getFile(), ProfileDTO[].class));
+            InputStream inputstream = file.getInputStream();
+            List<ProfileDTO> profileFileList = Arrays.asList(om.readValue(inputstream, ProfileDTO[].class));
             List<Profile> profileDBList = profileJPARepository.findAll();
 
             // DB 상에 있는 프로파일과 일치하지 않으면 업데이트
