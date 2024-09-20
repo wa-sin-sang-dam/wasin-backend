@@ -10,6 +10,7 @@ import com.wasin.backend.repository.ProfileJPARepository;
 import com.wasin.backend.repository.ProfileJdbcRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class ScheduleConfig {
@@ -29,13 +31,13 @@ public class ScheduleConfig {
 
     @PostConstruct
     public void init() {
-        schedule();
+        scheduleProfileSave();
     }
 
     @Scheduled(cron = "0 0 3 * * *", zone = "Asia/Seoul")
-    public void schedule() {
+    public void scheduleProfileSave() {
         try {
-            FileSystemResource file = new FileSystemResource("./src/main/resources/profiles.json");
+            FileSystemResource file = new FileSystemResource("./src/main/resources/static/profiles.json");
             List<ProfileDTO> profileFileList = Arrays.asList(om.readValue(file.getFile(), ProfileDTO[].class));
             List<Profile> profileDBList = profileJPARepository.findAll();
 
@@ -46,6 +48,7 @@ public class ScheduleConfig {
                 profileJdbcRepository.saveAll(profileList);
             }
         } catch (Exception e) {
+            log.debug(e.getMessage());
             throw new ServerException(BaseException.FILE_READ_FAIL);
         }
     }

@@ -41,6 +41,8 @@ spring:
   mail:
     email: ${G_EMAIL}
     password: ${G_PASSWORD}
+  multipart:
+    max-file-size: 10MB
 
 logging:
   level:
