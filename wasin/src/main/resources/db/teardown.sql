@@ -7,18 +7,14 @@ DROP TABLE IF EXISTS company_image_tb;
 DROP TABLE IF EXISTS router_tb;
 DROP TABLE IF EXISTS profile_tb;
 
-create table user_tb (
-     is_mode_auto bit,
-     company_id bigint,
-     user_id bigint not null auto_increment,
-     email varchar(255),
-     password varchar(255),
-     lock_password varchar(255),
-     username varchar(255),
-     role enum ('ADMIN','SUPER_ADMIN','USER'),
-     status enum ('ACTIVE','INACTIVE','STAND_BY'),
-     primary key (user_id),
-     CONSTRAINT fk_user_company FOREIGN KEY (company_id) REFERENCES company_tb(company_id) ON DELETE CASCADE
+create table profile_tb (
+    profile_id bigint not null auto_increment,
+    profile_index bigint,
+    title varchar(1000),
+    description varchar(3000),
+    tip varchar(3000),
+    ssh varchar(3000),
+    primary key (profile_id)
 );
 
 create table company_tb (
@@ -60,15 +56,20 @@ create table router_tb (
     CONSTRAINT fk_router_company FOREIGN KEY (company_id) REFERENCES company_tb(company_id) ON DELETE CASCADE
 );
 
-create table profile_tb (
-    profile_id bigint not null auto_increment,
-    profile_index bigint,
-    title varchar(1000),
-    description varchar(3000),
-    tip varchar(3000),
-    ssh varchar(3000),
-    primary key (profile_id)
+create table user_tb (
+     is_mode_auto bit,
+     company_id bigint,
+     user_id bigint not null auto_increment,
+     email varchar(255),
+     password varchar(255),
+     lock_password varchar(255),
+     username varchar(255),
+     role enum ('ADMIN','SUPER_ADMIN','USER'),
+     status enum ('ACTIVE','INACTIVE','STAND_BY'),
+     primary key (user_id),
+     CONSTRAINT fk_user_company FOREIGN KEY (company_id) REFERENCES company_tb(company_id) ON DELETE CASCADE
 );
+
 
 SET FOREIGN_KEY_CHECKS = 1;
 
