@@ -74,6 +74,9 @@ public enum BaseException {
 
     PROFILE_UPDATED_JUST_NOW( "최근 프로파일이 변경된지 30분 이후 변경 가능합니다.", HttpStatus.BAD_REQUEST),
     PROFILE_MODE_ALREADY_BE("현재 해당 프로파일로 동작하고 있습니다.", HttpStatus.BAD_REQUEST),
+    POWER_SAVING_MODE_CHANGE_FAIL("파워 세이빙 모드로 바꾸는 데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    SSH_CONNECTION_FAIL("SSH 연결에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
     ;
 
 
