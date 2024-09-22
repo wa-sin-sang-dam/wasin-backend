@@ -92,12 +92,22 @@ public class WebApiUtil {
         }
     }
 
-
     public Long getRouterState(Router router) {
         try  {
             String expr = "avg(wifi_network_quality{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) * " +
                     "(1 - avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) / " +
                     " count(count(node_cpu_seconds_total{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) by (cpu)))";
+            RouterResponse.Queries requestDTO = getRequestDTO(expr);
+            return getResult(requestDTO);
+        } catch(Exception e) {
+            log.debug(e.getMessage());
+            throw new ServerException(BaseException.GRAFANA_SERVER_FAIL);
+        }
+    }
+
+    public Long getActiveUser(Router router) {
+        try  {
+            String expr = "wifi_stations{instance=\"" + router.getInstance() + "\"}";
             RouterResponse.Queries requestDTO = getRequestDTO(expr);
             return getResult(requestDTO);
         } catch(Exception e) {

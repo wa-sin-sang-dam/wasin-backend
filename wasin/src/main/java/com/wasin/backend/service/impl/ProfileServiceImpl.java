@@ -58,8 +58,7 @@ public class ProfileServiceImpl implements ProfileService {
     public void changeProfile(User userDetails, Long profileId) {
         User user = findUserById(userDetails.getId());
         Company company = user.getCompany();
-        Profile profile = profileJPARepository.findById(profileId).orElseThrow(
-                () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
+        Profile profile = findProfileById(profileId);
         List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
 
         profileValidation.checkChangeable(company, profileId);
@@ -70,6 +69,11 @@ public class ProfileServiceImpl implements ProfileService {
             String instance = router.getInstance().split(":")[0];
             sshConnectionUtil.connect("cd ./test_excute; ./" + profile.getSsh(), instance);
         }
+    }
+
+    private Profile findProfileById(Long profileId) {
+        return profileJPARepository.findById(profileId).orElseThrow(
+                () -> new NotFoundException(BaseException.PROFILE_NOT_FOUND));
     }
 
     private User findUserById(Long userId) {
