@@ -1,13 +1,13 @@
-package com.wasin.backend.controller;
+package com.wasin.wasin.controller;
 
-import com.wasin.backend._core.exception.BaseException;
-import com.wasin.backend.domain.dto.UserRequest;
-import com.wasin.backend.domain.dto.UserResponse;
-import com.wasin.backend.domain.entity.Email;
-import com.wasin.backend.domain.entity.Token;
-import com.wasin.backend.repository.MailRepository;
-import com.wasin.backend.repository.TokenRepository;
-import com.wasin.backend.util.TestModule;
+import com.wasin.wasin._core.exception.BaseException;
+import com.wasin.wasin.domain.dto.UserRequest;
+import com.wasin.wasin.domain.dto.UserResponse;
+import com.wasin.wasin.domain.entity.Email;
+import com.wasin.wasin.domain.entity.Token;
+import com.wasin.wasin.repository.MailRepository;
+import com.wasin.wasin.repository.TokenRepository;
+import com.wasin.wasin.util.TestModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.Optional;
 
-import static com.wasin.backend.dummy.DummyEntity.getTestToken;
+import static com.wasin.wasin.dummy.DummyEntity.getTestToken;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;

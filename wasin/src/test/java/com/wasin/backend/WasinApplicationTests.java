@@ -1,4 +1,4 @@
-package com.wasin.backend;
+package com.wasin.wasin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

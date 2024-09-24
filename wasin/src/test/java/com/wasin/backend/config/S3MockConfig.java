@@ -1,7 +1,7 @@
-package com.wasin.backend.config;
+package com.wasin.wasin.config;
 
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.wasin.backend._core.config.AwsS3Config;
+import com.wasin.wasin._core.config.AwsS3Config;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

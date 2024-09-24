@@ -43,7 +43,7 @@ spring:
 
 logging:
   level:
-    '[com.wasin.backend]': DEBUG
+    '[com.wasin.wasin]': DEBUG
     '[org.hibernate.type]': TRACE
     org.springframework.jdbc.core.JdbcTemplate: DEBUG
 
