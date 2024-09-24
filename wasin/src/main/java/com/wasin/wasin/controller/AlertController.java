@@ -5,10 +5,7 @@ import com.wasin.wasin.domain.dto.AlertRequest;
 import com.wasin.wasin.service.AlertService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +20,7 @@ public class AlertController {
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
-    @PostMapping("/test")
+    @GetMapping("/test3")
     public ResponseEntity<?> test() {
 
         return ResponseEntity.ok().body(ApiUtils.success(null));
