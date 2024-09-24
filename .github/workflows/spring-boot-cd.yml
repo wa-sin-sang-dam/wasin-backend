@@ -56,15 +56,8 @@ jobs:
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
 
-        run: docker build -t $REGISTRY/nginx:$IMAGE_TAG ./nginx
-
-      - name: docker build3
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-
         run: |
           docker push $REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/nginx:$IMAGE_TAG
       
       - name: add Github Actions IP to Security group
         env:
