@@ -20,3 +20,4 @@ ENV DB_URL=${DB_LOCAL_URL}
 ENV DB_PASSWORD=${DB_LOCAL_PASSWORD}
 
 CMD ["java", "-Dspring.profiles.active=prod", "-jar", "wasin.jar"]
+ 
