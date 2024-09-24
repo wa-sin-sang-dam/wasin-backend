@@ -1,10 +1,10 @@
-package com.wasin.backend.dummy;
+package com.wasin.wasin.dummy;
 
-import com.wasin.backend.domain.dto.UserResponse;
-import com.wasin.backend.domain.entity.Token;
-import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.domain.entity.enums.Role;
-import com.wasin.backend.domain.entity.enums.Status;
+import com.wasin.wasin.domain.dto.UserResponse;
+import com.wasin.wasin.domain.entity.Token;
+import com.wasin.wasin.domain.entity.User;
+import com.wasin.wasin.domain.entity.enums.Role;
+import com.wasin.wasin.domain.entity.enums.Status;
 
 public class DummyEntity {
     public static User getTestUser(String email, Long id, Role role, Status status) {

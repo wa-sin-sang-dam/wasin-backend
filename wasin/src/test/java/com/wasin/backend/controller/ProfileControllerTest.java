@@ -1,8 +1,8 @@
-package com.wasin.backend.controller;
+package com.wasin.wasin.controller;
 
-import com.wasin.backend._core.exception.BaseException;
-import com.wasin.backend._core.util.SshConnectionUtil;
-import com.wasin.backend.util.TestModule;
+import com.wasin.wasin._core.exception.BaseException;
+import com.wasin.wasin._core.util.SshConnectionUtil;
+import com.wasin.wasin.util.TestModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
