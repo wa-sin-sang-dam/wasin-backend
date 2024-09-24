@@ -1,13 +1,13 @@
-package com.wasin.backend.util;
+package com.wasin.wasin.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wasin.backend.config.S3MockConfig;
-import com.wasin.backend._core.exception.BaseException;
-import com.wasin.backend._core.exception.error.NotFoundException;
-import com.wasin.backend._core.security.JWTProvider;
-import com.wasin.backend.domain.dto.UserResponse;
-import com.wasin.backend.domain.entity.User;
-import com.wasin.backend.repository.UserJPARepository;
+import com.wasin.wasin.config.S3MockConfig;
+import com.wasin.wasin._core.exception.BaseException;
+import com.wasin.wasin._core.exception.error.NotFoundException;
+import com.wasin.wasin._core.security.JWTProvider;
+import com.wasin.wasin.domain.dto.UserResponse;
+import com.wasin.wasin.domain.entity.User;
+import com.wasin.wasin.repository.UserJPARepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

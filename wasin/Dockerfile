@@ -14,10 +14,10 @@ FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /opt/wasin
 
-COPY --from=build /home/gradle/project/build/libs/backend-0.0.1-SNAPSHOT.jar .
+COPY --from=build /home/gradle/project/build/libs/wasin-0.0.1-SNAPSHOT.jar .
 
 ENV DB_URL=${DB_LOCAL_URL}
 ENV DB_PASSWORD=${DB_LOCAL_PASSWORD}
 
-CMD ["java", "-Dspring.profiles.active=prod", "-jar", "backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-Dspring.profiles.active=prod", "-jar", "wasin-0.0.1-SNAPSHOT.jar"]
 
