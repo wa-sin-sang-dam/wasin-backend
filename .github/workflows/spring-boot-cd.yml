@@ -1,9 +1,7 @@
 name: Deploy to AWS ECR
 
-on:
-  push:
-    branches: 
-      - main
+on: pull_request
+
 env:
   AWS_REGION: ap-northeast-2
   IMAGE_TAG: latest
