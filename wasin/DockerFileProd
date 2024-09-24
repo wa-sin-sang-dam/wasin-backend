@@ -13,10 +13,10 @@ RUN ./gradlew clean build -Pprofile=prod -x test
 FROM eclipse-temurin:17-jdk-jammy
 
 WORKDIR /opt/wasin
-
-COPY --from=build /home/gradle/project/build/libs/backend.jar .
+ENV PROJECT_NAME=backend-0.0.1-SNAPSHOT.jar
+COPY --from=build /home/gradle/project/build/libs/$PROJECT_NAME .
 
 ENV DB_URL=${DB_URL}
 ENV DB_PASSWORD=${DB_PASSWORD}
 
-CMD ["java", "-Dspring.profiles.active=prod", "-jar", "backend.jar"]
+CMD ["java", "-Dspring.profiles.active=prod", "-jar", "${ARTIFACT_NAME}"]
