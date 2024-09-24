@@ -1,6 +1,9 @@
 name: Deploy to AWS ECR
 
-on: pull_request
+on:
+  push:
+    branches: 
+      - release
 
 env:
   AWS_REGION: ap-northeast-2
