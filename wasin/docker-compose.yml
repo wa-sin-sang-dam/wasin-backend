@@ -2,8 +2,6 @@ services:
   database:
     image: mysql
     container_name: wasin
-    env_file:
-      - mysql/.env
     ports:
       - "3306:3306"
     volumes:  #로컬 디비를 이용하기 위한 Volume 설정
@@ -43,8 +41,6 @@ services:
     ports:
       - "8080:8080"
     container_name: web_stage
-    env_file:
-      - ./.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./log:/opt/wasin/log
