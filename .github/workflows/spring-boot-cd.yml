@@ -77,7 +77,6 @@ jobs:
           script: |
             cd ~/wasin-backend/wasin
             sudo git pull
-            echo "ACCESS_TOKEN_SECRET: $ACCESS_TOKEN_SECRET"
             aws ecr get-login-password --region ap-northeast-2 | sudo docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
             sudo docker compose -f docker-compose.prod.yml pull
             sudo docker compose -f docker-compose.prod.yml down nginx wasin

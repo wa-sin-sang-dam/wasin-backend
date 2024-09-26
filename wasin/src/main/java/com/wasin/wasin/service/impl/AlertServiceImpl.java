@@ -33,8 +33,6 @@ public class AlertServiceImpl implements AlertService {
         request.alerts().forEach(alert -> {
             Router router = findRouter(alert);
             Company company = router.getCompany();
-            log.debug("macAddress: " +router.getMacAddress());
-            log.debug("companyId: " +company.getId().toString());
             changeProfile(alert, company);
         });
     }
@@ -42,14 +40,11 @@ public class AlertServiceImpl implements AlertService {
     private void changeProfile(AlertRequest.AlertDTO alert, Company company) {
         List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
         Profile profile = findDefaultProfile(alert.labels().alertname());
-        log.debug("ssh: " +profile.getSsh());
-        log.debug("routersize : " +String.valueOf(routerList.size()));
 
         company.addProfile(profile);
 
         try {
             for (Router r : routerList) {
-                log.debug("instance: " + r.getInstance());
                 String command = "cd ./test_excute; ./" + profile.getSsh();
                 String instance = r.getInstance().split(":")[0];
                 sshConnectionUtil.connect(command, instance);

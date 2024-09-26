@@ -38,6 +38,7 @@ public class SshConnectionUtil {
 
             // 4. 접속한다.
             session.connect();
+            log.debug("세션 연결 성공");
 
             // 5. sftp 채널을 연다.
             channel = session.openChannel("exec");
@@ -47,8 +48,9 @@ public class SshConnectionUtil {
 
             channelExec.setCommand(command);
             channelExec.connect();
+            log.debug("SSH 연결 성공");
 
-        } catch (JSchException e) {
+        } catch (Exception e) {
             log.debug(e.getMessage());
         } finally {
             if (channel != null) {
