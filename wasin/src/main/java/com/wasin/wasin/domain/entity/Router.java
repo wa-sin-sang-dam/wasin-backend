@@ -42,7 +42,7 @@ public class Router {
     private String password;
 
     @Column
-    private String port;
+    private Integer port;
 
     @Column(name = "position_x")
     private Double positionX;
@@ -57,7 +57,7 @@ public class Router {
 
     @Builder
     public Router(Long id, String macAddress, String name, String ssid, String instance, String job, String serialNumber,
-                  String password, String port, Double positionX, Double positionY, Company company) {
+                  String password, Integer port, Double positionX, Double positionY, Company company) {
         this.id = id;
         this.macAddress = macAddress;
         this.name = name;
