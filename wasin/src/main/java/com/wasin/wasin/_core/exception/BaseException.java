@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 
+@Getter
 @RequiredArgsConstructor
 public enum BaseException {
     // 공통
@@ -80,10 +81,8 @@ public enum BaseException {
     ;
 
 
-    @Getter
     private final String message;
 
-    @Getter
     private final HttpStatus status;
 
 }

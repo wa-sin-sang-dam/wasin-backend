@@ -22,9 +22,8 @@ public class RouterRequest {
             @Size(max = 255, message = "라우터 password는  255자 이내여야 합니다.")
             String password,
 
-            @NotEmpty(message = "라우터 포트번호는 비어있으면 안됩니다.")
-            @Size(max = 255, message = "라우터 포트번호는  255자 이내여야 합니다.")
-            String port,
+            @NotNull(message = "라우터 포트번호는 비어있으면 안됩니다.")
+            Integer port,
 
             @NotNull(message = "x축 위치는 비어있으면 안됩니다.")
             Double positionX,
