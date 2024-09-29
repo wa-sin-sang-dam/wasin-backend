@@ -105,6 +105,7 @@ public class SecurityConfig {
                                 new AntPathRequestMatcher("/company/db/**")
                         ).hasAuthority("admin")
                         .requestMatchers(
+                                new AntPathRequestMatcher("/monitoring/**"),
                                 new AntPathRequestMatcher("/router/**"),
                                 new AntPathRequestMatcher("/profile/**"),
                                 new AntPathRequestMatcher("/user/lock")

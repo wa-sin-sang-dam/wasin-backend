@@ -2,7 +2,7 @@ package com.wasin.wasin.service.impl;
 
 import com.wasin.wasin._core.exception.BaseException;
 import com.wasin.wasin._core.exception.error.NotFoundException;
-import com.wasin.wasin._core.util.WebApiUtil;
+import com.wasin.wasin._core.util.web_api.WebApiUtil;
 import com.wasin.wasin.domain.dto.RouterRequest;
 import com.wasin.wasin.domain.dto.RouterResponse;
 import com.wasin.wasin.domain.entity.CompanyImage;

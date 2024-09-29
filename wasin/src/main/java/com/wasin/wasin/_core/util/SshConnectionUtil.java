@@ -42,7 +42,6 @@ public class SshConnectionUtil {
 
             // 4. 접속한다.
             session.connect();
-            log.debug("세션 연결 성공");
 
             // 5. sftp 채널을 연다.
             channel = session.openChannel("exec");
@@ -52,7 +51,6 @@ public class SshConnectionUtil {
 
             channelExec.setCommand(command);
             channelExec.connect();
-            log.debug("SSH 연결 성공");
 
             byte[] buffer = new byte[8192];
             int decodedLength;
@@ -61,7 +59,7 @@ public class SshConnectionUtil {
             while ((decodedLength = inputStream.read(buffer, 0, buffer.length)) > 0)
                 response.append(new String(buffer, 0, decodedLength));
 
-            log.debug("SSH 연결 성공 {}", response);
+            log.debug("SSH 연결 성공 {}, {}", response, host);
 
         } catch (Exception e) {
             log.debug(e.getMessage());
