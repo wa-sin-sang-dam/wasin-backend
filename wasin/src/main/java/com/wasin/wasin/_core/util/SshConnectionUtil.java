@@ -52,7 +52,6 @@ public class SshConnectionUtil {
 
             channelExec.setCommand(command);
             channelExec.connect();
-            log.debug("SSH 연결 성공");
 
             byte[] buffer = new byte[8192];
             int decodedLength;
@@ -61,10 +60,10 @@ public class SshConnectionUtil {
             while ((decodedLength = inputStream.read(buffer, 0, buffer.length)) > 0)
                 response.append(new String(buffer, 0, decodedLength));
 
-            log.debug("SSH 연결 성공 {}", response);
+            log.debug("SSH 연결 성공 {}, {}", response, host);
 
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.debug("SSH 연결 실패 {}", e.getMessage());
         } finally {
             if (channel != null) {
                 channel.disconnect();
