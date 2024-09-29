@@ -30,7 +30,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
-            willDoNothing().given(sshConnectionUtil).connect(any(), any());
+            willDoNothing().given(sshConnectionUtil).connect(any(), any(), any());
 
             // when
             ResultActions result = mvc.perform(
