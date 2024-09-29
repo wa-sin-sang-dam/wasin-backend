@@ -12,7 +12,7 @@ security:
       access: ${ACCESS_TOKEN_SECRET}
       refresh: ${REFRESH_TOKEN_SECRET}
     redis:
-      host: ${AWS_PUBLIC_IP}
+      host: redis
       port: 6379
   open-api:
     secret-key: ${OPEN_API_SECRET_KEY}
