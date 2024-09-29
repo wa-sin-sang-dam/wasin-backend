@@ -40,8 +40,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({SQLException.class, DataAccessException.class})
-    public ResponseEntity<?> databaseException(){
+    public ResponseEntity<?> databaseException(Exception error){
         BaseException e = BaseException.DATABASE_ERROR;
+        error.printStackTrace();
         return response(error(e), e.getStatus());
     }
 
