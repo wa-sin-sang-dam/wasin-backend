@@ -3,7 +3,7 @@ package com.wasin.wasin.service.impl;
 import com.wasin.wasin._core.exception.BaseException;
 import com.wasin.wasin._core.exception.error.NotFoundException;
 import com.wasin.wasin._core.util.AwsFileUtil;
-import com.wasin.wasin._core.util.WebApiUtil;
+import com.wasin.wasin._core.util.web_api.WebApiUtil;
 import com.wasin.wasin.domain.dto.CompanyDTO;
 import com.wasin.wasin.domain.dto.CompanyRequest;
 import com.wasin.wasin.domain.dto.CompanyResponse;

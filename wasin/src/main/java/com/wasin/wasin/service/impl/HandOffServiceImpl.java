@@ -2,7 +2,7 @@ package com.wasin.wasin.service.impl;
 
 import com.wasin.wasin._core.exception.BaseException;
 import com.wasin.wasin._core.exception.error.NotFoundException;
-import com.wasin.wasin._core.util.WebApiUtil;
+import com.wasin.wasin._core.util.web_api.GrafanaApiUtil;
 import com.wasin.wasin.domain.dto.HandOffRequest;
 import com.wasin.wasin.domain.dto.HandOffResponse;
 import com.wasin.wasin.domain.entity.Router;
@@ -26,7 +26,7 @@ public class HandOffServiceImpl implements HandOffService {
     private final UserJPARepository userJPARepository;
     private final RouterJPARepository routerJPARepository;
     private final HandOffValidation handOffValidation;
-    private final WebApiUtil webApiUtil;
+    private final GrafanaApiUtil grafanaApiUtil;
 
     public HandOffResponse.UserRouter findAll(User userDetails, HandOffRequest.UserRouterDTO requestDTO) {
         User user = findUserById(userDetails.getId());
@@ -83,7 +83,7 @@ public class HandOffServiceImpl implements HandOffService {
         long w = 0;
         double r = 0.3;
         if (router.isPresent()) {
-            w = webApiUtil.getWifiState(router.get());
+            w = grafanaApiUtil.getWifiState(router.get());
         }
         return (long) (level * 25 * (1 - r) + (w * r));
     }

@@ -1,6 +1,6 @@
 package com.wasin.wasin.domain.mapper;
 
-import com.wasin.wasin._core.util.WebApiUtil;
+import com.wasin.wasin._core.util.web_api.GrafanaApiUtil;
 import com.wasin.wasin.domain.dto.RouterRequest;
 import com.wasin.wasin.domain.dto.RouterResponse;
 import com.wasin.wasin.domain.entity.Company;
@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class RouterMapper {
 
-    private final WebApiUtil webApiUtil;
+    private final GrafanaApiUtil grafanaApiUtil;
 
     public Router dtoToRouter(RouterRequest.CreateDTO requestDTO,
                               RouterResponse.WifiNetworkQuality prometheusRouter,
@@ -50,7 +50,7 @@ public class RouterMapper {
                         router.getSerialNumber(),
                         router.getPassword(),
                         router.getPort(),
-                        webApiUtil.getRouterState(router),
+                        grafanaApiUtil.getRouterState(router),
                         router.getPositionX(),
                         router.getPositionY()
                 )
@@ -67,7 +67,7 @@ public class RouterMapper {
                 router.stream().map(r -> new RouterResponse.EachRouter(
                         r.getId(),
                         r.getName(),
-                        webApiUtil.getRouterState(r),
+                        grafanaApiUtil.getRouterState(r),
                         r.getPositionX(),
                         r.getPositionY()
                 )).toList()
