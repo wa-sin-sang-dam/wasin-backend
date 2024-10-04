@@ -36,6 +36,19 @@ public class MonitoringServiceImpl implements MonitoringService {
         return monitoringMapper.resultToDTO(results, metricId, time);
     }
 
+    public MonitorResponse.FindAllRouter findAllRouter(User _user) {
+        User user = findUserByUserId(_user.getId());
+        Company company = user.getCompany();
+        List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
+        return monitoringMapper.toRouterListDTO(routerList);
+    }
+
+    private User findUserByUserId(Long userId) {
+        return userJPARepository.findActiveUserWithCompanyById(userId).orElseThrow(
+                () -> new NotFoundException(BaseException.USER_NOT_FOUND)
+        );
+    }
+
     private Router findByRouterId(Long routerId) {
         return routerJPARepository.findById(routerId).orElseThrow(
                 () -> new NotFoundException(BaseException.ROUTER_NOT_EXIST_IN_DB)
