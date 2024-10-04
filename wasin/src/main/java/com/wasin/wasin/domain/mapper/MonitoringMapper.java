@@ -3,6 +3,7 @@ package com.wasin.wasin.domain.mapper;
 import com.wasin.wasin.domain._const.Metric;
 import com.wasin.wasin.domain.dto.MonitorResponse;
 import com.wasin.wasin.domain.dto.RouterResponse;
+import com.wasin.wasin.domain.entity.Router;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -41,5 +42,17 @@ public class MonitoringMapper {
                         it.getIndex()
                 )
         ).toList();
+    }
+
+    public MonitorResponse.FindAllRouter toRouterListDTO(List<Router> routerList) {
+        return new MonitorResponse.FindAllRouter(
+            routerList.stream().map(it ->
+                new MonitorResponse.MonitorRouter(
+                        it.getId(),
+                        it.getName(),
+                        it.getInstance()
+                )
+            ).toList()
+        );
     }
 }

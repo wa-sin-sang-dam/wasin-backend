@@ -78,6 +78,9 @@ public enum BaseException {
     POWER_SAVING_MODE_CHANGE_FAIL("파워 세이빙 모드로 바꾸는 데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     SSH_CONNECTION_FAIL("SSH 연결에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
+    // 모니터링
+    MONITOR_PERMISSION_NONE("모니터링 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
     ;
 
 

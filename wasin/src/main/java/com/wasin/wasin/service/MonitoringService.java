@@ -6,4 +6,6 @@ import com.wasin.wasin.domain.entity.User;
 public interface MonitoringService {
 
     MonitorResponse.FindById monitorById(Long routerId, Long metricId, Long time, User user);
+
+    MonitorResponse.FindAllRouter findAllRouter(User user);
 }

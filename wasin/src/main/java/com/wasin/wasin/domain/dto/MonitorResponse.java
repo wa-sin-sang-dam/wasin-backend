@@ -24,4 +24,15 @@ public class MonitorResponse {
     ) {
     }
 
+    public record FindAllRouter (
+        List<MonitorRouter> routerList
+    ) {
+    }
+
+    public record MonitorRouter(
+        Long routerId,
+        String name,
+        String instance
+    ) {
+    }
 }
