@@ -2,7 +2,7 @@ services:
   redis:
     image: redis:alpine
     container_name: wasinredis
-    hostname: redis
+    hostname: ${AWS_PUBLIC_IP}
     ports:
       - "6379:6379"
 
