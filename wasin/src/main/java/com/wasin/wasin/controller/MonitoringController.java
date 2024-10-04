@@ -26,4 +26,11 @@ public class MonitoringController {
         return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 
+    // 관리자가 속한 라우터 그룹의 모든 라우터 조회
+    @GetMapping("/routers")
+    public ResponseEntity<?> findAllRouter(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        MonitorResponse.FindAllRouter response = monitoringService.findAllRouter(userDetails.getUser());
+        return ResponseEntity.ok().body(ApiUtils.success(response));
+    }
+
 }
