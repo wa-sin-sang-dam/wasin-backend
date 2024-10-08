@@ -45,7 +45,7 @@ public class AlertServiceImpl implements AlertService {
 
         try {
             for (Router r : routerList) {
-                String command = "cd ./test_excute; ./" + profile.getSsh();
+                String command = "cd ./test_execute; ./" + profile.getSsh();
                 String instance = r.getInstance().split(":")[0];
                 sshConnectionUtil.connect(command, instance, r.getPort());
             }
