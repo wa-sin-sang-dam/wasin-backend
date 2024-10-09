@@ -29,8 +29,8 @@ public class HandOffControllerTest extends TestModule {
             // given
             HandOffRequest.UserRouterDTO requestDTO = new HandOffRequest.UserRouterDTO(
                 List.of(
-                    new HandOffRequest.RouterDTO("휴게실 wifi", "5a:86:94:7f:b4:c7", -60L),
-                    new HandOffRequest.RouterDTO("없는 wifi", "5c:90:94:7f:b4:c7", -70L)
+                    new HandOffRequest.RouterDTO("휴게실 wifi", "5a:86:94:7f:b4:c7", 2L, -60L),
+                    new HandOffRequest.RouterDTO("없는 wifi", "5c:90:94:7f:b4:c7", 3L, -60L)
                 )
             );
             String requestBody = om.writeValueAsString(requestDTO);
@@ -82,8 +82,8 @@ public class HandOffControllerTest extends TestModule {
             // given
             HandOffRequest.UserRouterDTO requestDTO = new HandOffRequest.UserRouterDTO(
                     List.of(
-                            new HandOffRequest.RouterDTO("휴게실 wifi", "5a:86:94:7f:b4:c7", -60L),
-                            new HandOffRequest.RouterDTO("없는 wifi", "5c:90:94:7f:b4:c7", -70L)
+                            new HandOffRequest.RouterDTO("휴게실 wifi", "5a:86:94:7f:b4:c7", 2L, -60L),
+                            new HandOffRequest.RouterDTO("없는 wifi", "5c:90:94:7f:b4:c7", 3L, -60L)
                     )
             );
             String requestBody = om.writeValueAsString(requestDTO);
@@ -108,7 +108,7 @@ public class HandOffControllerTest extends TestModule {
         public void fail() throws Exception {
             // given
             HandOffRequest.UserRouterDTO requestDTO = new HandOffRequest.UserRouterDTO(List.of(
-                    new HandOffRequest.RouterDTO("", "", -60L)
+                    new HandOffRequest.RouterDTO("", "", -60L, -60L)
             ));
             String requestBody = om.writeValueAsString(requestDTO);
 
