@@ -111,7 +111,7 @@ public class UserControllerTest extends TestModule {
             // given
             String email = SUPER_ADMIN_EMAIL;
             String password = "password1@";
-            UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password);
+            UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password, "fcm-token");
             String requestBody = om.writeValueAsString(requestDTO);
 
             Email expectedEmail = Email.builder().isVerified(true).build();
@@ -136,7 +136,7 @@ public class UserControllerTest extends TestModule {
             // given
             String email = SUPER_ADMIN_EMAIL;
             String password = "password123@";
-            UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password);
+            UserRequest.LoginDTO requestDTO = new UserRequest.LoginDTO(email, password, "fcm-token");
             String requestBody = om.writeValueAsString(requestDTO);
 
             Email expectedEmail = Email.builder().isVerified(true).build();
