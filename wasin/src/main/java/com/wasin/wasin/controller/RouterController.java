@@ -26,8 +26,8 @@ public class RouterController {
 
     @GetMapping("/{router_id}")
     public ResponseEntity<?> findByRouterId(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                            @PathVariable(name="router_id") Long router_id) {
-        RouterResponse.FindByRouterId response = routerService.findByRouterId(userDetails.getUser(), router_id);
+                                            @PathVariable(name="router_id") Long routerId) {
+        RouterResponse.FindByRouterId response = routerService.findByRouterId(userDetails.getUser(), routerId);
         return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 
@@ -48,8 +48,8 @@ public class RouterController {
 
     @PostMapping("/delete/{router_id}")
     public ResponseEntity<?> delete(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                    @PathVariable(name="router_id") Long router_id) {
-        routerService.delete(userDetails.getUser(), router_id);
+                                    @PathVariable(name="router_id") Long routerId) {
+        routerService.delete(userDetails.getUser(), routerId);
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
@@ -57,5 +57,30 @@ public class RouterController {
     public ResponseEntity<?> findCompanyImage(@AuthenticationPrincipal CustomUserDetails userDetails) {
         RouterResponse.CompanyImageDTO response = routerService.findCompanyImage(userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(response));
+    }
+
+    // 라우터 점검 기능
+    @GetMapping("/check/{router_id}")
+    public ResponseEntity<?> checkRouter(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                         @PathVariable(name="router_id") Long routerId) {
+        RouterResponse.CheckRouter response = routerService.checkRouter(userDetails.getUser(), routerId);
+        return ResponseEntity.ok().body(ApiUtils.success(response));
+    }
+
+    // 라우터 로그 조회
+    @GetMapping("/log/{router_id}")
+    public ResponseEntity<?> logRouter(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                       @PathVariable(name="router_id") Long routerId) {
+        RouterResponse.LogRouter response = routerService.logRouter(userDetails.getUser(), routerId);
+        return ResponseEntity.ok().body(ApiUtils.success(response));
+    }
+
+    // 로그 이메일 전송
+    @PostMapping("/log/email/{router_id}")
+    public ResponseEntity<?> logEmail(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                      @RequestBody @Valid RouterRequest.LogDTO requestDTO,
+                                      @PathVariable(name="router_id") Long routerId) {
+        routerService.logEmail(userDetails.getUser(), requestDTO, routerId);
+        return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 }

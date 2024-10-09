@@ -22,6 +22,8 @@ public enum BaseException {
     MAX_FILE_SIZE("이미지 크기가 너무 큽니다.", HttpStatus.BAD_REQUEST),
     FILE_READ_FAIL("파일을 읽을 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     ROUTER_PERMISSION_DENIED("회사가 다르므로 라우터에 대한 접근 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
+    FIREBASE_CONF_FAIL("파이어베이스 configuration에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    FIREBASE_MESSAGE_FAIL("파이어베이스 메시지 전송에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // 유저
     USER_NOT_FOUND("승인 대기 / 회원탈퇴 / 가입하지 않은 유저의 요청입니다.", HttpStatus.NOT_FOUND),

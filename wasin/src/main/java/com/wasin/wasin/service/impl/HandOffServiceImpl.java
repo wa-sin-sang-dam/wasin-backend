@@ -63,6 +63,7 @@ public class HandOffServiceImpl implements HandOffService {
             Optional<Router> router = routerJPARepository.findByMacAddress(it.macAddress());
             return new HandOffResponse.RouterWithStateDTO(
                     it.level(),
+                    it.detailLevel(),
                     getScore(it.level(), router),
                     it.ssid(),
                     it.macAddress(),

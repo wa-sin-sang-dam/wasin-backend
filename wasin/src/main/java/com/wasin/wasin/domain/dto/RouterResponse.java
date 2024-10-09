@@ -1,5 +1,6 @@
 package com.wasin.wasin.domain.dto;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class RouterResponse {
@@ -27,7 +28,7 @@ public class RouterResponse {
 
     public record Frame(Data data) {}
 
-    public record Data(List<List<Long>> values) {}
+    public record Data(List<List<BigDecimal>> values) {}
 
     public record Queries(List<Query> queries, String from, String to) {}
 
@@ -52,4 +53,9 @@ public class RouterResponse {
     public record MonitoringQuery(Datasource datasource, String expr, String format, String refId, Long utcOffsetSec, Long maxDataPoints) {}
 
     public record Datasource(String type, String uid) {}
+
+    public record CheckRouter(String result) {}
+
+    public record LogRouter(String log) {}
+
 }

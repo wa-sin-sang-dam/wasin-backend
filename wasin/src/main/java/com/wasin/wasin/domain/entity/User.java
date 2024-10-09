@@ -32,6 +32,10 @@ public class User {
     @Column(name = "lock_password")
     private String lockPassword;
 
+    @Setter
+    @Column(name = "fcm_token")
+    private String fcmToken;
+
     @Column
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -73,4 +77,5 @@ public class User {
     public void changeModeManual() {
         this.isModeAuto = false;
     }
+
 }

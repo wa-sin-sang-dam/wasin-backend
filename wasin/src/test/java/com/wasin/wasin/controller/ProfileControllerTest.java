@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @DisplayName("프로파일 통합 테스트")
@@ -31,7 +30,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
-            willDoNothing().given(sshConnectionUtil).connect(any(), any(), anyInt());
+            given(sshConnectionUtil.connect(any(), any())).willReturn("");
 
             // when
             ResultActions result = mvc.perform(
@@ -50,7 +49,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(USER_ACTIVE_EMAIL)
         public void fail() throws Exception {
             // given
-            willDoNothing().given(sshConnectionUtil).connect(any(), any(), anyInt());
+            given(sshConnectionUtil.connect(any(), any())).willReturn("");
 
             // when
             ResultActions result = mvc.perform(

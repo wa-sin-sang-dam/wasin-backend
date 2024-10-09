@@ -28,7 +28,19 @@ public class MonitoringApiUtil {
     String grafanaDatasourceUID;
 
     public RouterResponse.MonitorResult getMetric(Metric metric, Router router, Long time) {
-        String expr = switch (metric) {
+        String expr = getExpression(metric, router);
+        RouterResponse.MonitoringQueries monitoringQuery = getMonitoringQuery(expr, time);
+        return getResult(monitoringQuery);
+    }
+
+    public RouterResponse.MonitorResult getMetricInRangeTime(Metric metric, Router router, Long nowTime, Long targetTime) {
+        String expr = getExpression(metric, router);
+        RouterResponse.MonitoringQueries monitoringQuery = getMonitoringQueryInRange(expr, nowTime, targetTime);
+        return getResult(monitoringQuery);
+    }
+
+    private String getExpression(Metric metric, Router router) {
+        return switch (metric) {
             case WIFI_SCORE -> getWifiScoreExpr(router);
             case WIFI_CLIENT -> getWifiClientsExpr(router);
             case CPU_SYSTEM -> getCPUSystemExpr(router);
@@ -37,10 +49,7 @@ public class MonitoringApiUtil {
             case NETWORK_TRAFFIC_BY_BYTES -> getNetworkTrafficByBytesExpr(router);
             case NETWORK_TRAFFIC_ERRORS -> getNetworkTrafficErrorsExpr(router);
         };
-        RouterResponse.MonitoringQueries monitoringQuery = getMonitoringQuery(expr, time);
-        return getResult(monitoringQuery);
     }
-
 
     private String getWifiScoreExpr(Router router) {
         return "scalar(1 - (avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) " +
@@ -102,19 +111,34 @@ public class MonitoringApiUtil {
 
     private RouterResponse.MonitoringQueries getMonitoringQuery(String expr, Long time) {
         RouterResponse.Datasource datasource = new RouterResponse.Datasource("prometheus", grafanaDatasourceUID);
-        RouterResponse.MonitoringQuery query = new RouterResponse.MonitoringQuery(
-                datasource,
-                expr,
-                "time_series",
-                "A",
-                32400L,
-                1000L
-        );
+        RouterResponse.MonitoringQuery query = getQuery(expr, datasource);
 
         return new RouterResponse.MonitoringQueries(
                 List.of(query),
                 "now-" + time + "m",
                 "now"
+        );
+    }
+
+    private RouterResponse.MonitoringQueries getMonitoringQueryInRange(String expr, Long nowTime, Long targetTime) {
+        RouterResponse.Datasource datasource = new RouterResponse.Datasource("prometheus", grafanaDatasourceUID);
+        RouterResponse.MonitoringQuery query = getQuery(expr, datasource);
+
+        return new RouterResponse.MonitoringQueries(
+                List.of(query),
+                nowTime.toString(),
+                targetTime.toString()
+        );
+    }
+
+    private static RouterResponse.MonitoringQuery getQuery(String expr, RouterResponse.Datasource datasource) {
+        return new RouterResponse.MonitoringQuery(
+                datasource,
+                expr,
+                "time_series",
+                "A",
+                0L,
+                1000L
         );
     }
 

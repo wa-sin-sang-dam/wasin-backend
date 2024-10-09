@@ -16,20 +16,22 @@ public class MonitoringController {
 
     private final MonitoringService monitoringService;
 
-    // 단일 모니터 라우터링
+    // 다중 라우터 모니터링
     @GetMapping()
-    public ResponseEntity<?> monitorById(@RequestParam(value = "routerId") Long routerId,
+    public ResponseEntity<?> monitorMultiple(@RequestParam(value = "metricId", required = false) Long metricId,
+                                             @RequestParam(value = "time", required = false) Long time,
+                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+        MonitorResponse.FindMultiple response = monitoringService.monitorMultiple(metricId, time, userDetails.getUser());
+        return ResponseEntity.ok().body(ApiUtils.success(response));
+    }
+
+    // 단일 모니터 라우터링
+    @GetMapping("/{router_id}")
+    public ResponseEntity<?> monitorById(@PathVariable(name="router_id") Long routerId,
                                          @RequestParam(value = "metricId", required = false) Long metricId,
                                          @RequestParam(value = "time", required = false) Long time,
                                          @AuthenticationPrincipal CustomUserDetails userDetails) {
         MonitorResponse.FindById response = monitoringService.monitorById(routerId, metricId, time, userDetails.getUser());
-        return ResponseEntity.ok().body(ApiUtils.success(response));
-    }
-
-    // 관리자가 속한 라우터 그룹의 모든 라우터 조회
-    @GetMapping("/routers")
-    public ResponseEntity<?> findAllRouter(@AuthenticationPrincipal CustomUserDetails userDetails) {
-        MonitorResponse.FindAllRouter response = monitoringService.findAllRouter(userDetails.getUser());
         return ResponseEntity.ok().body(ApiUtils.success(response));
     }
 

@@ -40,9 +40,11 @@ public class UserServiceImpl implements UserService {
         userJPARepository.delete(u);
     }
 
+    @Transactional
     public User login(UserRequest.LoginDTO requestDTO) {
         User user = findByEmail(requestDTO.email());
         userValidation.checkPasswordCorrect(user, requestDTO.password());
+        user.setFcmToken(requestDTO.fcmToken());
         return user;
     }
 

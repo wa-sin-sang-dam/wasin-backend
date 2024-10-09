@@ -66,8 +66,8 @@ public class ProfileServiceImpl implements ProfileService {
 
         user.getCompany().addProfile(profile);
         for (Router router : routerList) {
-            String instance = router.getInstance().split(":")[0];
-            sshConnectionUtil.connect("cd ./test_excute; ./" + profile.getSsh(), instance, router.getPort());
+            String command = "cd ./test_execute; ./" + profile.getSsh();
+            sshConnectionUtil.connect(command, router);
         }
     }
 
