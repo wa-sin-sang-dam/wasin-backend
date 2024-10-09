@@ -10,11 +10,9 @@ import com.wasin.wasin.domain.dto.ProfileDTO;
 import com.wasin.wasin.domain.entity.Company;
 import com.wasin.wasin.domain.entity.Profile;
 import com.wasin.wasin.domain.entity.Router;
+import com.wasin.wasin.domain.entity.User;
 import com.wasin.wasin.domain.mapper.ProfileMapper;
-import com.wasin.wasin.repository.CompanyRepository;
-import com.wasin.wasin.repository.ProfileJPARepository;
-import com.wasin.wasin.repository.ProfileJdbcRepository;
-import com.wasin.wasin.repository.RouterJPARepository;
+import com.wasin.wasin.repository.*;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +42,7 @@ public class ScheduleConfig {
     private final ProfileJPARepository profileJPARepository;
     private final CompanyRepository companyRepository;
     private final RouterJPARepository routerJPARepository;
+    private final UserJPARepository userJPARepository;
 
 
     @PostConstruct
@@ -75,7 +74,7 @@ public class ScheduleConfig {
 
 
     @Transactional
-    @Scheduled(initialDelay = 1000*30,fixedDelay = 1000 * 60 * 60)
+    @Scheduled(fixedDelay = 1000 * 60 * 60)
     public void scheduleProfileUpdate() {
         try {
             // 변경해야 하는 라우터 그룹 목록: 프로파일 자동 변경 모드이면서 파워 세이빙 모드인 회사들
@@ -95,25 +94,14 @@ public class ScheduleConfig {
     private void updateProfile(List<Company> companyList, Profile profile) {
         for (Company company : companyList) {
             // 해당 라우터 그룹의 모든 라우터들
+            List<User> userList = userJPARepository.findAllStandbyAdminByCompanyId(company.getId());
             List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
 
             // 활성 사용자가 현재 시점으로 1명이라도 있다면 프로파일 변경
             if (isActiveUserExist(routerList)) {
                 company.addProfile(profile);
-                changeRouterProfile(routerList, profile);
+                sshConnectionUtil.profileChangeAndSendAlarm(userList, routerList, profile);
             }
-        }
-    }
-
-    private void changeRouterProfile(List<Router> routerList, Profile profile) {
-        try {
-            for (Router router : routerList) {
-                String command = "cd ./test_execute; ./" + profile.getSsh();
-                sshConnectionUtil.connect(command, router);
-            }
-        } catch(Exception e) {
-            log.debug(e.getMessage());
-            throw new ServerException(BaseException.SSH_CONNECTION_FAIL);
         }
     }
 

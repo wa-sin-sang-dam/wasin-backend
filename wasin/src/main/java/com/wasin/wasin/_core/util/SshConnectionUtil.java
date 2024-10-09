@@ -4,13 +4,18 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import com.wasin.wasin._core.exception.BaseException;
+import com.wasin.wasin._core.exception.error.ServerException;
+import com.wasin.wasin.domain.entity.Profile;
 import com.wasin.wasin.domain.entity.Router;
+import com.wasin.wasin.domain.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -25,6 +30,8 @@ public class SshConnectionUtil {
 
     private Session session = null;
     private Channel channel = null;
+
+    private final SendFirebaseMessage sendFirebaseMessage;
 
     public String connect(String command, Router router) {
         try {
@@ -76,6 +83,22 @@ public class SshConnectionUtil {
             }
         }
         return null;
+    }
+
+    public void profileChangeAndSendAlarm(List<User> userList, List<Router> routerList, Profile profile) {
+        try {
+            for (Router router : routerList) {
+                String command = "cd ./test_execute; ./" + profile.getSsh();
+                connect(command, router);
+
+                String title = "라우터 변경";
+                String body = router.getName() + "라우터가 " + profile.getTitle() + "로 변경되었습니다.";
+                sendFirebaseMessage.sendFcmAlert(userList, router, title, body);
+            }
+        } catch(Exception e) {
+            log.debug(e.getMessage());
+            throw new ServerException(BaseException.SSH_CONNECTION_FAIL);
+        }
     }
 
 }
