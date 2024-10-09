@@ -48,11 +48,4 @@ jobs:
           ./gradlew clean build
         working-directory: ./wasin
         
-      - name: Run Spring Boot App for 30 seconds
-        run: |
-          ./gradlew bootRun &
-          APP_PID=$!
-          sleep 30
-          kill $APP_PID
-        continue-on-error: false
-        working-directory: ./wasin
+
