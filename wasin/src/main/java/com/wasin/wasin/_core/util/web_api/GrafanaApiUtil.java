@@ -65,7 +65,7 @@ public class GrafanaApiUtil {
                                             .map(body -> new ServerException(BaseException.GRAFANA_REQUEST_FAIL)))
                             .bodyToMono(RouterResponse.RouterResult.class)
                             .block())
-                    .results().A().frames().get(0).data().values().get(1).get(0);
+                    .results().A().frames().get(0).data().values().get(1).get(0).longValue();
         } catch(Exception e) {
             log.debug(e.getMessage());
             throw new ServerException(BaseException.GRAFANA_SERVER_FAIL);

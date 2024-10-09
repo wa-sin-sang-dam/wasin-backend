@@ -18,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -45,11 +47,23 @@ public class MonitoringServiceImpl implements MonitoringService {
         return monitoringMapper.resultToDTO(results, metricId, time);
     }
 
-    public MonitorResponse.FindAllRouter findAllRouter(User _user) {
+    public MonitorResponse.FindMultiple monitorMultiple(Long metricId, Long time, User _user) {
+        if (metricId == null) metricId = 0L;
+        if (time == null) time = 60L;
+
+        Metric metric = Metric.findByMetricId(metricId);
         User user = findUserByUserId(_user.getId());
         Company company = user.getCompany();
         List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
-        return monitoringMapper.toRouterListDTO(routerList);
+
+        long toTime = LocalDateTime.now().atZone(ZoneOffset.UTC).toInstant().toEpochMilli() - 60 * 60 * 1000 * 9;
+        long fromTime = toTime - time * 60 * 1000;
+
+        List<RouterResponse.MonitorResult> results = routerList.stream().map(router ->
+                monitoringApiUtil.getMetricInRangeTime(metric, router, fromTime, toTime)
+        ).toList();
+
+        return monitoringMapper.resultToMultipleDTO(results, metricId, time);
     }
 
     private User findUserByUserId(Long userId) {
