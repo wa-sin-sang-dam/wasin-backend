@@ -6,14 +6,13 @@ import com.wasin.wasin.util.TestModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @DisplayName("프로파일 통합 테스트")
@@ -31,7 +30,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
-            Mockito.doNothing().when(sshConnectionUtil).connect(any(), any());
+            given(sshConnectionUtil.connect(any(), any())).willReturn("");
 
             // when
             ResultActions result = mvc.perform(
@@ -50,7 +49,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(USER_ACTIVE_EMAIL)
         public void fail() throws Exception {
             // given
-            Mockito.doNothing().when(sshConnectionUtil).connect(any(), any());
+            given(sshConnectionUtil.connect(any(), any())).willReturn("");
 
             // when
             ResultActions result = mvc.perform(
