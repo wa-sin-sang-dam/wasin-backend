@@ -27,20 +27,19 @@ public class GrafanaApiUtil {
     String grafanaDatasourceUID;
 
     public Long getWifiState(Router router) {
-        String expr = "wifi_network_quality{instance=~\""           + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"} " +
-                "* (1 - 0.3 * (wifi_network_bitrate{instance=~\""   + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"} " +
-                "- min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])) " +
-                "/ (1 + max_over_time(wifi_network_bitrate{instance=~\""  + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h]) " +
-                "- min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])))";
+        String expr = "scalar(1 - (avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) / " +
+                "count(count(node_cpu_seconds_total{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) by (cpu)))) * " +
+                "(1 - 0.3 * (wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"} - " +
+                "min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h])) / " +
+                "(1 + max_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h]) - " +
+                "min_over_time(wifi_network_bitrate{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\", ifname=\"wlan0\"}[3h]))) * 100";
         RouterResponse.Queries requestDTO = getRequestDTO(expr);
-
         return getResult(requestDTO);
     }
 
     public Long getRouterState(Router router) {
-        String expr = "avg(wifi_network_quality{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) * " +
-                "(1 - avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) / " +
-                " count(count(node_cpu_seconds_total{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) by (cpu)))";
+        String expr = "100 * (1 - avg(node_load1{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) / " +
+                "count(count(node_cpu_seconds_total{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"}) by (cpu)))";
         RouterResponse.Queries requestDTO = getRequestDTO(expr);
         return getResult(requestDTO);
     }
