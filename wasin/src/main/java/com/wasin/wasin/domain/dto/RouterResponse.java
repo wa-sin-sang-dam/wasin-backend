@@ -53,4 +53,9 @@ public class RouterResponse {
     public record MonitoringQuery(Datasource datasource, String expr, String format, String refId, Long utcOffsetSec, Long maxDataPoints) {}
 
     public record Datasource(String type, String uid) {}
+
+    public record CheckRouter(String result) {}
+
+    public record LogRouter(String log) {}
+
 }

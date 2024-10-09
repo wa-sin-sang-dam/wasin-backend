@@ -4,6 +4,7 @@ import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
+import com.wasin.wasin.domain.entity.Router;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +64,7 @@ public class SshConnectionUtil {
                 response.append(new String(buffer, 0, decodedLength));
 
             log.debug("SSH 연결 성공 {}, {}", response, host);
-
+            return response.toString();
         } catch (Exception e) {
             log.debug(e.getMessage());
         } finally {
@@ -74,6 +75,7 @@ public class SshConnectionUtil {
                 session.disconnect();
             }
         }
+        return null;
     }
 
 }

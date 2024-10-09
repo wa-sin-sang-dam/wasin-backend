@@ -49,4 +49,10 @@ public class RouterRequest {
             Double positionY
     ) {
     }
+    
+    public record LogDTO(
+            @NotEmpty(message = "로그 내용은 비어있으면 안됩니다.")
+            String log
+    ) {
+    }
 }

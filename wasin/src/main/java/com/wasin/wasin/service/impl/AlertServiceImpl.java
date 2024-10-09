@@ -28,12 +28,19 @@ public class AlertServiceImpl implements AlertService {
     private final RouterJPARepository routerJPARepository;
     private final ProfileJPARepository profileJPARepository;
 
+    private final String HEALTH_CHECK = "Health Check";
+
     @Transactional
     public void receiveAlert(AlertRequest.ProfileChangeDTO request) {
         request.alerts().forEach(alert -> {
-            Router router = findRouter(alert);
-            Company company = router.getCompany();
-            changeProfile(alert, company);
+            if (alert.labels().alertname().equals(HEALTH_CHECK)) {
+                // send alert
+            }
+            else {
+                Router router = findRouter(alert);
+                Company company = router.getCompany();
+                changeProfile(alert, company);
+            }
         });
     }
 

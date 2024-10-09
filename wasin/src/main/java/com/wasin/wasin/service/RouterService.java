@@ -17,4 +17,10 @@ public interface RouterService {
     void delete(User user, Long routerId);
 
     RouterResponse.CompanyImageDTO findCompanyImage(User user);
+
+    RouterResponse.CheckRouter checkRouter(User user, Long routerId);
+
+    RouterResponse.LogRouter logRouter(User user, Long routerId);
+
+    void logEmail(User user, RouterRequest.LogDTO requestDTO, Long routerId);
 }
