@@ -26,7 +26,10 @@ public class HandOffRequest {
             String macAddress,
 
             @NotNull(message = "신호세기는 비어있으면 안됩니다.")
-            Long level
+            Long level,
+
+            @NotNull(message = "정확한 신호세기는 비어있으면 안됩니다.")
+            Long detailLevel
     ) {
     }
 }

@@ -18,6 +18,7 @@ public class HandOffResponse {
 
     public record RouterWithStateDTO(
             Long level,
+            Long detailLevel,
             Long score,
             String ssid,
             String macAddress,
@@ -27,7 +28,7 @@ public class HandOffResponse {
         @Override
         public int compareTo(RouterWithStateDTO o) {
             if (this.score.equals(o.score)) {
-                return (int) (o.level - this.level);
+                return (int) (o.detailLevel - this.detailLevel);
             }
             return (int) (o.score - this.score);
         }
