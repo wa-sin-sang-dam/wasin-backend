@@ -44,6 +44,12 @@ public class GrafanaApiUtil {
         return getResult(requestDTO);
     }
 
+    public Long getActiveUser(Router router) {
+        String expr = "sum(wifi_stations{instance=~\"" + router.getInstance() + "\",job=~\"" + router.getJob() + "\"})";
+        RouterResponse.Queries requestDTO = getRequestDTO(expr);
+        return getResult(requestDTO);
+    }
+
     private Long getResult(RouterResponse.Queries requestDTO) {
         try {
             return Objects.requireNonNull(webClient.mutate()
