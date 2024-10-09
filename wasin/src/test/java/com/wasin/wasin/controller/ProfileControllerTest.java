@@ -6,6 +6,7 @@ import com.wasin.wasin.util.TestModule;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
@@ -30,7 +31,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(SUPER_ADMIN_EMAIL)
         public void success() throws Exception {
             // given
-            willDoNothing().given(sshConnectionUtil).connect(any(), any());
+            Mockito.doNothing().when(sshConnectionUtil).connect(any(), any());
 
             // when
             ResultActions result = mvc.perform(
@@ -49,7 +50,7 @@ public class ProfileControllerTest extends TestModule {
         @WithUserDetails(USER_ACTIVE_EMAIL)
         public void fail() throws Exception {
             // given
-            willDoNothing().given(sshConnectionUtil).connect(any(), any());
+            Mockito.doNothing().when(sshConnectionUtil).connect(any(), any());
 
             // when
             ResultActions result = mvc.perform(
