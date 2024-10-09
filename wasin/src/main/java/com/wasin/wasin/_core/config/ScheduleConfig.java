@@ -108,8 +108,8 @@ public class ScheduleConfig {
     private void changeRouterProfile(List<Router> routerList, Profile profile) {
         try {
             for (Router router : routerList) {
-                String instance = router.getInstance().split(":")[0];
-                sshConnectionUtil.connect("cd ./test_execute; ./" + profile.getSsh(), instance, router.getPort());
+                String command = "cd ./test_execute; ./" + profile.getSsh();
+                sshConnectionUtil.connect(command, router);
             }
         } catch(Exception e) {
             log.debug(e.getMessage());

@@ -25,8 +25,11 @@ public class SshConnectionUtil {
     private Session session = null;
     private Channel channel = null;
 
-    public void connect(String command, String host, int port) {
+    public String connect(String command, Router router) {
         try {
+            String host = router.getInstance().split(":")[0];
+            int port = router.getPort();
+
             // 01. JSch 객체를 생성한다.
             JSch jsch = new JSch();
             session = jsch.getSession(username, host, port);

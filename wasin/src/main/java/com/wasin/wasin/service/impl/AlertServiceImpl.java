@@ -44,10 +44,9 @@ public class AlertServiceImpl implements AlertService {
         company.addProfile(profile);
 
         try {
-            for (Router r : routerList) {
+            for (Router router : routerList) {
                 String command = "cd ./test_execute; ./" + profile.getSsh();
-                String instance = r.getInstance().split(":")[0];
-                sshConnectionUtil.connect(command, instance, r.getPort());
+                sshConnectionUtil.connect(command, router);
             }
         } catch(Exception e) {
             log.debug(e.getMessage());
