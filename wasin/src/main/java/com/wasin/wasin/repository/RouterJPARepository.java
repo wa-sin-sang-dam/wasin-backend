@@ -12,7 +12,7 @@ public interface RouterJPARepository extends JpaRepository<Router, Long> {
 
     Optional<Router> findByMacAddress(String macAddress);
 
-    @Query("select r from Router r join fetch r.company c where r.instance = :instance")
+    @Query("select r from Router r join fetch r.company c join fetch c.profile where r.instance = :instance")
     Optional<Router> findByInstance(@Param("instance") String instance);
 
     @Query("select r from Router r join fetch r.company c where c.id = :companyId")

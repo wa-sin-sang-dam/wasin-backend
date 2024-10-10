@@ -20,9 +20,4 @@ public class AlertController {
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
 
-    @GetMapping("/test3")
-    public ResponseEntity<?> test() {
-
-        return ResponseEntity.ok().body(ApiUtils.success(null));
-    }
 }

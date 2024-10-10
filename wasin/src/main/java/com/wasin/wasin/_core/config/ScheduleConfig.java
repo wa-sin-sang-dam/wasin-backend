@@ -99,8 +99,7 @@ public class ScheduleConfig {
 
             // 활성 사용자가 현재 시점으로 1명이라도 있다면 프로파일 변경
             if (isActiveUserExist(routerList)) {
-                company.addProfile(profile);
-                sshConnectionUtil.profileChangeAndSendAlarm(userList, routerList, profile);
+                sshConnectionUtil.profileChangeAndSendAlarm(company, userList, routerList, profile);
             }
         }
     }

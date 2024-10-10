@@ -6,6 +6,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.wasin.wasin._core.exception.BaseException;
 import com.wasin.wasin._core.exception.error.ServerException;
+import com.wasin.wasin.domain.entity.Company;
 import com.wasin.wasin.domain.entity.Profile;
 import com.wasin.wasin.domain.entity.Router;
 import com.wasin.wasin.domain.entity.User;
@@ -85,20 +86,32 @@ public class SshConnectionUtil {
         return null;
     }
 
-    public void profileChangeAndSendAlarm(List<User> userList, List<Router> routerList, Profile profile) {
+    public void profileChangeAndSendAlarm(Company company, List<User> userList, List<Router> routerList, Profile profile) {
         try {
-            for (Router router : routerList) {
-                String command = "cd ./profile_execute; ./" + profile.getSsh();
-                connect(command, router);
+            // 자동 변경 모드이고 프로파일이 다르다면 변경
+            if (shouldChange(company, profile)) {
+                // 프로파일 변경
+                company.addProfile(profile);
+                for (Router router : routerList) {
+                    // SSH 연결
+                    String command = "cd ./profile_execute; ./" + profile.getSsh();
+                    connect(command, router);
 
-                String title = "라우터 변경";
-                String body = router.getName() + "라우터가 " + profile.getTitle() + "로 변경되었습니다.";
-                sendFirebaseMessage.sendFcmAlert(userList, router, title, body);
+                    // FCM 알림 전송
+                    String title = "라우터 변경";
+                    String body = router.getName() + "라우터가 '" + profile.getTitle() + "'(으)로 변경되었습니다.";
+                    sendFirebaseMessage.sendFcmAlert(userList, router, title, body);
+                }
             }
         } catch(Exception e) {
             log.debug(e.getMessage());
             throw new ServerException(BaseException.SSH_CONNECTION_FAIL);
         }
+    }
+
+    private boolean shouldChange(Company company, Profile profile) {
+        return company.getIsAuto()
+                && !company.getProfile().getId().equals(profile.getId());
     }
 
 }
