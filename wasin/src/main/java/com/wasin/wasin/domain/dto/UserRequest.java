@@ -47,7 +47,7 @@ public class UserRequest {
             String password,
 
             @NotEmpty(message = "FCM 토큰은 비어있으면 안됩니다.")
-            @Size(max = 100, message = "100자 이내여야 합니다.")
+            @Size(max = 255, message = "100자 이내여야 합니다.")
             String fcmToken
     ) {
     }
