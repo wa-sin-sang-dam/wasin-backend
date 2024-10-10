@@ -88,7 +88,7 @@ public class SshConnectionUtil {
     public void profileChangeAndSendAlarm(List<User> userList, List<Router> routerList, Profile profile) {
         try {
             for (Router router : routerList) {
-                String command = "cd ./test_execute; ./" + profile.getSsh();
+                String command = "cd ./profile_execute; ./" + profile.getSsh();
                 connect(command, router);
 
                 String title = "라우터 변경";
