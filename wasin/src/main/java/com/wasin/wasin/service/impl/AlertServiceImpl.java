@@ -40,7 +40,7 @@ public class AlertServiceImpl implements AlertService {
         request.alerts().forEach(alert -> {
             Router router = findRouter(alert);
             Company company = router.getCompany();
-            List<User> userList = userJPARepository.findAllStandbyAdminByCompanyId(company.getId());
+            List<User> userList = userJPARepository.findAllAdminByCompanyId(company.getId());
 
             boolean isHealthCheck = alert.labels().alertname().equals(HEALTH_CHECK);
             if (isHealthCheck) {

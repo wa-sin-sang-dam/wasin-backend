@@ -16,6 +16,9 @@ public interface UserJPARepository extends JpaRepository<User, Long> {
             "where c.id = :companyId and u.status = 'STAND_BY' and u.role = 'ADMIN'")
     List<User> findAllStandbyAdminByCompanyId(@Param("companyId") Long companyId);
 
+    @Query("select u from User u join fetch u.company c where c.id = :companyId ")
+    List<User> findAllAdminByCompanyId(@Param("companyId") Long companyId);
+
     @Query("select u from User u join fetch u.company c where u.id = :userId")
     Optional<User> findUserWithCompanyById(@Param("userId") Long userId);
 

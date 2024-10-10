@@ -94,7 +94,7 @@ public class ScheduleConfig {
     private void updateProfile(List<Company> companyList, Profile profile) {
         for (Company company : companyList) {
             // 해당 라우터 그룹의 모든 라우터들
-            List<User> userList = userJPARepository.findAllStandbyAdminByCompanyId(company.getId());
+            List<User> userList = userJPARepository.findAllAdminByCompanyId(company.getId());
             List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
 
             // 활성 사용자가 현재 시점으로 1명이라도 있다면 프로파일 변경
