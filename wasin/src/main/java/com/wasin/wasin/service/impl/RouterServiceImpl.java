@@ -95,7 +95,7 @@ public class RouterServiceImpl implements RouterService {
     public RouterResponse.CheckRouter checkRouter(User user, Long routerId) {
         Pair<Router, User> data = initDataWithPermissionCheck(user, routerId);
         Router router = data.getFirst();
-        String result = sshConnectionUtil.connect("./check_refresh", router);
+        String result = sshConnectionUtil.connect("./check_status", router);
 
         return new RouterResponse.CheckRouter(result);
     }
