@@ -33,9 +33,9 @@ public class MonitoringApiUtil {
         return getResult(monitoringQuery);
     }
 
-    public RouterResponse.MonitorResult getMetricInRangeTime(Metric metric, Router router, Long nowTime, Long targetTime) {
+    public RouterResponse.MonitorResult getMetricInRangeTime(Metric metric, Router router, Long time) {
         String expr = getExpression(metric, router);
-        RouterResponse.MonitoringQueries monitoringQuery = getMonitoringQueryInRange(expr, nowTime, targetTime);
+        RouterResponse.MonitoringQueries monitoringQuery = getMonitoringQuery(expr, time);
         return getResult(monitoringQuery);
     }
 
@@ -102,6 +102,7 @@ public class MonitoringApiUtil {
                                                 return new ServerException(BaseException.GRAFANA_REQUEST_FAIL);
                                             }))
                             .bodyToMono(RouterResponse.MonitorResult.class)
+                            .doOnSuccess(result -> log.debug(result.toString()))
                             .block());
         } catch(Exception e) {
             log.debug(e.getMessage());
@@ -117,17 +118,6 @@ public class MonitoringApiUtil {
                 List.of(query),
                 "now-" + time + "m",
                 "now"
-        );
-    }
-
-    private RouterResponse.MonitoringQueries getMonitoringQueryInRange(String expr, Long nowTime, Long targetTime) {
-        RouterResponse.Datasource datasource = new RouterResponse.Datasource("prometheus", grafanaDatasourceUID);
-        RouterResponse.MonitoringQuery query = getQuery(expr, datasource);
-
-        return new RouterResponse.MonitoringQueries(
-                List.of(query),
-                nowTime.toString(),
-                targetTime.toString()
         );
     }
 

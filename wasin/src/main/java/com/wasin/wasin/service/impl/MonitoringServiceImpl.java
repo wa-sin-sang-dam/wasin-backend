@@ -15,13 +15,13 @@ import com.wasin.wasin.repository.RouterJPARepository;
 import com.wasin.wasin.repository.UserJPARepository;
 import com.wasin.wasin.service.MonitoringService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -43,6 +43,7 @@ public class MonitoringServiceImpl implements MonitoringService {
 
         monitoringValidation.checkRouterExistInGroup(router, user);
         RouterResponse.MonitorResult results = monitoringApiUtil.getMetric(metric, router, time);
+        log.debug(results.toString());
 
         return monitoringMapper.resultToDTO(results, metricId, time);
     }
@@ -56,11 +57,9 @@ public class MonitoringServiceImpl implements MonitoringService {
         Company company = user.getCompany();
         List<Router> routerList = routerJPARepository.findAllRouterByCompanyId(company.getId());
 
-        long toTime = LocalDateTime.now().atZone(ZoneOffset.UTC).toInstant().toEpochMilli() - 60 * 60 * 1000 * 9;
-        long fromTime = toTime - time * 60 * 1000;
-
+        Long finalTime = time;
         List<RouterResponse.MonitorResult> results = routerList.stream().map(router ->
-                monitoringApiUtil.getMetricInRangeTime(metric, router, fromTime, toTime)
+                monitoringApiUtil.getMetricInRangeTime(metric, router, finalTime)
         ).toList();
 
         return monitoringMapper.resultToMultipleDTO(results, metricId, time);

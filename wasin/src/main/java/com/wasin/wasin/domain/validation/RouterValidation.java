@@ -23,7 +23,7 @@ public class RouterValidation {
     }
 
     public void checkRouterPermission(Router router, User user) {
-        if (!user.getCompany().equals(router.getCompany())) {
+        if (!user.getCompany().getId().equals(router.getCompany().getId())) {
             throw new ForbiddenException(BaseException.ROUTER_PERMISSION_DENIED);
         }
     }
